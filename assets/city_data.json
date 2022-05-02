@@ -1,0 +1,2004 @@
+[
+    {
+        "City": "Akron, OH",
+        "Vegetation Fraction": 0.6815487055,
+        "Happiness Score": 42.29,
+        "Emotional and Physical Well-Being Rank": 162,
+        "Income and Employment Rank": 168,
+        "Community and Environment Rank": 112,
+        "Center": {
+            "coordinates": [-81.51312058740336, 41.08440965266472]
+        }
+    },
+    {
+        "City": "Albuquerque, NM",
+        "Vegetation Fraction": 0.042632578995056604,
+        "Happiness Score": 50.31,
+        "Emotional and Physical Well-Being Rank": 82,
+        "Income and Employment Rank": 101,
+        "Community and Environment Rank": 176,
+        "Center": {
+            "coordinates": [-106.67694226300259, 35.08267350132187]
+        }
+    },
+    {
+        "City": "Amarillo, TX",
+        "Vegetation Fraction": 0.2943902574393938,
+        "Happiness Score": 46.75,
+        "Emotional and Physical Well-Being Rank": 159,
+        "Income and Employment Rank": 76,
+        "Community and Environment Rank": 70,
+        "Center": {
+            "coordinates": [-101.80518968569588, 35.1983347115954]
+        }
+    },
+    {
+        "City": "Anaheim, CA",
+        "Vegetation Fraction": 0.09772242432279793,
+        "Happiness Score": 63.72,
+        "Emotional and Physical Well-Being Rank": 25,
+        "Income and Employment Rank": 75,
+        "Community and Environment Rank": 33,
+        "Center": {
+            "coordinates": [-117.84571652605983, 33.834109718891696]
+        }
+    },
+    {
+        "City": "Anchorage, AK",
+        "Vegetation Fraction": 0.17041852817155753,
+        "Happiness Score": 58.18,
+        "Emotional and Physical Well-Being Rank": 60,
+        "Income and Employment Rank": 102,
+        "Community and Environment Rank": 54,
+        "Center": {
+            "coordinates": [-149.45194167606928, 61.11241004674333]
+        }
+    },
+    {
+        "City": "Arlington, TX",
+        "Vegetation Fraction": 0.4228673558756215,
+        "Happiness Score": 52.14,
+        "Emotional and Physical Well-Being Rank": 93,
+        "Income and Employment Rank": 122,
+        "Community and Environment Rank": 118,
+        "Center": {
+            "coordinates": [-97.1355401658211, 32.70188136849549]
+        }
+    },
+    {
+        "City": "Atlanta, GA",
+        "Vegetation Fraction": 0.5666013838692445,
+        "Happiness Score": 54.27,
+        "Emotional and Physical Well-Being Rank": 79,
+        "Income and Employment Rank": 87,
+        "Community and Environment Rank": 115,
+        "Center": {
+            "coordinates": [-84.42049639984823, 33.76738433674008]
+        }
+    },
+    {
+        "City": "Augusta, GA",
+        "Vegetation Fraction": 0.8202768890022121,
+        "Happiness Score": 36.64,
+        "Emotional and Physical Well-Being Rank": 178,
+        "Income and Employment Rank": 162,
+        "Community and Environment Rank": 135,
+        "Center": {
+            "coordinates": [-82.09147699722044, 33.386370627868516]
+        }
+    },
+    {
+        "City": "Aurora, CO",
+        "Vegetation Fraction": 0.18031517976311634,
+        "Happiness Score": 60.15,
+        "Emotional and Physical Well-Being Rank": 19,
+        "Income and Employment Rank": 154,
+        "Community and Environment Rank": 69,
+        "Center": {
+            "coordinates": [-104.68839777140083, 39.68916983086493]
+        }
+    },
+    {
+        "City": "Aurora, IL",
+        "Vegetation Fraction": 0.5610580920391456,
+        "Happiness Score": 63.6,
+        "Emotional and Physical Well-Being Rank": 21,
+        "Income and Employment Rank": 144,
+        "Community and Environment Rank": 8,
+        "Center": {
+            "coordinates": [-88.30674298396714, 41.75107482373766]
+        }
+    },
+    {
+        "City": "Austin, TX",
+        "Vegetation Fraction": 0.47894650401458816,
+        "Happiness Score": 62.04,
+        "Emotional and Physical Well-Being Rank": 35,
+        "Income and Employment Rank": 5,
+        "Community and Environment Rank": 109,
+        "Center": {
+            "coordinates": [-97.74940181706519, 30.307634375855205]
+        }
+    },
+    {
+        "City": "Bakersfield, CA",
+        "Vegetation Fraction": 0.11289159438076851,
+        "Happiness Score": 49.98,
+        "Emotional and Physical Well-Being Rank": 132,
+        "Income and Employment Rank": 103,
+        "Community and Environment Rank": 100,
+        "Center": {
+            "coordinates": [-119.01913677255904, 35.321249630122]
+        }
+    },
+    {
+        "City": "Baltimore, MD",
+        "Vegetation Fraction": 0.4286836046377454,
+        "Happiness Score": 45.97,
+        "Emotional and Physical Well-Being Rank": 142,
+        "Income and Employment Rank": 178,
+        "Community and Environment Rank": 84,
+        "Center": {
+            "coordinates": [-76.62060002393359, 39.284671618992725]
+        }
+    },
+    {
+        "City": "Baton Rouge, LA",
+        "Vegetation Fraction": 0.6128442992052447,
+        "Happiness Score": 44.37,
+        "Emotional and Physical Well-Being Rank": 156,
+        "Income and Employment Rank": 90,
+        "Community and Environment Rank": 152,
+        "Center": {
+            "coordinates": [-91.11732340991676, 30.448730396341794]
+        }
+    },
+    {
+        "City": "Billings, MT",
+        "Vegetation Fraction": 0.16515345582910482,
+        "Happiness Score": 52.51,
+        "Emotional and Physical Well-Being Rank": 122,
+        "Income and Employment Rank": 26,
+        "Community and Environment Rank": 107,
+        "Center": {
+            "coordinates": [-108.56386310613418, 45.78177135039922]
+        }
+    },
+    {
+        "City": "Birmingham, AL",
+        "Vegetation Fraction": 0.7302730634357855,
+        "Happiness Score": 39.54,
+        "Emotional and Physical Well-Being Rank": 168,
+        "Income and Employment Rank": 158,
+        "Community and Environment Rank": 162,
+        "Center": {
+            "coordinates": [-86.8506009302999, 33.531534663631824]
+        }
+    },
+    {
+        "City": "Bismarck, ND",
+        "Vegetation Fraction": 0.24707430838190783,
+        "Happiness Score": 64.65,
+        "Emotional and Physical Well-Being Rank": 48,
+        "Income and Employment Rank": 32,
+        "Community and Environment Rank": 4,
+        "Center": {
+            "coordinates": [-100.76713915227295, 46.809102762651115]
+        }
+    },
+    {
+        "City": "Boise, ID",
+        "Vegetation Fraction": 0.21495116741784573,
+        "Happiness Score": 58.09,
+        "Emotional and Physical Well-Being Rank": 59,
+        "Income and Employment Rank": 13,
+        "Community and Environment Rank": 119,
+        "Center": {
+            "coordinates": [-116.23020683025092, 43.60058060763869]
+        }
+    },
+    {
+        "City": "Boston, MA",
+        "Vegetation Fraction": 0.19828187643270737,
+        "Happiness Score": 61.07,
+        "Emotional and Physical Well-Being Rank": 43,
+        "Income and Employment Rank": 15,
+        "Community and Environment Rank": 89,
+        "Center": {
+            "coordinates": [-70.99812587352308, 42.31260674934849]
+        }
+    },
+    {
+        "City": "Bridgeport, CT",
+        "Vegetation Fraction": 0.3365373587213947,
+        "Happiness Score": 57.34,
+        "Emotional and Physical Well-Being Rank": 42,
+        "Income and Employment Rank": 165,
+        "Community and Environment Rank": 91,
+        "Center": {
+            "coordinates": [-73.19892674809199, 41.18477002608424]
+        }
+    },
+    {
+        "City": "Brownsville, TX",
+        "Vegetation Fraction": 0.27767358506765305,
+        "Happiness Score": 50.05,
+        "Emotional and Physical Well-Being Rank": 133,
+        "Income and Employment Rank": 73,
+        "Community and Environment Rank": 122,
+        "Center": {
+            "coordinates": [-97.45939512457598, 26.028970701293076]
+        }
+    },
+    {
+        "City": "Buffalo, NY",
+        "Vegetation Fraction": 0.34509010733932416,
+        "Happiness Score": 48.2,
+        "Emotional and Physical Well-Being Rank": 121,
+        "Income and Employment Rank": 136,
+        "Community and Environment Rank": 157,
+        "Center": {
+            "coordinates": [-78.85738105793055, 42.89627045437245]
+        }
+    },
+    {
+        "City": "Burlington, VT",
+        "Vegetation Fraction": 0.4726829255950348,
+        "Happiness Score": 60.32,
+        "Emotional and Physical Well-Being Rank": 34,
+        "Income and Employment Rank": 9,
+        "Community and Environment Rank": 170,
+        "Center": {
+            "coordinates": [-73.22662505626624, 44.49290665788952]
+        }
+    },
+    {
+        "City": "Cape Coral, FL",
+        "Vegetation Fraction": 0.567985280528678,
+        "Happiness Score": 58.05,
+        "Emotional and Physical Well-Being Rank": 89,
+        "Income and Employment Rank": 45,
+        "Community and Environment Rank": 9,
+        "Center": {
+            "coordinates": [-81.99608555504636, 26.64760747171993]
+        }
+    },
+    {
+        "City": "Casper, WY",
+        "Vegetation Fraction": 0.14189723374693525,
+        "Happiness Score": 55.76,
+        "Emotional and Physical Well-Being Rank": 127,
+        "Income and Employment Rank": 123,
+        "Community and Environment Rank": 1,
+        "Center": {
+            "coordinates": [-106.32564613347625, 42.8255521666375]
+        }
+    },
+    {
+        "City": "Cedar Rapids, IA",
+        "Vegetation Fraction": 0.465609432719506,
+        "Happiness Score": 62.22,
+        "Emotional and Physical Well-Being Rank": 38,
+        "Income and Employment Rank": 83,
+        "Community and Environment Rank": 40,
+        "Center": {
+            "coordinates": [-91.66300162565581, 41.96530594447163]
+        }
+    },
+    {
+        "City": "Chandler, AZ",
+        "Vegetation Fraction": 0.0747574282864311,
+        "Happiness Score": 59.62,
+        "Emotional and Physical Well-Being Rank": 58,
+        "Income and Employment Rank": 60,
+        "Community and Environment Rank": 38,
+        "Center": {
+            "coordinates": [-111.863597582659, 33.2825471290405]
+        }
+    },
+    {
+        "City": "Charleston, SC",
+        "Vegetation Fraction": 0.5106527109264285,
+        "Happiness Score": 62.76,
+        "Emotional and Physical Well-Being Rank": 53,
+        "Income and Employment Rank": 3,
+        "Community and Environment Rank": 31,
+        "Center": {
+            "coordinates": [-79.97029699339197, 32.8216189664818]
+        }
+    },
+    {
+        "City": "Charleston, WV",
+        "Vegetation Fraction": 0.7861699139814634,
+        "Happiness Score": 39.13,
+        "Emotional and Physical Well-Being Rank": 173,
+        "Income and Employment Rank": 81,
+        "Community and Environment Rank": 173,
+        "Center": {
+            "coordinates": [-81.64368852581912, 38.3427324242795]
+        }
+    },
+    {
+        "City": "Charlotte, NC",
+        "Vegetation Fraction": 0.7112500493015856,
+        "Happiness Score": 57.61,
+        "Emotional and Physical Well-Being Rank": 61,
+        "Income and Employment Rank": 78,
+        "Community and Environment Rank": 68,
+        "Center": {
+            "coordinates": [-80.84038994771826, 35.20361601945333]
+        }
+    },
+    {
+        "City": "Chattanooga, TN",
+        "Vegetation Fraction": 0.7149752957014318,
+        "Happiness Score": 42.24,
+        "Emotional and Physical Well-Being Rank": 165,
+        "Income and Employment Rank": 141,
+        "Community and Environment Rank": 120,
+        "Center": {
+            "coordinates": [-85.23884027355209, 35.09880763960308]
+        }
+    },
+    {
+        "City": "Chesapeake, VA",
+        "Vegetation Fraction": 0.8617297083384546,
+        "Happiness Score": 57.32,
+        "Emotional and Physical Well-Being Rank": 81,
+        "Income and Employment Rank": 145,
+        "Community and Environment Rank": 7,
+        "Center": {
+            "coordinates": [-76.27873658315197, 36.70899675187123]
+        }
+    },
+    {
+        "City": "Cheyenne, WY",
+        "Vegetation Fraction": 0.09200386011172577,
+        "Happiness Score": 59.05,
+        "Emotional and Physical Well-Being Rank": 101,
+        "Income and Employment Rank": 47,
+        "Community and Environment Rank": 3,
+        "Center": {
+            "coordinates": [-104.76810974862782, 41.133098374792496]
+        }
+    },
+    {
+        "City": "Chicago, IL",
+        "Vegetation Fraction": 0.23474271841758668,
+        "Happiness Score": 58.43,
+        "Emotional and Physical Well-Being Rank": 47,
+        "Income and Employment Rank": 166,
+        "Community and Environment Rank": 46,
+        "Center": {
+            "coordinates": [-87.73270615452114, 41.83397293973816]
+        }
+    },
+    {
+        "City": "Chula Vista, CA",
+        "Vegetation Fraction": 0.1085792455669244,
+        "Happiness Score": 63.01,
+        "Emotional and Physical Well-Being Rank": 17,
+        "Income and Employment Rank": 113,
+        "Community and Environment Rank": 30,
+        "Center": {
+            "coordinates": [-117.02448659929098, 32.631805735691685]
+        }
+    },
+    {
+        "City": "Cincinnati, OH",
+        "Vegetation Fraction": 0.6085523540524183,
+        "Happiness Score": 45.15,
+        "Emotional and Physical Well-Being Rank": 139,
+        "Income and Employment Rank": 147,
+        "Community and Environment Rank": 163,
+        "Center": {
+            "coordinates": [-84.54118938222027, 39.136672119412886]
+        }
+    },
+    {
+        "City": "Cleveland, OH",
+        "Vegetation Fraction": 0.41898591645926037,
+        "Happiness Score": 36.52,
+        "Emotional and Physical Well-Being Rank": 170,
+        "Income and Employment Rank": 156,
+        "Community and Environment Rank": 180,
+        "Center": {
+            "coordinates": [-81.7062046936176, 41.497661827143936]
+        }
+    },
+    {
+        "City": "Colorado Springs, CO",
+        "Vegetation Fraction": 0.19630243001428804,
+        "Happiness Score": 57.74,
+        "Emotional and Physical Well-Being Rank": 63,
+        "Income and Employment Rank": 97,
+        "Community and Environment Rank": 59,
+        "Center": {
+            "coordinates": [-104.75885682876428, 38.8751071202854]
+        }
+    },
+    {
+        "City": "Columbia, MD",
+        "Vegetation Fraction": 0.7672062052801143,
+        "Happiness Score": 71.64,
+        "Emotional and Physical Well-Being Rank": 3,
+        "Income and Employment Rank": 161,
+        "Community and Environment Rank": 5,
+        "Center": {
+            "coordinates": [-76.86699464944881, 39.19386113167661]
+        }
+    },
+    {
+        "City": "Columbia, SC",
+        "Vegetation Fraction": 0.7681582453599516,
+        "Happiness Score": 56.62,
+        "Emotional and Physical Well-Being Rank": 108,
+        "Income and Employment Rank": 4,
+        "Community and Environment Rank": 37,
+        "Center": {
+            "coordinates": [-80.93776013528924, 34.03772069251061]
+        }
+    },
+    {
+        "City": "Columbus, GA",
+        "Vegetation Fraction": 0.7886356252233591,
+        "Happiness Score": 40.9,
+        "Emotional and Physical Well-Being Rank": 177,
+        "Income and Employment Rank": 131,
+        "Community and Environment Rank": 65,
+        "Center": {
+            "coordinates": [-84.873603114396, 32.49116703100644]
+        }
+    },
+    {
+        "City": "Columbus, OH",
+        "Vegetation Fraction": 0.5777061846464642,
+        "Happiness Score": 48.28,
+        "Emotional and Physical Well-Being Rank": 128,
+        "Income and Employment Rank": 138,
+        "Community and Environment Rank": 145,
+        "Center": {
+            "coordinates": [-82.99105900594354, 39.98320700979083]
+        }
+    },
+    {
+        "City": "Corpus Christi, TX",
+        "Vegetation Fraction": 0.12369523247070338,
+        "Happiness Score": 47.54,
+        "Emotional and Physical Well-Being Rank": 137,
+        "Income and Employment Rank": 62,
+        "Community and Environment Rank": 159,
+        "Center": {
+            "coordinates": [-97.3226126776138, 27.692070897238253]
+        }
+    },
+    {
+        "City": "Dallas, TX",
+        "Vegetation Fraction": 0.45631194132406155,
+        "Happiness Score": 51.5,
+        "Emotional and Physical Well-Being Rank": 90,
+        "Income and Employment Rank": 93,
+        "Community and Environment Rank": 154,
+        "Center": {
+            "coordinates": [-96.73267103452794, 32.818836657256504]
+        }
+    },
+    {
+        "City": "Denver, CO",
+        "Vegetation Fraction": 0.2076835745583273,
+        "Happiness Score": 58.41,
+        "Emotional and Physical Well-Being Rank": 16,
+        "Income and Employment Rank": 134,
+        "Community and Environment Rank": 153,
+        "Center": {
+            "coordinates": [-104.85534222896476, 39.76454126368994]
+        }
+    },
+    {
+        "City": "Des Moines, IA",
+        "Vegetation Fraction": 0.5498093047080327,
+        "Happiness Score": 56.65,
+        "Emotional and Physical Well-Being Rank": 70,
+        "Income and Employment Rank": 68,
+        "Community and Environment Rank": 81,
+        "Center": {
+            "coordinates": [-93.60156556614196, 41.56932502223753]
+        }
+    },
+    {
+        "City": "Detroit, MI",
+        "Vegetation Fraction": 0.49809164811822043,
+        "Happiness Score": 32.31,
+        "Emotional and Physical Well-Being Rank": 179,
+        "Income and Employment Rank": 179,
+        "Community and Environment Rank": 177,
+        "Center": {
+            "coordinates": [-83.09949194941152, 42.35287240323484]
+        }
+    },
+    {
+        "City": "Dover, DE",
+        "Vegetation Fraction": 0.5870256535218995,
+        "Happiness Score": 45.74,
+        "Emotional and Physical Well-Being Rank": 151,
+        "Income and Employment Rank": 92,
+        "Community and Environment Rank": 155,
+        "Center": {
+            "coordinates": [-75.51350627291058, 39.15647267661055]
+        }
+    },
+    {
+        "City": "Durham, NC",
+        "Vegetation Fraction": 0.7543257349144967,
+        "Happiness Score": 56.92,
+        "Emotional and Physical Well-Being Rank": 54,
+        "Income and Employment Rank": 69,
+        "Community and Environment Rank": 123,
+        "Center": {
+            "coordinates": [-78.883712212056, 36.001563294243674]
+        }
+    },
+    {
+        "City": "El Paso, TX",
+        "Vegetation Fraction": 0.036007372237128514,
+        "Happiness Score": 50.31,
+        "Emotional and Physical Well-Being Rank": 109,
+        "Income and Employment Rank": 130,
+        "Community and Environment Rank": 132,
+        "Center": {
+            "coordinates": [-106.41794831698157, 31.812186458033693]
+        }
+    },
+    {
+        "City": "Fargo, ND",
+        "Vegetation Fraction": 0.2826877212361609,
+        "Happiness Score": 65.46,
+        "Emotional and Physical Well-Being Rank": 22,
+        "Income and Employment Rank": 24,
+        "Community and Environment Rank": 23,
+        "Center": {
+            "coordinates": [-96.82846663538118, 46.84721424861173]
+        }
+    },
+    {
+        "City": "Fayetteville, NC",
+        "Vegetation Fraction": 0.5328136641184713,
+        "Happiness Score": 40.83,
+        "Emotional and Physical Well-Being Rank": 161,
+        "Income and Employment Rank": 155,
+        "Community and Environment Rank": 171,
+        "Center": {
+            "coordinates": [-78.95239301776735, 35.07581586084649]
+        }
+    },
+    {
+        "City": "Fontana, CA",
+        "Vegetation Fraction": 0.04290932444908281,
+        "Happiness Score": 53.44,
+        "Emotional and Physical Well-Being Rank": 118,
+        "Income and Employment Rank": 95,
+        "Community and Environment Rank": 34,
+        "Center": {
+            "coordinates": [-117.46274370929716, 34.10895288957812]
+        }
+    },
+    {
+        "City": "Fort Lauderdale, FL",
+        "Vegetation Fraction": 0.31136949248144397,
+        "Happiness Score": 57.65,
+        "Emotional and Physical Well-Being Rank": 67,
+        "Income and Employment Rank": 84,
+        "Community and Environment Rank": 62,
+        "Center": {
+            "coordinates": [-80.14549815379742, 26.14577523946602]
+        }
+    },
+    {
+        "City": "Fort Smith, AR",
+        "Vegetation Fraction": 0.6395784893572092,
+        "Happiness Score": 37.45,
+        "Emotional and Physical Well-Being Rank": 180,
+        "Income and Employment Rank": 61,
+        "Community and Environment Rank": 158,
+        "Center": {
+            "coordinates": [-94.34427744407392, 35.354847816428006]
+        }
+    },
+    {
+        "City": "Fort Wayne, IN",
+        "Vegetation Fraction": 0.6323342482464166,
+        "Happiness Score": 45.0,
+        "Emotional and Physical Well-Being Rank": 154,
+        "Income and Employment Rank": 149,
+        "Community and Environment Rank": 117,
+        "Center": {
+            "coordinates": [-85.15237658387232, 41.082907453092126]
+        }
+    },
+    {
+        "City": "Fort Worth, TX",
+        "Vegetation Fraction": 0.4219894380524326,
+        "Happiness Score": 52.85,
+        "Emotional and Physical Well-Being Rank": 97,
+        "Income and Employment Rank": 124,
+        "Community and Environment Rank": 83,
+        "Center": {
+            "coordinates": [-97.31376636998789, 32.800708006602804]
+        }
+    },
+    {
+        "City": "Fremont, CA",
+        "Vegetation Fraction": 0.06460384564821799,
+        "Happiness Score": 77.13,
+        "Emotional and Physical Well-Being Rank": 1,
+        "Income and Employment Rank": 46,
+        "Community and Environment Rank": 2,
+        "Center": {
+            "coordinates": [-122.00965496590563, 37.53039387296432]
+        }
+    },
+    {
+        "City": "Fresno, CA",
+        "Vegetation Fraction": 0.11935420395531188,
+        "Happiness Score": 50.1,
+        "Emotional and Physical Well-Being Rank": 123,
+        "Income and Employment Rank": 86,
+        "Community and Environment Rank": 136,
+        "Center": {
+            "coordinates": [-119.79497522967374, 36.78558173658895]
+        }
+    },
+    {
+        "City": "Garden Grove, CA",
+        "Vegetation Fraction": 0.04334712317385585,
+        "Happiness Score": 63.15,
+        "Emotional and Physical Well-Being Rank": 24,
+        "Income and Employment Rank": 80,
+        "Community and Environment Rank": 52,
+        "Center": {
+            "coordinates": [-117.96856566951291, 33.769105634109955]
+        }
+    },
+    {
+        "City": "Garland, TX",
+        "Vegetation Fraction": 0.40972425262536716,
+        "Happiness Score": 53.82,
+        "Emotional and Physical Well-Being Rank": 92,
+        "Income and Employment Rank": 108,
+        "Community and Environment Rank": 67,
+        "Center": {
+            "coordinates": [-96.60572588773105, 32.907905298368654]
+        }
+    },
+    {
+        "City": "Gilbert, AZ",
+        "Vegetation Fraction": 0.09840998078590026,
+        "Happiness Score": 61.72,
+        "Emotional and Physical Well-Being Rank": 55,
+        "Income and Employment Rank": 34,
+        "Community and Environment Rank": 17,
+        "Center": {
+            "coordinates": [-111.7640809153742, 33.295524361463976]
+        }
+    },
+    {
+        "City": "Glendale, AZ",
+        "Vegetation Fraction": 0.08000652641229947,
+        "Happiness Score": 51.84,
+        "Emotional and Physical Well-Being Rank": 106,
+        "Income and Employment Rank": 112,
+        "Community and Environment Rank": 114,
+        "Center": {
+            "coordinates": [-112.30677114919858, 33.602946766692455]
+        }
+    },
+    {
+        "City": "Glendale, CA",
+        "Vegetation Fraction": 0.14060913768813674,
+        "Happiness Score": 64.05,
+        "Emotional and Physical Well-Being Rank": 31,
+        "Income and Employment Rank": 91,
+        "Community and Environment Rank": 11,
+        "Center": {
+            "coordinates": [-118.2447778725606, 34.19299157575292]
+        }
+    },
+    {
+        "City": "Grand Prairie, TX",
+        "Vegetation Fraction": 0.44274049781067004,
+        "Happiness Score": 55.08,
+        "Emotional and Physical Well-Being Rank": 98,
+        "Income and Employment Rank": 89,
+        "Community and Environment Rank": 42,
+        "Center": {
+            "coordinates": [-97.00273316208968, 32.657612228322755]
+        }
+    },
+    {
+        "City": "Grand Rapids, MI",
+        "Vegetation Fraction": 0.5653114659025006,
+        "Happiness Score": 54.32,
+        "Emotional and Physical Well-Being Rank": 104,
+        "Income and Employment Rank": 53,
+        "Community and Environment Rank": 66,
+        "Center": {
+            "coordinates": [-85.66019708191537, 42.95638389246215]
+        }
+    },
+    {
+        "City": "Greensboro, NC",
+        "Vegetation Fraction": 0.701206281212845,
+        "Happiness Score": 48.12,
+        "Emotional and Physical Well-Being Rank": 129,
+        "Income and Employment Rank": 70,
+        "Community and Environment Rank": 167,
+        "Center": {
+            "coordinates": [-79.81978927291486, 36.10066369565391]
+        }
+    },
+    {
+        "City": "Gulfport, MS",
+        "Vegetation Fraction": 0.5846456310993552,
+        "Happiness Score": 34.71,
+        "Emotional and Physical Well-Being Rank": 181,
+        "Income and Employment Rank": 153,
+        "Community and Environment Rank": 151,
+        "Center": {
+            "coordinates": [-89.06901370768836, 30.42016718963039]
+        }
+    },
+    {
+        "City": "Henderson, NV",
+        "Vegetation Fraction": 0.03117417510855632,
+        "Happiness Score": 53.72,
+        "Emotional and Physical Well-Being Rank": 87,
+        "Income and Employment Rank": 143,
+        "Community and Environment Rank": 58,
+        "Center": {
+            "coordinates": [-115.06101810019811, 36.00850286599059]
+        }
+    },
+    {
+        "City": "Hialeah, FL",
+        "Vegetation Fraction": 0.17375668003515543,
+        "Happiness Score": 54.2,
+        "Emotional and Physical Well-Being Rank": 66,
+        "Income and Employment Rank": 157,
+        "Community and Environment Rank": 110,
+        "Center": {
+            "coordinates": [-80.3133909686846, 25.867023288717533]
+        }
+    },
+    {
+        "City": "Honolulu, HI",
+        "Vegetation Fraction": 0.20307143450711995,
+        "Happiness Score": 62.24,
+        "Emotional and Physical Well-Being Rank": 44,
+        "Income and Employment Rank": 72,
+        "Community and Environment Rank": 21,
+        "Center": {
+            "coordinates": [-157.80118136991857, 21.328573389465234]
+        }
+    },
+    {
+        "City": "Houston, TX",
+        "Vegetation Fraction": 0.4921575966349389,
+        "Happiness Score": 51.41,
+        "Emotional and Physical Well-Being Rank": 74,
+        "Income and Employment Rank": 140,
+        "Community and Environment Rank": 164,
+        "Center": {
+            "coordinates": [-95.46218770063712, 29.82445874772668]
+        }
+    },
+    {
+        "City": "Huntington Beach, CA",
+        "Vegetation Fraction": 0.037473958525040305,
+        "Happiness Score": 66.43,
+        "Emotional and Physical Well-Being Rank": 9,
+        "Income and Employment Rank": 51,
+        "Community and Environment Rank": 43,
+        "Center": {
+            "coordinates": [-118.02948823663426, 33.672397860995744]
+        }
+    },
+    {
+        "City": "Huntington, WV",
+        "Vegetation Fraction": 0.586858836515096,
+        "Happiness Score": 35.53,
+        "Emotional and Physical Well-Being Rank": 182,
+        "Income and Employment Rank": 39,
+        "Community and Environment Rank": 141,
+        "Center": {
+            "coordinates": [-82.44252875891799, 38.40787892540224]
+        }
+    },
+    {
+        "City": "Huntsville, AL",
+        "Vegetation Fraction": 0.7345704276996705,
+        "Happiness Score": 46.79,
+        "Emotional and Physical Well-Being Rank": 152,
+        "Income and Employment Rank": 119,
+        "Community and Environment Rank": 79,
+        "Center": {
+            "coordinates": [-86.660486111641, 34.701747172386874]
+        }
+    },
+    {
+        "City": "Indianapolis, IN",
+        "Vegetation Fraction": 0.6070022950255156,
+        "Happiness Score": 43.7,
+        "Emotional and Physical Well-Being Rank": 150,
+        "Income and Employment Rank": 177,
+        "Community and Environment Rank": 131,
+        "Center": {
+            "coordinates": [-86.13349895455572, 39.78000713560255]
+        }
+    },
+    {
+        "City": "Irvine, CA",
+        "Vegetation Fraction": 0.14618996680084295,
+        "Happiness Score": 70.38,
+        "Emotional and Physical Well-Being Rank": 5,
+        "Income and Employment Rank": 16,
+        "Community and Environment Rank": 12,
+        "Center": {
+            "coordinates": [-117.77348556688496, 33.68655832625786]
+        }
+    },
+    {
+        "City": "Irving, TX",
+        "Vegetation Fraction": 0.33013703475416606,
+        "Happiness Score": 54.73,
+        "Emotional and Physical Well-Being Rank": 85,
+        "Income and Employment Rank": 55,
+        "Community and Environment Rank": 98,
+        "Center": {
+            "coordinates": [-96.96148439182448, 32.8628969307762]
+        }
+    },
+    {
+        "City": "Jackson, MS",
+        "Vegetation Fraction": 0.7919368385301526,
+        "Happiness Score": 40.6,
+        "Emotional and Physical Well-Being Rank": 160,
+        "Income and Employment Rank": 159,
+        "Community and Environment Rank": 174,
+        "Center": {
+            "coordinates": [-90.19335891093262, 32.31039275208606]
+        }
+    },
+    {
+        "City": "Jacksonville, FL",
+        "Vegetation Fraction": 0.5977826120286835,
+        "Happiness Score": 49.89,
+        "Emotional and Physical Well-Being Rank": 147,
+        "Income and Employment Rank": 109,
+        "Community and Environment Rank": 36,
+        "Center": {
+            "coordinates": [-81.68401010459738, 30.345483221944846]
+        }
+    },
+    {
+        "City": "Jersey City, NJ",
+        "Vegetation Fraction": 0.16426604046428644,
+        "Happiness Score": 59.74,
+        "Emotional and Physical Well-Being Rank": 40,
+        "Income and Employment Rank": 170,
+        "Community and Environment Rank": 20,
+        "Center": {
+            "coordinates": [-74.06877004866183, 40.71528977634721]
+        }
+    },
+    {
+        "City": "Juneau, AK",
+        "Vegetation Fraction": 0.36551984422462175,
+        "Happiness Score": 59.27,
+        "Emotional and Physical Well-Being Rank": 32,
+        "Income and Employment Rank": 14,
+        "Community and Environment Rank": 179,
+        "Center": {
+            "coordinates": [-134.212840942268, 58.389089515870914]
+        }
+    },
+    {
+        "City": "Kansas City, MO",
+        "Vegetation Fraction": 0.6385196975270888,
+        "Happiness Score": 45.61,
+        "Emotional and Physical Well-Being Rank": 140,
+        "Income and Employment Rank": 128,
+        "Community and Environment Rank": 166,
+        "Center": {
+            "coordinates": [-94.57641468493655, 39.09210466363703]
+        }
+    },
+    {
+        "City": "Knoxville, TN",
+        "Vegetation Fraction": 0.7134216296068729,
+        "Happiness Score": 43.1,
+        "Emotional and Physical Well-Being Rank": 169,
+        "Income and Employment Rank": 59,
+        "Community and Environment Rank": 94,
+        "Center": {
+            "coordinates": [-83.92541044321122, 35.95869447717736]
+        }
+    },
+    {
+        "City": "Laredo, TX",
+        "Vegetation Fraction": 0.21888144297441442,
+        "Happiness Score": 50.64,
+        "Emotional and Physical Well-Being Rank": 105,
+        "Income and Employment Rank": 50,
+        "Community and Environment Rank": 165,
+        "Center": {
+            "coordinates": [-99.54103270379723, 27.555569405236454]
+        }
+    },
+    {
+        "City": "Las Cruces, NM",
+        "Vegetation Fraction": 0.01736754366752712,
+        "Happiness Score": 49.74,
+        "Emotional and Physical Well-Being Rank": 110,
+        "Income and Employment Rank": 118,
+        "Community and Environment Rank": 156,
+        "Center": {
+            "coordinates": [-106.8196757775298, 32.33792737639872]
+        }
+    },
+    {
+        "City": "Las Vegas, NV",
+        "Vegetation Fraction": 0.02446923420825795,
+        "Happiness Score": 48.61,
+        "Emotional and Physical Well-Being Rank": 124,
+        "Income and Employment Rank": 169,
+        "Community and Environment Rank": 95,
+        "Center": {
+            "coordinates": [-115.24346656119872, 36.25533380329736]
+        }
+    },
+    {
+        "City": "Lewiston, ME",
+        "Vegetation Fraction": 0.8468969219604731,
+        "Happiness Score": 46.71,
+        "Emotional and Physical Well-Being Rank": 166,
+        "Income and Employment Rank": 12,
+        "Community and Environment Rank": 78,
+        "Center": {
+            "coordinates": [-70.16983171005747, 44.086448305925884]
+        }
+    },
+    {
+        "City": "Lexington-Fayette, KY",
+        "Vegetation Fraction": 0.8431570470489054,
+        "Happiness Score": 47.9,
+        "Emotional and Physical Well-Being Rank": 134,
+        "Income and Employment Rank": 121,
+        "Community and Environment Rank": 144,
+        "Center": {
+            "coordinates": [-84.47203664825614, 38.028590479262434]
+        }
+    },
+    {
+        "City": "Lincoln, NE",
+        "Vegetation Fraction": 0.5250622420280259,
+        "Happiness Score": 61.1,
+        "Emotional and Physical Well-Being Rank": 27,
+        "Income and Employment Rank": 67,
+        "Community and Environment Rank": 104,
+        "Center": {
+            "coordinates": [-96.69090496978158, 40.79707952854071]
+        }
+    },
+    {
+        "City": "Little Rock, AR",
+        "Vegetation Fraction": 0.6996083717977509,
+        "Happiness Score": 43.25,
+        "Emotional and Physical Well-Being Rank": 164,
+        "Income and Employment Rank": 133,
+        "Community and Environment Rank": 106,
+        "Center": {
+            "coordinates": [-92.33634303048345, 34.72388468747896]
+        }
+    },
+    {
+        "City": "Long Beach, CA",
+        "Vegetation Fraction": 0.04536644786718122,
+        "Happiness Score": 58.13,
+        "Emotional and Physical Well-Being Rank": 41,
+        "Income and Employment Rank": 142,
+        "Community and Environment Rank": 101,
+        "Center": {
+            "coordinates": [-118.15622997226593, 33.78812461624805]
+        }
+    },
+    {
+        "City": "Los Angeles, CA",
+        "Vegetation Fraction": 0.11343470188701432,
+        "Happiness Score": 58.7,
+        "Emotional and Physical Well-Being Rank": 39,
+        "Income and Employment Rank": 85,
+        "Community and Environment Rank": 128,
+        "Center": {
+            "coordinates": [-118.41275937095247, 33.99868953925297]
+        }
+    },
+    {
+        "City": "Louisville, KY",
+        "Vegetation Fraction": 0.7209755773294366,
+        "Happiness Score": 44.1,
+        "Emotional and Physical Well-Being Rank": 158,
+        "Income and Employment Rank": 151,
+        "Community and Environment Rank": 111,
+        "Center": {
+            "coordinates": [-85.6767948092361, 38.188930840356136]
+        }
+    },
+    {
+        "City": "Lubbock, TX",
+        "Vegetation Fraction": 0.18028115177161527,
+        "Happiness Score": 44.89,
+        "Emotional and Physical Well-Being Rank": 157,
+        "Income and Employment Rank": 23,
+        "Community and Environment Rank": 168,
+        "Center": {
+            "coordinates": [-101.89077965516343, 33.57825667721164]
+        }
+    },
+    {
+        "City": "Madison, WI",
+        "Vegetation Fraction": 0.5751604271761257,
+        "Happiness Score": 68.1,
+        "Emotional and Physical Well-Being Rank": 10,
+        "Income and Employment Rank": 11,
+        "Community and Environment Rank": 19,
+        "Center": {
+            "coordinates": [-89.4094674132579, 43.08514750418427]
+        }
+    },
+    {
+        "City": "Manchester, NH",
+        "Vegetation Fraction": 0.5829974286842418,
+        "Happiness Score": 54.66,
+        "Emotional and Physical Well-Being Rank": 84,
+        "Income and Employment Rank": 129,
+        "Community and Environment Rank": 57,
+        "Center": {
+            "coordinates": [-71.44440753157232, 42.97115735317178]
+        }
+    },
+    {
+        "City": "Memphis, TN",
+        "Vegetation Fraction": 0.6366140858429264,
+        "Happiness Score": 34.86,
+        "Emotional and Physical Well-Being Rank": 176,
+        "Income and Employment Rank": 181,
+        "Community and Environment Rank": 172,
+        "Center": {
+            "coordinates": [-89.97328332371997, 35.12949610408414]
+        }
+    },
+    {
+        "City": "Mesa, AZ",
+        "Vegetation Fraction": 0.059595521569225346,
+        "Happiness Score": 55.01,
+        "Emotional and Physical Well-Being Rank": 86,
+        "Income and Employment Rank": 77,
+        "Community and Environment Rank": 64,
+        "Center": {
+            "coordinates": [-111.73771158838835, 33.395598219189225]
+        }
+    },
+    {
+        "City": "Miami, FL",
+        "Vegetation Fraction": 0.21995164704850745,
+        "Happiness Score": 56.78,
+        "Emotional and Physical Well-Being Rank": 56,
+        "Income and Employment Rank": 52,
+        "Community and Environment Rank": 142,
+        "Center": {
+            "coordinates": [-80.22951435318262, 25.782445020342653]
+        }
+    },
+    {
+        "City": "Milwaukee, WI",
+        "Vegetation Fraction": 0.4329381590063981,
+        "Happiness Score": 50.76,
+        "Emotional and Physical Well-Being Rank": 103,
+        "Income and Employment Rank": 152,
+        "Community and Environment Rank": 113,
+        "Center": {
+            "coordinates": [-87.96724510804638, 43.05674687784647]
+        }
+    },
+    {
+        "City": "Minneapolis, MN",
+        "Vegetation Fraction": 0.44646120934585687,
+        "Happiness Score": 65.09,
+        "Emotional and Physical Well-Being Rank": 8,
+        "Income and Employment Rank": 20,
+        "Community and Environment Rank": 80,
+        "Center": {
+            "coordinates": [-93.26160571278642, 44.97071992015914]
+        }
+    },
+    {
+        "City": "Missoula, MT",
+        "Vegetation Fraction": 0.2760553235178705,
+        "Happiness Score": 57.12,
+        "Emotional and Physical Well-Being Rank": 88,
+        "Income and Employment Rank": 40,
+        "Community and Environment Rank": 28,
+        "Center": {
+            "coordinates": [-114.01266853684234, 46.87105708221079]
+        }
+    },
+    {
+        "City": "Mobile, AL",
+        "Vegetation Fraction": 0.5780928321391622,
+        "Happiness Score": 38.94,
+        "Emotional and Physical Well-Being Rank": 171,
+        "Income and Employment Rank": 172,
+        "Community and Environment Rank": 124,
+        "Center": {
+            "coordinates": [-88.08912860039251, 30.70198297492132]
+        }
+    },
+    {
+        "City": "Modesto, CA",
+        "Vegetation Fraction": 0.15351056271895083,
+        "Happiness Score": 53.21,
+        "Emotional and Physical Well-Being Rank": 112,
+        "Income and Employment Rank": 42,
+        "Community and Environment Rank": 92,
+        "Center": {
+            "coordinates": [-120.99887456211758, 37.616790314813315]
+        }
+    },
+    {
+        "City": "Montgomery, AL",
+        "Vegetation Fraction": 0.7306423008844807,
+        "Happiness Score": 35.54,
+        "Emotional and Physical Well-Being Rank": 174,
+        "Income and Employment Rank": 180,
+        "Community and Environment Rank": 161,
+        "Center": {
+            "coordinates": [-86.24621796193749, 32.343918141035324]
+        }
+    },
+    {
+        "City": "Moreno Valley, CA",
+        "Vegetation Fraction": 0.023486796242291923,
+        "Happiness Score": 53.11,
+        "Emotional and Physical Well-Being Rank": 120,
+        "Income and Employment Rank": 116,
+        "Community and Environment Rank": 26,
+        "Center": {
+            "coordinates": [-117.19244078270877, 33.921934893901465]
+        }
+    },
+    {
+        "City": "Nampa, ID",
+        "Vegetation Fraction": 0.31289747085573266,
+        "Happiness Score": 50.06,
+        "Emotional and Physical Well-Being Rank": 145,
+        "Income and Employment Rank": 99,
+        "Community and Environment Rank": 39,
+        "Center": {
+            "coordinates": [-116.5589441271828, 43.58973182106376]
+        }
+    },
+    {
+        "City": "Nashua, NH",
+        "Vegetation Fraction": 0.7256123292989652,
+        "Happiness Score": 58.11,
+        "Emotional and Physical Well-Being Rank": 68,
+        "Income and Employment Rank": 104,
+        "Community and Environment Rank": 35,
+        "Center": {
+            "coordinates": [-71.49689619567634, 42.75288592458973]
+        }
+    },
+    {
+        "City": "Nashville, TN",
+        "Vegetation Fraction": 0.7780566531024788,
+        "Happiness Score": 51.83,
+        "Emotional and Physical Well-Being Rank": 117,
+        "Income and Employment Rank": 107,
+        "Community and Environment Rank": 74,
+        "Center": {
+            "coordinates": [-86.78593041265674, 36.18694272900107]
+        }
+    },
+    {
+        "City": "New Haven, CT",
+        "Vegetation Fraction": 0.5314832642696692,
+        "Happiness Score": 50.58,
+        "Emotional and Physical Well-Being Rank": 77,
+        "Income and Employment Rank": 115,
+        "Community and Environment Rank": 178,
+        "Center": {
+            "coordinates": [-72.9292910934635, 41.29842813840929]
+        }
+    },
+    {
+        "City": "New Orleans, LA",
+        "Vegetation Fraction": 0.2764035692025063,
+        "Happiness Score": 46.35,
+        "Emotional and Physical Well-Being Rank": 146,
+        "Income and Employment Rank": 111,
+        "Community and Environment Rank": 146,
+        "Center": {
+            "coordinates": [-89.88303695404912, 30.032725376713703]
+        }
+    },
+    {
+        "City": "New York, NY",
+        "Vegetation Fraction": 0.20977596254384343,
+        "Happiness Score": 58.35,
+        "Emotional and Physical Well-Being Rank": 46,
+        "Income and Employment Rank": 164,
+        "Community and Environment Rank": 51,
+        "Center": {
+            "coordinates": [-73.98055584759153, 40.69712561401624]
+        }
+    },
+    {
+        "City": "Newark, NJ",
+        "Vegetation Fraction": 0.213354897449935,
+        "Happiness Score": 48.75,
+        "Emotional and Physical Well-Being Rank": 111,
+        "Income and Employment Rank": 182,
+        "Community and Environment Rank": 73,
+        "Center": {
+            "coordinates": [-74.18211539950862, 40.73071515370951]
+        }
+    },
+    {
+        "City": "Newport News, VA",
+        "Vegetation Fraction": 0.38282906042969667,
+        "Happiness Score": 46.38,
+        "Emotional and Physical Well-Being Rank": 141,
+        "Income and Employment Rank": 174,
+        "Community and Environment Rank": 72,
+        "Center": {
+            "coordinates": [-76.50412358391907, 37.07576322548476]
+        }
+    },
+    {
+        "City": "Norfolk, VA",
+        "Vegetation Fraction": 0.42504323314371023,
+        "Happiness Score": 50.85,
+        "Emotional and Physical Well-Being Rank": 102,
+        "Income and Employment Rank": 167,
+        "Community and Environment Rank": 96,
+        "Center": {
+            "coordinates": [-76.26088052278617, 36.895290715611246]
+        }
+    },
+    {
+        "City": "North Las Vegas, NV",
+        "Vegetation Fraction": 0.009834673699559576,
+        "Happiness Score": 48.21,
+        "Emotional and Physical Well-Being Rank": 135,
+        "Income and Employment Rank": 175,
+        "Community and Environment Rank": 61,
+        "Center": {
+            "coordinates": [-115.0854454571246, 36.26042685440224]
+        }
+    },
+    {
+        "City": "Oakland, CA",
+        "Vegetation Fraction": 0.1635058670312836,
+        "Happiness Score": 64.35,
+        "Emotional and Physical Well-Being Rank": 7,
+        "Income and Employment Rank": 105,
+        "Community and Environment Rank": 87,
+        "Center": {
+            "coordinates": [-122.23535613909259, 37.75961252846381]
+        }
+    },
+    {
+        "City": "Oceanside, CA",
+        "Vegetation Fraction": 0.13750422678088367,
+        "Happiness Score": 61.72,
+        "Emotional and Physical Well-Being Rank": 30,
+        "Income and Employment Rank": 110,
+        "Community and Environment Rank": 53,
+        "Center": {
+            "coordinates": [-117.33828490672056, 33.216358294046834]
+        }
+    },
+    {
+        "City": "Oklahoma City, OK",
+        "Vegetation Fraction": 0.6321638352461756,
+        "Happiness Score": 46.32,
+        "Emotional and Physical Well-Being Rank": 155,
+        "Income and Employment Rank": 135,
+        "Community and Environment Rank": 82,
+        "Center": {
+            "coordinates": [-97.47867669065089, 35.483237767429536]
+        }
+    },
+    {
+        "City": "Omaha, NE",
+        "Vegetation Fraction": 0.5506810677520964,
+        "Happiness Score": 59.48,
+        "Emotional and Physical Well-Being Rank": 52,
+        "Income and Employment Rank": 79,
+        "Community and Environment Rank": 56,
+        "Center": {
+            "coordinates": [-96.0698073204913, 41.292170486623725]
+        }
+    },
+    {
+        "City": "Ontario, CA",
+        "Vegetation Fraction": 0.05676410368582919,
+        "Happiness Score": 53.97,
+        "Emotional and Physical Well-Being Rank": 119,
+        "Income and Employment Rank": 64,
+        "Community and Environment Rank": 32,
+        "Center": {
+            "coordinates": [-117.60355856494122, 34.034360390027054]
+        }
+    },
+    {
+        "City": "Orlando, FL",
+        "Vegetation Fraction": 0.45943734795033514,
+        "Happiness Score": 54.59,
+        "Emotional and Physical Well-Being Rank": 96,
+        "Income and Employment Rank": 19,
+        "Community and Environment Rank": 108,
+        "Center": {
+            "coordinates": [-81.36817631106496, 28.481071693165887]
+        }
+    },
+    {
+        "City": "Overland Park, KS",
+        "Vegetation Fraction": 0.5515492255054726,
+        "Happiness Score": 67.46,
+        "Emotional and Physical Well-Being Rank": 12,
+        "Income and Employment Rank": 54,
+        "Community and Environment Rank": 13,
+        "Center": {
+            "coordinates": [-94.68450829409471, 38.916558142589345]
+        }
+    },
+    {
+        "City": "Oxnard, CA",
+        "Vegetation Fraction": 0.05352711593207418,
+        "Happiness Score": 63.29,
+        "Emotional and Physical Well-Being Rank": 26,
+        "Income and Employment Rank": 132,
+        "Community and Environment Rank": 10,
+        "Center": {
+            "coordinates": [-119.22454118792672, 34.19027312005193]
+        }
+    },
+    {
+        "City": "Pearl City, HI",
+        "Vegetation Fraction": 0.3624237031997226,
+        "Happiness Score": 61.78,
+        "Emotional and Physical Well-Being Rank": 36,
+        "Income and Employment Rank": 148,
+        "Community and Environment Rank": 22,
+        "Center": {
+            "coordinates": [-157.96162961509802, 21.400583734957163]
+        }
+    },
+    {
+        "City": "Pembroke Pines, FL",
+        "Vegetation Fraction": 0.44029188712618506,
+        "Happiness Score": 60.59,
+        "Emotional and Physical Well-Being Rank": 51,
+        "Income and Employment Rank": 125,
+        "Community and Environment Rank": 15,
+        "Center": {
+            "coordinates": [-80.3281325021792, 26.0265901998722]
+        }
+    },
+    {
+        "City": "Peoria, AZ",
+        "Vegetation Fraction": 0.011392482980735462,
+        "Happiness Score": 58.84,
+        "Emotional and Physical Well-Being Rank": 72,
+        "Income and Employment Rank": 58,
+        "Community and Environment Rank": 16,
+        "Center": {
+            "coordinates": [-112.32521907790627, 33.75305986566564]
+        }
+    },
+    {
+        "City": "Philadelphia, PA",
+        "Vegetation Fraction": 0.37854126728239545,
+        "Happiness Score": 46.78,
+        "Emotional and Physical Well-Being Rank": 148,
+        "Income and Employment Rank": 146,
+        "Community and Environment Rank": 75,
+        "Center": {
+            "coordinates": [-75.1183865118936, 40.002595197748434]
+        }
+    },
+    {
+        "City": "Phoenix, AZ",
+        "Vegetation Fraction": 0.02882987123036701,
+        "Happiness Score": 50.39,
+        "Emotional and Physical Well-Being Rank": 91,
+        "Income and Employment Rank": 106,
+        "Community and Environment Rank": 169,
+        "Center": {
+            "coordinates": [-112.12547622063813, 33.60455986005836]
+        }
+    },
+    {
+        "City": "Pittsburgh, PA",
+        "Vegetation Fraction": 0.5145974719309405,
+        "Happiness Score": 57.72,
+        "Emotional and Physical Well-Being Rank": 80,
+        "Income and Employment Rank": 29,
+        "Community and Environment Rank": 41,
+        "Center": {
+            "coordinates": [-79.98074187547064, 40.43141791816457]
+        }
+    },
+    {
+        "City": "Plano, TX",
+        "Vegetation Fraction": 0.3391457459175346,
+        "Happiness Score": 63.33,
+        "Emotional and Physical Well-Being Rank": 37,
+        "Income and Employment Rank": 48,
+        "Community and Environment Rank": 24,
+        "Center": {
+            "coordinates": [-96.73658036932919, 33.06155756938107]
+        }
+    },
+    {
+        "City": "Port St. Lucie, FL",
+        "Vegetation Fraction": 0.6452058018141366,
+        "Happiness Score": 55.03,
+        "Emotional and Physical Well-Being Rank": 115,
+        "Income and Employment Rank": 65,
+        "Community and Environment Rank": 14,
+        "Center": {
+            "coordinates": [-80.36287595187832, 27.29004374568392]
+        }
+    },
+    {
+        "City": "Portland, ME",
+        "Vegetation Fraction": 0.22037624032251682,
+        "Happiness Score": 61.96,
+        "Emotional and Physical Well-Being Rank": 28,
+        "Income and Employment Rank": 10,
+        "Community and Environment Rank": 150,
+        "Center": {
+            "coordinates": [-70.16190871826844, 43.63617251684725]
+        }
+    },
+    {
+        "City": "Portland, OR",
+        "Vegetation Fraction": 0.40491684839837583,
+        "Happiness Score": 60.31,
+        "Emotional and Physical Well-Being Rank": 49,
+        "Income and Employment Rank": 21,
+        "Community and Environment Rank": 88,
+        "Center": {
+            "coordinates": [-122.65535610302696, 45.54314450443665]
+        }
+    },
+    {
+        "City": "Providence, RI",
+        "Vegetation Fraction": 0.37347741017783415,
+        "Happiness Score": 54.84,
+        "Emotional and Physical Well-Being Rank": 113,
+        "Income and Employment Rank": 25,
+        "Community and Environment Rank": 47,
+        "Center": {
+            "coordinates": [-71.42317481279906, 41.81711788679703]
+        }
+    },
+    {
+        "City": "Raleigh, NC",
+        "Vegetation Fraction": 0.7008881940204033,
+        "Happiness Score": 62.35,
+        "Emotional and Physical Well-Being Rank": 23,
+        "Income and Employment Rank": 71,
+        "Community and Environment Rank": 63,
+        "Center": {
+            "coordinates": [-78.64528843955027, 35.83962540760338]
+        }
+    },
+    {
+        "City": "Rancho Cucamonga, CA",
+        "Vegetation Fraction": 0.052871721909658026,
+        "Happiness Score": 57.13,
+        "Emotional and Physical Well-Being Rank": 83,
+        "Income and Employment Rank": 36,
+        "Community and Environment Rank": 48,
+        "Center": {
+            "coordinates": [-117.5579219862144, 34.12426557075187]
+        }
+    },
+    {
+        "City": "Rapid City, SD",
+        "Vegetation Fraction": 0.23817247794105098,
+        "Happiness Score": 57.12,
+        "Emotional and Physical Well-Being Rank": 76,
+        "Income and Employment Rank": 27,
+        "Community and Environment Rank": 76,
+        "Center": {
+            "coordinates": [-103.18230581827454, 44.06594585588865]
+        }
+    },
+    {
+        "City": "Reno, NV",
+        "Vegetation Fraction": 0.0824739772614955,
+        "Happiness Score": 56.13,
+        "Emotional and Physical Well-Being Rank": 65,
+        "Income and Employment Rank": 37,
+        "Community and Environment Rank": 143,
+        "Center": {
+            "coordinates": [-119.84711867845341, 39.551332982121444]
+        }
+    },
+    {
+        "City": "Richmond, VA",
+        "Vegetation Fraction": 0.6513830673747839,
+        "Happiness Score": 45.97,
+        "Emotional and Physical Well-Being Rank": 136,
+        "Income and Employment Rank": 176,
+        "Community and Environment Rank": 133,
+        "Center": {
+            "coordinates": [-77.49335059326263, 37.524636761604945]
+        }
+    },
+    {
+        "City": "Riverside, CA",
+        "Vegetation Fraction": 0.08497477901131428,
+        "Happiness Score": 52.84,
+        "Emotional and Physical Well-Being Rank": 107,
+        "Income and Employment Rank": 28,
+        "Community and Environment Rank": 125,
+        "Center": {
+            "coordinates": [-117.39907443889977, 33.94603640683423]
+        }
+    },
+    {
+        "City": "Rochester, NY",
+        "Vegetation Fraction": 0.5439206442943129,
+        "Happiness Score": 48.96,
+        "Emotional and Physical Well-Being Rank": 131,
+        "Income and Employment Rank": 114,
+        "Community and Environment Rank": 139,
+        "Center": {
+            "coordinates": [-77.61651417700946, 43.18571638474527]
+        }
+    },
+    {
+        "City": "Sacramento, CA",
+        "Vegetation Fraction": 0.15911030118644526,
+        "Happiness Score": 59.27,
+        "Emotional and Physical Well-Being Rank": 64,
+        "Income and Employment Rank": 30,
+        "Community and Environment Rank": 49,
+        "Center": {
+            "coordinates": [-121.46160027252832, 38.56158137870616]
+        }
+    },
+    {
+        "City": "Salem, OR",
+        "Vegetation Fraction": 0.46040720629091914,
+        "Happiness Score": 46.39,
+        "Emotional and Physical Well-Being Rank": 144,
+        "Income and Employment Rank": 41,
+        "Community and Environment Rank": 175,
+        "Center": {
+            "coordinates": [-123.02922091983814, 44.93397375230297]
+        }
+    },
+    {
+        "City": "Salt Lake City, UT",
+        "Vegetation Fraction": 0.24435296304209245,
+        "Happiness Score": 58.58,
+        "Emotional and Physical Well-Being Rank": 57,
+        "Income and Employment Rank": 33,
+        "Community and Environment Rank": 116,
+        "Center": {
+            "coordinates": [-111.92114638175667, 40.77679894405458]
+        }
+    },
+    {
+        "City": "San Antonio, TX",
+        "Vegetation Fraction": 0.5306918445109637,
+        "Happiness Score": 49.31,
+        "Emotional and Physical Well-Being Rank": 116,
+        "Income and Employment Rank": 88,
+        "Community and Environment Rank": 160,
+        "Center": {
+            "coordinates": [-98.51879246623535, 29.458825198575607]
+        }
+    },
+    {
+        "City": "San Bernardino, CA",
+        "Vegetation Fraction": 0.04342794657502148,
+        "Happiness Score": 45.36,
+        "Emotional and Physical Well-Being Rank": 149,
+        "Income and Employment Rank": 137,
+        "Community and Environment Rank": 140,
+        "Center": {
+            "coordinates": [-117.28412675065483, 34.14055740260975]
+        }
+    },
+    {
+        "City": "San Diego, CA",
+        "Vegetation Fraction": 0.0865397761169296,
+        "Happiness Score": 65.82,
+        "Emotional and Physical Well-Being Rank": 14,
+        "Income and Employment Rank": 18,
+        "Community and Environment Rank": 25,
+        "Center": {
+            "coordinates": [-117.10842311794755, 32.82467301716282]
+        }
+    },
+    {
+        "City": "San Francisco, CA",
+        "Vegetation Fraction": 0.05947311907055093,
+        "Happiness Score": 71.15,
+        "Emotional and Physical Well-Being Rank": 4,
+        "Income and Employment Rank": 1,
+        "Community and Environment Rank": 44,
+        "Center": {
+            "coordinates": [-122.44920883592657, 37.81908946178486]
+        }
+    },
+    {
+        "City": "San Jose, CA",
+        "Vegetation Fraction": 0.14533820573021677,
+        "Happiness Score": 71.0,
+        "Emotional and Physical Well-Being Rank": 2,
+        "Income and Employment Rank": 6,
+        "Community and Environment Rank": 55,
+        "Center": {
+            "coordinates": [-121.81793558270668, 37.29707937020562]
+        }
+    },
+    {
+        "City": "Santa Ana, CA",
+        "Vegetation Fraction": 0.05714309860107159,
+        "Happiness Score": 60.62,
+        "Emotional and Physical Well-Being Rank": 45,
+        "Income and Employment Rank": 31,
+        "Community and Environment Rank": 86,
+        "Center": {
+            "coordinates": [-117.88717827417923, 33.737846652456525]
+        }
+    },
+    {
+        "City": "Santa Clarita, CA",
+        "Vegetation Fraction": 0.07001297641796111,
+        "Happiness Score": 64.44,
+        "Emotional and Physical Well-Being Rank": 15,
+        "Income and Employment Rank": 100,
+        "Community and Environment Rank": 29,
+        "Center": {
+            "coordinates": [-118.49614708828045, 34.41883020359732]
+        }
+    },
+    {
+        "City": "Santa Rosa, CA",
+        "Vegetation Fraction": 0.24665786642740037,
+        "Happiness Score": 64.52,
+        "Emotional and Physical Well-Being Rank": 13,
+        "Income and Employment Rank": 22,
+        "Community and Environment Rank": 105,
+        "Center": {
+            "coordinates": [-122.67450487061832, 38.45253179997884]
+        }
+    },
+    {
+        "City": "Scottsdale, AZ",
+        "Vegetation Fraction": 0.028066087448942678,
+        "Happiness Score": 63.78,
+        "Emotional and Physical Well-Being Rank": 50,
+        "Income and Employment Rank": 43,
+        "Community and Environment Rank": 6,
+        "Center": {
+            "coordinates": [-111.85873833324547, 33.6742589739763]
+        }
+    },
+    {
+        "City": "Seattle, WA",
+        "Vegetation Fraction": 0.2830970275367866,
+        "Happiness Score": 67.67,
+        "Emotional and Physical Well-Being Rank": 6,
+        "Income and Employment Rank": 2,
+        "Community and Environment Rank": 99,
+        "Center": {
+            "coordinates": [-122.34234924672262, 47.60762892579588]
+        }
+    },
+    {
+        "City": "Shreveport, LA",
+        "Vegetation Fraction": 0.6521182422179425,
+        "Happiness Score": 39.01,
+        "Emotional and Physical Well-Being Rank": 175,
+        "Income and Employment Rank": 173,
+        "Community and Environment Rank": 71,
+        "Center": {
+            "coordinates": [-93.81397154583894, 32.46134998130499]
+        }
+    },
+    {
+        "City": "Sioux Falls, SD",
+        "Vegetation Fraction": 0.3596845345274405,
+        "Happiness Score": 64.34,
+        "Emotional and Physical Well-Being Rank": 20,
+        "Income and Employment Rank": 74,
+        "Community and Environment Rank": 27,
+        "Center": {
+            "coordinates": [-96.74605180647436, 43.54094106176476]
+        }
+    },
+    {
+        "City": "South Burlington, VT",
+        "Vegetation Fraction": 0.3936250847728089,
+        "Happiness Score": 60.65,
+        "Emotional and Physical Well-Being Rank": 11,
+        "Income and Employment Rank": 56,
+        "Community and Environment Rank": 181,
+        "Center": {
+            "coordinates": [-73.22746845908007, 44.467414955007875]
+        }
+    },
+    {
+        "City": "Spokane, WA",
+        "Vegetation Fraction": 0.275113383245077,
+        "Happiness Score": 52.17,
+        "Emotional and Physical Well-Being Rank": 126,
+        "Income and Employment Rank": 7,
+        "Community and Environment Rank": 129,
+        "Center": {
+            "coordinates": [-117.4541761923873, 47.67288583972977]
+        }
+    },
+    {
+        "City": "Springfield, MO",
+        "Vegetation Fraction": 0.6362156094146308,
+        "Happiness Score": 44.95,
+        "Emotional and Physical Well-Being Rank": 167,
+        "Income and Employment Rank": 44,
+        "Community and Environment Rank": 103,
+        "Center": {
+            "coordinates": [-93.29600556278508, 37.182944277523404]
+        }
+    },
+    {
+        "City": "St. Louis, MO",
+        "Vegetation Fraction": 0.3539882230106769,
+        "Happiness Score": 43.68,
+        "Emotional and Physical Well-Being Rank": 153,
+        "Income and Employment Rank": 160,
+        "Community and Environment Rank": 149,
+        "Center": {
+            "coordinates": [-90.2425554961847, 38.65335650005696]
+        }
+    },
+    {
+        "City": "St. Paul, MN",
+        "Vegetation Fraction": 0.5140910100407944,
+        "Happiness Score": 59.54,
+        "Emotional and Physical Well-Being Rank": 33,
+        "Income and Employment Rank": 96,
+        "Community and Environment Rank": 121,
+        "Center": {
+            "coordinates": [-93.10614633723462, 44.93969370894895]
+        }
+    },
+    {
+        "City": "St. Petersburg, FL",
+        "Vegetation Fraction": 0.18508357326548625,
+        "Happiness Score": 53.39,
+        "Emotional and Physical Well-Being Rank": 100,
+        "Income and Employment Rank": 35,
+        "Community and Environment Rank": 134,
+        "Center": {
+            "coordinates": [-82.6549624327138, 27.778816331234818]
+        }
+    },
+    {
+        "City": "Stockton, CA",
+        "Vegetation Fraction": 0.11399256295889008,
+        "Happiness Score": 50.15,
+        "Emotional and Physical Well-Being Rank": 99,
+        "Income and Employment Rank": 150,
+        "Community and Environment Rank": 137,
+        "Center": {
+            "coordinates": [-121.30163645906762, 37.97330843805437]
+        }
+    },
+    {
+        "City": "Tacoma, WA",
+        "Vegetation Fraction": 0.30996772608138456,
+        "Happiness Score": 55.5,
+        "Emotional and Physical Well-Being Rank": 75,
+        "Income and Employment Rank": 98,
+        "Community and Environment Rank": 93,
+        "Center": {
+            "coordinates": [-122.45536120490155, 47.24294520617024]
+        }
+    },
+    {
+        "City": "Tallahassee, FL",
+        "Vegetation Fraction": 0.7838571948606394,
+        "Happiness Score": 54.16,
+        "Emotional and Physical Well-Being Rank": 130,
+        "Income and Employment Rank": 8,
+        "Community and Environment Rank": 45,
+        "Center": {
+            "coordinates": [-84.25414612805606, 30.467028381336082]
+        }
+    },
+    {
+        "City": "Tampa, FL",
+        "Vegetation Fraction": 0.566913734893089,
+        "Happiness Score": 55.62,
+        "Emotional and Physical Well-Being Rank": 94,
+        "Income and Employment Rank": 38,
+        "Community and Environment Rank": 60,
+        "Center": {
+            "coordinates": [-82.42045178304562, 27.99640999839829]
+        }
+    },
+    {
+        "City": "Tempe, AZ",
+        "Vegetation Fraction": 0.03465883625978682,
+        "Happiness Score": 58.79,
+        "Emotional and Physical Well-Being Rank": 71,
+        "Income and Employment Rank": 17,
+        "Community and Environment Rank": 50,
+        "Center": {
+            "coordinates": [-111.92797304719471, 33.39192994280445]
+        }
+    },
+    {
+        "City": "Toledo, OH",
+        "Vegetation Fraction": 0.5657266232360045,
+        "Happiness Score": 39.17,
+        "Emotional and Physical Well-Being Rank": 172,
+        "Income and Employment Rank": 171,
+        "Community and Environment Rank": 127,
+        "Center": {
+            "coordinates": [-83.57456587720273, 41.65662106010465]
+        }
+    },
+    {
+        "City": "Tucson, AZ",
+        "Vegetation Fraction": 0.032559993330739355,
+        "Happiness Score": 50.6,
+        "Emotional and Physical Well-Being Rank": 114,
+        "Income and Employment Rank": 66,
+        "Community and Environment Rank": 148,
+        "Center": {
+            "coordinates": [-110.88353415337001, 32.156406936950845]
+        }
+    },
+    {
+        "City": "Tulsa, OK",
+        "Vegetation Fraction": 0.5493369626004649,
+        "Happiness Score": 43.35,
+        "Emotional and Physical Well-Being Rank": 163,
+        "Income and Employment Rank": 117,
+        "Community and Environment Rank": 138,
+        "Center": {
+            "coordinates": [-95.87849892103537, 36.15246135873617]
+        }
+    },
+    {
+        "City": "Vancouver, WA",
+        "Vegetation Fraction": 0.36805211947589916,
+        "Happiness Score": 55.08,
+        "Emotional and Physical Well-Being Rank": 73,
+        "Income and Employment Rank": 49,
+        "Community and Environment Rank": 147,
+        "Center": {
+            "coordinates": [-122.61970749772317, 45.640339635905185]
+        }
+    },
+    {
+        "City": "Virginia Beach, VA",
+        "Vegetation Fraction": 0.4748862779764795,
+        "Happiness Score": 58.9,
+        "Emotional and Physical Well-Being Rank": 62,
+        "Income and Employment Rank": 120,
+        "Community and Environment Rank": 18,
+        "Center": {
+            "coordinates": [-76.0306898242246, 36.790494720790754]
+        }
+    },
+    {
+        "City": "Warwick, RI",
+        "Vegetation Fraction": 0.7058828548361121,
+        "Happiness Score": 57.19,
+        "Emotional and Physical Well-Being Rank": 69,
+        "Income and Employment Rank": 62,
+        "Community and Environment Rank": 90,
+        "Center": {
+            "coordinates": [-71.43787248534768, 41.698893428012326]
+        }
+    },
+    {
+        "City": "Washington, DC",
+        "Vegetation Fraction": 0.4877036306329881,
+        "Happiness Score": 55.05,
+        "Emotional and Physical Well-Being Rank": 29,
+        "Income and Employment Rank": 57,
+        "Community and Environment Rank": 182,
+        "Center": {
+            "coordinates": [-77.0147318043942, 38.89384630919986]
+        }
+    },
+    {
+        "City": "West Valley City, UT",
+        "Vegetation Fraction": 0.0866989890855007,
+        "Happiness Score": 55.5,
+        "Emotional and Physical Well-Being Rank": 78,
+        "Income and Employment Rank": 82,
+        "Community and Environment Rank": 85,
+        "Center": {
+            "coordinates": [-112.00880442078059, 40.679028101982794]
+        }
+    },
+    {
+        "City": "Wichita, KS",
+        "Vegetation Fraction": 0.42742245543070434,
+        "Happiness Score": 46.78,
+        "Emotional and Physical Well-Being Rank": 143,
+        "Income and Employment Rank": 127,
+        "Community and Environment Rank": 130,
+        "Center": {
+            "coordinates": [-97.44418685641024, 37.66485621656138]
+        }
+    },
+    {
+        "City": "Wilmington, DE",
+        "Vegetation Fraction": 0.28949745394933907,
+        "Happiness Score": 50.64,
+        "Emotional and Physical Well-Being Rank": 125,
+        "Income and Employment Rank": 126,
+        "Community and Environment Rank": 77,
+        "Center": {
+            "coordinates": [-75.52965347723183, 39.73055180258401]
+        }
+    },
+    {
+        "City": "Winston-Salem, NC",
+        "Vegetation Fraction": 0.7612182725810095,
+        "Happiness Score": 49.43,
+        "Emotional and Physical Well-Being Rank": 138,
+        "Income and Employment Rank": 94,
+        "Community and Environment Rank": 97,
+        "Center": {
+            "coordinates": [-80.24370046081104, 36.10758436831174]
+        }
+    },
+    {
+        "City": "Worcester, MA",
+        "Vegetation Fraction": 0.6608658743633277,
+        "Happiness Score": 51.69,
+        "Emotional and Physical Well-Being Rank": 95,
+        "Income and Employment Rank": 139,
+        "Community and Environment Rank": 126,
+        "Center": {
+            "coordinates": [-71.80771959769469, 42.27563865543509]
+        }
+    },
+    {
+        "City": "Yonkers, NY",
+        "Vegetation Fraction": 0.4882669753291063,
+        "Happiness Score": 59.69,
+        "Emotional and Physical Well-Being Rank": 18,
+        "Income and Employment Rank": 163,
+        "Community and Environment Rank": 102,
+        "Center": {
+            "coordinates": [-73.86489328033404, 40.944448748486316]
+        }
+    }
+]
