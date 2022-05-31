@@ -21,7 +21,7 @@ class VegetationGauge extends StatelessWidget {
           center: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text((city.vegFrac * 100).toStringAsFixed(1) + "%"),
+              Text("${(city.vegFrac * 100).toStringAsFixed(1)}%"),
               Text(
                 "Vegetation",
                 style: Theme.of(context).textTheme.caption,

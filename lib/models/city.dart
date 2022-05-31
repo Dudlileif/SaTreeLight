@@ -90,7 +90,7 @@ class City {
 
   Future<OverlayImage> getImage({String type = 'veg_overlay'}) async {
     String path =
-        'assets/images_hl_veg_only/' + nameAndState + ' hl_veg_only.png';
+        'assets/images_hl_veg_only/$nameAndState hl_veg_only.png';
     final manifest = await rootBundle.loadString('AssetManifest.json');
     Map<String, dynamic> assetMap = jsonDecode(manifest);
     if (!assetMap.containsKey(path.replaceAll(' ', '%20'))) {
@@ -107,7 +107,7 @@ class City {
     if (!loaded) {
       final manifest = await rootBundle.loadString('AssetManifest.json');
       Map<String, dynamic> assetMap = jsonDecode(manifest);
-      final path = 'assets/american_cities/' + nameAndState + '.json';
+      final path = 'assets/american_cities/$nameAndState.json';
 
       if (assetMap.containsKey(path.replaceAll(' ', '%20'))) {
         final polygonString = await rootBundle.loadString(path);

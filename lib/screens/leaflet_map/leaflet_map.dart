@@ -114,10 +114,10 @@ class _LeafletMapState extends ConsumerState<LeafletMap>
   @override
   Widget build(BuildContext context) {
     inBackground = ref.watch(mapInBackgroundProvider).mapInBackground;
-    ref.listen(mapZoomInProvider, (_old, _new) {
+    ref.listen(mapZoomInProvider, (old, _) {
       toForeground();
     });
-    ref.listen(mapZoomOutProvider, (_old, _new) {
+    ref.listen(mapZoomOutProvider, (old, _) {
       toBackground();
     });
 

@@ -20,7 +20,7 @@ class _CityMapState extends State<CityMap> {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance?.addPostFrameCallback(
+    WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) {
         minZoom = widget.city.centerZoom(mapController).zoom;
       },

@@ -24,7 +24,7 @@ class HappinessRanks extends StatelessWidget {
               ),
             ),
             Text(
-              "#" + city.happinessRank.toString(),
+              "#${city.happinessRank}",
               style: Theme.of(context)
                   .textTheme
                   .subtitle1
@@ -32,7 +32,7 @@ class HappinessRanks extends StatelessWidget {
             ),
             if (numberOfCities != null)
               Text(
-                ' of ' + numberOfCities.toString(),
+                ' of $numberOfCities',
                 style: Theme.of(context)
                     .textTheme
                     .subtitle1
@@ -60,7 +60,7 @@ class HappinessRanks extends StatelessWidget {
               ),
             ),
             Text(
-              "#" + city.emoPhysRank.toString(),
+              "#${city.emoPhysRank}",
               style: Theme.of(context)
                   .textTheme
                   .subtitle1
@@ -88,7 +88,7 @@ class HappinessRanks extends StatelessWidget {
               ),
             ),
             Text(
-              "#" + city.incomeEmpRank.toString(),
+              "#${city.incomeEmpRank}",
               style: Theme.of(context)
                   .textTheme
                   .subtitle1
@@ -118,7 +118,7 @@ class HappinessRanks extends StatelessWidget {
             Align(
               alignment: Alignment.centerRight,
               child: Text(
-                "#" + city.communityEnvRank.toString(),
+                "#${city.communityEnvRank}",
                 style: Theme.of(context)
                     .textTheme
                     .subtitle1

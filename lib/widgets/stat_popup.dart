@@ -188,10 +188,10 @@ class _StatPopupState extends State<StatPopup> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(12),
                           child: ListView(
-                            children: widgets,
                             physics: mapHover
                                 ? const NeverScrollableScrollPhysics()
                                 : null,
+                            children: widgets,
                           ),
                         ),
                       )
@@ -226,7 +226,7 @@ class _StatPopupState extends State<StatPopup> {
                               padding: const EdgeInsets.all(8.0),
                               child: RichText(
                                 text: TextSpan(
-                                  text: city.name + '\n',
+                                  text: '${city.name}\n',
                                   style: Theme.of(context).textTheme.headline4,
                                   children: [
                                     TextSpan(

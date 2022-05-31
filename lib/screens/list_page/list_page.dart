@@ -215,6 +215,10 @@ class _ListPageState extends State<ListPage> {
                       ? Colors.white
                       : null,
               onPressed: (index) => sort(index),
+              isSelected: List.generate(
+                sortings.length,
+                (index) => sortedBy == sortings[index],
+              ),
               children: const [
                 Tooltip(
                   message: 'Vegetation',
@@ -229,10 +233,6 @@ class _ListPageState extends State<ListPage> {
                   child: Icon(Icons.sort_by_alpha),
                 ),
               ],
-              isSelected: List.generate(
-                sortings.length,
-                (index) => sortedBy == sortings[index],
-              ),
             ),
           ),
           IconButton(
@@ -247,17 +247,14 @@ class _ListPageState extends State<ListPage> {
         ],
       ),
       body: GridView.builder(
-        shrinkWrap: true,
         padding: const EdgeInsets.all(8),
         itemCount: citiesToList.length,
         itemBuilder: (context, index) {
           final city = citiesToList[index];
           final sortByText = sortedBy == 'Vegetation'
-              ? '\nVegetation: ' +
-                  (100 * city.vegFrac).toStringAsPrecision(3) +
-                  '%'
+              ? '\nVegetation: ${(100 * city.vegFrac).toStringAsPrecision(3)}%'
               : sortedBy == 'Happiness'
-                  ? '\nHappiness score: ' + city.happyScore.toString()
+                  ? '\nHappiness score: ${city.happyScore}'
                   : '';
           final buttonText = city.nameAndState + sortByText;
           return ElevatedButton(
