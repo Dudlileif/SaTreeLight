@@ -20,13 +20,30 @@ class SplashPage extends ConsumerStatefulWidget {
 }
 
 class _SplashPageState extends ConsumerState<SplashPage> {
-  final logo = Image.asset(
-    'assets/graphics/satreelight_logo.png',
-    height: 300,
-  );
-
   @override
   Widget build(BuildContext context) {
+    final logo = Stack(
+      alignment: Alignment.center,
+      children: [
+        Image.asset(
+          'assets/graphics/satreelight_logo_sat.png',
+          height: 300,
+          color: Theme.of(context).brightness == Brightness.light
+              ? Theme.of(context).primaryColorLight
+              : Theme.of(context).primaryColorDark,
+        ),
+        Image.asset(
+          'assets/graphics/satreelight_logo_veg.png',
+          height: 300,
+          color: Theme.of(context).primaryColor,
+        ),
+      ],
+    );
+
+    final textShadowColor = Theme.of(context).brightness == Brightness.light
+        ? Theme.of(context).primaryColor
+        : Theme.of(context).primaryColorDark;
+
     final mapInBackground = ref.watch(mapInBackgroundProvider).mapInBackground;
     return Scaffold(
       appBar: AppBar(
@@ -116,16 +133,25 @@ class _SplashPageState extends ConsumerState<SplashPage> {
                     'SaTreeLight',
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.headline1?.copyWith(
-                      shadows: [
-                        const Shadow(
-                          offset: Offset(1, 1),
-                          blurRadius: 0,
+                          shadows: List.generate(4, (index) {
+                            const offsets = [
+                              Offset(1, 0),
+                              Offset(-1, 0),
+                              Offset(0, 1),
+                              Offset(0, -1)
+                            ];
+                            return Shadow(
+                              color:
+                                  textShadowColor //const Color.fromRGBO(84, 130, 53, 1),
+                              ,
+                              blurRadius: 0.5,
+                              offset: offsets[index],
+                            );
+                          }),
                         ),
-                      ],
-                      color: const Color.fromRGBO(84, 130, 53, 1),
-                    ),
                   ),
                   Align(
+                    heightFactor: 1.1,
                     alignment: Alignment.center,
                     child: ConstrainedBox(
                       constraints:
