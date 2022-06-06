@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:satreelight/constants/us_states_map.dart';
+import 'package:satreelight/widgets/components/overlay_vegetation_image_layer.dart';
 
 class City {
   final String nameAndState;
@@ -60,6 +61,7 @@ class City {
     return Polygon(
       points: polygon.points,
       color: Colors.grey.withAlpha(100),
+      isFilled: true,
       borderColor: Colors.black,
       borderStrokeWidth: 1,
       isDotted: true,
@@ -73,6 +75,7 @@ class City {
         points: polygonsPoints[index],
         holePointsList: polygonHolesPoints[index] ?? [],
         color: Colors.grey.withAlpha(100),
+        isFilled: true,
         borderColor: Colors.black,
         borderStrokeWidth: 1,
         isDotted: true,
@@ -88,18 +91,21 @@ class City {
     return mapController.centerZoomFitBounds(bounds);
   }
 
-  Future<OverlayImage> getImage({String type = 'veg_overlay'}) async {
-    String path =
-        'assets/images_hl_veg_only/$nameAndState hl_veg_only.png';
+  Future<OverlayVegetationImage> getImage(
+      {String type = 'veg_overlay', Color? color}) async {
+    String path = 'assets/images_hl_veg_only/$nameAndState hl_veg_only.png';
     final manifest = await rootBundle.loadString('AssetManifest.json');
     Map<String, dynamic> assetMap = jsonDecode(manifest);
     if (!assetMap.containsKey(path.replaceAll(' ', '%20'))) {
       path = 'assets/transparent.png';
     }
-    return OverlayImage(
+    return OverlayVegetationImage(
       bounds: bounds,
-      opacity: 0.5,
-      imageProvider: AssetImage(path),
+      image: Image.asset(
+        path,
+        color: color,
+        fit: BoxFit.fill,
+      ),
     );
   }
 

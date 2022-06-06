@@ -27,19 +27,22 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-    cupertino_icons: ^1.0.2
     decorated_icon: ^1.2.1
     flex_color_scheme: ^5.0.1
     flutter:
         sdk: flutter
-    flutter_map: ^0.14.0
-    flutter_map_marker_cluster: ^0.4.4
+    flutter_map:
+        git:
+            url: https://github.com/fleaflet/flutter_map.git
+            ref: master
+    flutter_map_marker_cluster:
+        git:
+            url: https://github.com/rorystephenson/flutter_map_marker_cluster.git
+            ref: 8bdc6c428acd50453b258633820560104245457e
     flutter_riverpod: ^1.0.4
     flutter_staggered_grid_view: ^0.6.1
     google_fonts: ^3.0.1
     latlong2: ^0.8.1
-    map_controller:
-        git: https://github.com/mpinkard/map_controller.git
     percent_indicator: ^4.0.0
     rename: ^2.0.1
     themed: ^3.0.2

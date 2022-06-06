@@ -3,11 +3,12 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:satreelight/models/city.dart';
 import 'package:satreelight/screens/leaflet_map/components/osm_contribution.dart';
 import 'package:satreelight/screens/leaflet_map/components/themed_tiles_container.dart';
+import 'package:satreelight/widgets/components/overlay_vegetation_image_layer.dart';
 
 class CityMap extends StatefulWidget {
   final City city;
-  final OverlayImage? overlayImage;
-  const CityMap({Key? key, required this.city, this.overlayImage})
+  final OverlayVegetationImage? overlayVegetationImage;
+  const CityMap({Key? key, required this.city, this.overlayVegetationImage})
       : super(key: key);
 
   @override
@@ -58,10 +59,10 @@ class _CityMapState extends State<CityMap> {
                 polygons: widget.city.polygons,
               ),
             ),
-            OverlayImageLayerWidget(
-              options: OverlayImageLayerOptions(
-                overlayImages: widget.overlayImage != null
-                    ? [widget.overlayImage!]
+            OverlayVegetationImageLayerWidget(
+              options: OverlayVegetationImageLayerOptions(
+                overlayImages: widget.overlayVegetationImage != null
+                    ? [widget.overlayVegetationImage!]
                     : const [],
               ),
             ),

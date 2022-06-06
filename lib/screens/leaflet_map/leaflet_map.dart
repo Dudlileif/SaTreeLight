@@ -1,11 +1,8 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:map_controller/map_controller.dart';
 import 'package:satreelight/main.dart';
 import 'package:satreelight/models/city.dart';
 import 'package:satreelight/screens/leaflet_map/components/city_pin.dart';
@@ -31,8 +28,6 @@ class _LeafletMapState extends ConsumerState<LeafletMap>
   MapController mapController = MapController();
   List<Marker> markers = [];
 
-  late StatefulMapController statefulMapController;
-  late StreamSubscription<StatefulMapControllerStateChange> mapStateChange;
   late AnimationController zoomController;
 
   void initZoomAnim({bool zoomOut = false}) {
@@ -99,10 +94,6 @@ class _LeafletMapState extends ConsumerState<LeafletMap>
     super.initState();
     setMarkers();
     initZoomAnim();
-    statefulMapController = StatefulMapController(mapController: mapController);
-    mapStateChange = statefulMapController.changeFeed.listen((event) {
-      setState(() {});
-    });
   }
 
   @override

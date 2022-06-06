@@ -1,12 +1,12 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
 import 'package:satreelight/constants/size_breakpoints.dart';
 import 'package:satreelight/models/city.dart';
 import 'package:satreelight/widgets/components/city_map.dart';
 import 'package:satreelight/widgets/components/happiness_indicator.dart';
 import 'package:satreelight/widgets/components/happiness_ranks.dart';
+import 'package:satreelight/widgets/components/overlay_vegetation_image_layer.dart';
 import 'package:satreelight/widgets/components/vegetation_gauge.dart';
 
 class StatPopup extends StatefulWidget {
@@ -64,8 +64,12 @@ class _StatPopupState extends State<StatPopup> {
         if (!city.loaded) {
           return loadingDialog;
         } else {
-          return FutureBuilder<OverlayImage>(
-            future: city.getImage(),
+          return FutureBuilder<OverlayVegetationImage>(
+            future: city.getImage(
+              color: Theme.of(context).brightness == Brightness.light
+                  ? const Color.fromRGBO(0, 225, 0, 0.75)
+                  : const Color.fromRGBO(0, 125, 0, 0.75),
+            ),
             initialData: null,
             builder: (BuildContext context, AsyncSnapshot imageSnapshot) {
               if (imageSnapshot.data == null) {
@@ -126,7 +130,7 @@ class _StatPopupState extends State<StatPopup> {
 
                 final cityMap = CityMap(
                   city: city,
-                  overlayImage: imageSnapshot.data,
+                  overlayVegetationImage: imageSnapshot.data,
                 );
 
                 final widgets = [
