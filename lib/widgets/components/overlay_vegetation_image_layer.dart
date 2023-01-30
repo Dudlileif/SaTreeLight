@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/plugin_api.dart';
 
+/// Custom layer options for [FlutterMap], derived from [OverlayImageLayerOptions]
 class OverlayVegetationImageLayerOptions extends LayerOptions {
   final List<OverlayVegetationImage> overlayImages;
 
@@ -13,6 +14,7 @@ class OverlayVegetationImageLayerOptions extends LayerOptions {
   }) : super(key: key, rebuild: rebuild);
 }
 
+/// A class for bundling the image and its bounds.
 class OverlayVegetationImage {
   final LatLngBounds bounds;
   final Image image;
@@ -23,6 +25,7 @@ class OverlayVegetationImage {
   });
 }
 
+/// A custom layer widget for [FlutterMap], derived from [OverlayImageLayerWidget]
 class OverlayVegetationImageLayerWidget extends StatelessWidget {
   final OverlayVegetationImageLayerOptions options;
 
@@ -36,6 +39,7 @@ class OverlayVegetationImageLayerWidget extends StatelessWidget {
   }
 }
 
+/// A custom layer for [FlutterMap], derived from [OverlayImageLayer]
 class OverlayVegetationImageLayer extends StatelessWidget {
   final OverlayVegetationImageLayerOptions overlayImageOpts;
   final MapState map;

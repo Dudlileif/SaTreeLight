@@ -2,6 +2,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+/// A page that shows credits and attribution to the people, data and software
+/// used to create this program.
 class CreditsPage extends StatelessWidget {
   const CreditsPage({Key? key}) : super(key: key);
 
@@ -76,7 +78,7 @@ class CreditsPage extends StatelessWidget {
               text: TextSpan(
                 children: [
                   TextSpan(
-                      text: 'Map tiles and polygons, ',
+                      text: 'Base map tiles and city polygons, ',
                       style: Theme.of(context).textTheme.bodyText1),
                   TextSpan(
                       text: '© ', style: Theme.of(context).textTheme.bodyText1),

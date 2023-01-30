@@ -2,13 +2,23 @@ import 'dart:ui';
 
 import 'package:decorated_icon/decorated_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:satreelight/models/city.dart';
+import 'package:satreelight/providers/providers.dart';
 import 'package:satreelight/widgets/stat_popup.dart';
 
-class CityPin extends StatefulWidget {
+/// A widget width the city name pinned to the city location.
+class CityPin extends ConsumerStatefulWidget {
+  /// The city this pin attaches to.
   final City city;
+
+  /// The total number of cities.
   final int? numberOfCities;
+
+  /// The size of the widget.
   final double size;
+
+  /// The text style of the city name.
   final TextStyle? textStyle;
   const CityPin({
     Key? key,
@@ -19,22 +29,20 @@ class CityPin extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<CityPin> createState() => _CityPinState();
+  ConsumerState<CityPin> createState() => _CityPinState();
 }
 
-class _CityPinState extends State<CityPin> {
+class _CityPinState extends ConsumerState<CityPin> {
   bool hovering = false;
 
   showStatPopup() {
+    ref.read(selectedCityProvider.notifier).set(widget.city);
     showDialog(
       context: context,
       builder: (context) {
         return BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-          child: StatPopup(
-            city: widget.city,
-            numberOfCities: widget.numberOfCities,
-          ),
+          child: const StatPopup(),
         );
       },
     );

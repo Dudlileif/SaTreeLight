@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:satreelight/models/city.dart';
 
+/// A widget with all the separate ranks for the city, out of the number of cities.
 class HappinessRanks extends StatelessWidget {
+  /// The city to show ranks for.
   final City city;
+
+  /// The total number of cities.
   final int? numberOfCities;
   const HappinessRanks({Key? key, required this.city, this.numberOfCities})
       : super(key: key);
@@ -16,7 +20,7 @@ class HappinessRanks extends StatelessWidget {
           children: [
             Flexible(
               child: Text(
-                "Happiness Rank: ",
+                'Happiness Rank: ',
                 style: Theme.of(context)
                     .textTheme
                     .bodyMedium
@@ -24,7 +28,7 @@ class HappinessRanks extends StatelessWidget {
               ),
             ),
             Text(
-              "#${city.happinessRank}",
+              '#${city.happinessRank}',
               style: Theme.of(context)
                   .textTheme
                   .subtitle1
@@ -55,12 +59,12 @@ class HappinessRanks extends StatelessWidget {
             ),
             Flexible(
               child: Text(
-                "Emotional and Physical \nWell-being Rank ",
+                'Emotional and Physical \nWell-being Rank ',
                 style: Theme.of(context).textTheme.overline,
               ),
             ),
             Text(
-              "#${city.emoPhysRank}",
+              '#${city.emoPhysRank}',
               style: Theme.of(context)
                   .textTheme
                   .subtitle1
@@ -83,12 +87,12 @@ class HappinessRanks extends StatelessWidget {
             ),
             Flexible(
               child: Text(
-                "Income and Employment Rank ",
+                'Income and Employment Rank ',
                 style: Theme.of(context).textTheme.overline,
               ),
             ),
             Text(
-              "#${city.incomeEmpRank}",
+              '#${city.incomeEmpRank}',
               style: Theme.of(context)
                   .textTheme
                   .subtitle1
@@ -111,14 +115,14 @@ class HappinessRanks extends StatelessWidget {
             ),
             Flexible(
               child: Text(
-                "Community and Enviorment Rank ",
+                'Community and Enviorment Rank ',
                 style: Theme.of(context).textTheme.overline,
               ),
             ),
             Align(
               alignment: Alignment.centerRight,
               child: Text(
-                "#${city.communityEnvRank}",
+                '#${city.communityEnvRank}',
                 style: Theme.of(context)
                     .textTheme
                     .subtitle1

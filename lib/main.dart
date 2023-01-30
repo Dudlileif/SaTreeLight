@@ -1,26 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:satreelight/app/satreelight.dart';
-import 'package:satreelight/models/city.dart';
-import 'package:satreelight/notifiers/notifiers.dart';
-
-final themeModeProvider = ChangeNotifierProvider((ref) => ThemeModeNotifier());
-final colorSchemeProvider =
-    ChangeNotifierProvider((ref) => ColorSchemeNotifier());
-final mapInBackgroundProvider =
-    ChangeNotifierProvider((ref) => MapBackgroundNotifier());
-final mapZoomInProvider = ChangeNotifierProvider((ref) => MapZoomInNotifier());
-final mapZoomOutProvider =
-    ChangeNotifierProvider((ref) => MapZoomOutNotifier());
+import 'package:satreelight/widgets/loading_indicator.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const LoadingIndicator());
 
-  final cities = await loadCities();
+  WidgetsFlutterBinding.ensureInitialized();
 
   runApp(
     ProviderScope(
-      child: SaTreeLight(cities: cities),
+      child: SaTreeLight(),
     ),
   );
 }

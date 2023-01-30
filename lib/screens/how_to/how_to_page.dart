@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:satreelight/models/city.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:satreelight/providers/providers.dart';
 import 'package:satreelight/screens/leaflet_map/components/city_pin.dart';
 
-class HowToPage extends StatelessWidget {
-  final City city;
-  final int? numberOfCities;
-  const HowToPage({required this.city, this.numberOfCities, Key? key})
-      : super(key: key);
+/// A page that shows the user how to use the map.
+class HowToPage extends ConsumerWidget {
+  const HowToPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cities = ref.watch(citiesProvider).when(
+          data: (data) => data,
+          error: (error, stackTrace) => [],
+          loading: () => [],
+        );
+    final city = cities.firstWhere((element) => element.name == 'Los Angeles');
     return Scaffold(
       appBar: AppBar(
         title: const Text('How it works'),
@@ -25,7 +30,7 @@ class HowToPage extends StatelessWidget {
             const SizedBox(height: 100),
             CityPin(
               city: city,
-              numberOfCities: numberOfCities,
+              numberOfCities: cities.length,
               size: 60,
               textStyle: Theme.of(context).primaryTextTheme.bodyText1,
             ),

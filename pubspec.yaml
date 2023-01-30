@@ -18,7 +18,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-    sdk: ">=2.17.0 <3.0.0"
+  sdk: ">=2.17.0 <3.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -27,66 +27,81 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-    decorated_icon: ^1.2.1
-    flex_color_scheme: ^5.0.1
-    flutter:
-        sdk: flutter
-    flutter_map:
-        git:
-            url: https://github.com/fleaflet/flutter_map.git
-            ref: master
-    flutter_map_marker_cluster:
-        git:
-            url: https://github.com/rorystephenson/flutter_map_marker_cluster.git
-            ref: 8bdc6c428acd50453b258633820560104245457e
-    flutter_riverpod: ^1.0.4
-    flutter_staggered_grid_view: ^0.6.1
-    google_fonts: ^3.0.1
-    latlong2: ^0.8.1
-    percent_indicator: ^4.0.0
-    rename: ^2.0.1
-    themed: ^3.0.2
-    url_launcher: ^6.1.2
+  decorated_icon: ^1.2.1
+  flex_color_scheme: ^5.1.0
+  flutter:
+    sdk: flutter
+  flutter_hooks: ^0.18.5+1
+  flutter_map: ^2.2.0
+  flutter_map_marker_cluster:
+    git:
+      url: https://github.com/lpongetti/flutter_map_marker_cluster.git
+      ref: fef56aa5a1b40be43dc14b3ba0fc87cbed4bd14f
+  flutter_riverpod: ^2.0.0-dev.9
+  flutter_staggered_grid_view: ^0.6.2
+  google_fonts: ^3.0.1
+  graphic: ^0.10.6
+  hooks_riverpod: ^2.0.0-dev.9
+  intl: ^0.17.0
+  latlong2: ^0.8.1
+  percent_indicator: ^4.2.2
+  rename: ^2.0.1
+  themed: ^3.0.2
+  url_launcher: ^6.1.5
 
 dev_dependencies:
-    flutter_lints: ^2.0.1
-    flutter_test:
-        sdk: flutter
+  flutter_lints: ^2.0.1
+  flutter_test:
+    sdk: flutter
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter.
 flutter:
-    # The following line ensures that the Material Icons font is
-    # included with your application, so that you can use the icons in
-    # the material Icons class.
-    uses-material-design: true
-    # To add assets to your application, add an assets section, like this:
-    assets:
-        - assets/
-        - assets/american_cities/
-        - assets/graphics/
-        - assets/images_hl_veg_only/
-    # An image asset can refer to one or more resolution-specific "variants", see
-    # https://flutter.dev/assets-and-images/#resolution-aware.
-    # For details regarding adding assets from package dependencies, see
-    # https://flutter.dev/assets-and-images/#from-packages
-    # To add custom fonts to your application, add a fonts section here,
-    # in this "flutter" section. Each entry in this list should have a
-    # "family" key with the font family name, and a "fonts" key with a
-    # list giving the asset and other descriptors for the font. For
-    # example:
-    # fonts:
-    #   - family: Schyler
-    #     fonts:
-    #       - asset: fonts/Schyler-Regular.ttf
-    #       - asset: fonts/Schyler-Italic.ttf
-    #         style: italic
-    #   - family: Trajan Pro
-    #     fonts:
-    #       - asset: fonts/TrajanPro.ttf
-    #       - asset: fonts/TrajanPro_Bold.ttf
-    #         weight: 700
-    #
-    # For details regarding fonts from package dependencies,
-    # see https://flutter.dev/custom-fonts/#from-packages
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/
+    - assets/american_cities/
+    - assets/graphics/
+    - assets/images_hl_veg_only/
+    - assets/new/
+    - assets/new/masks/
+    - assets/new/masks/cloud_high_probability/
+    - assets/new/masks/cloud_medium_probability/
+    - assets/new/masks/cloud_shadows/
+    - assets/new/masks/dark_area_pixels/
+    - assets/new/masks/not_vegetated/
+    - assets/new/masks/saturated_or_defective/
+    - assets/new/masks/snow/
+    - assets/new/masks/thin_cirrus/
+    - assets/new/masks/unclassified/
+    - assets/new/masks/vegetation/
+    - assets/new/masks/water/
+    - assets/new/polygons/
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/assets-and-images/#resolution-aware.
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/assets-and-images/#from-packages
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font. For
+  # example:
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/custom-fonts/#from-packages

@@ -3,16 +3,16 @@ import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:satreelight/main.dart';
 import 'package:satreelight/models/city.dart';
+import 'package:satreelight/providers/providers.dart';
 import 'package:satreelight/screens/leaflet_map/components/city_pin.dart';
 import 'package:satreelight/screens/leaflet_map/components/city_pin_cluster.dart';
 import 'package:satreelight/screens/leaflet_map/components/osm_contribution.dart';
 import 'package:satreelight/screens/leaflet_map/components/themed_tiles_container.dart';
 
+/// The map used behind the main menu. The map can be brought out of the background.
 class LeafletMap extends ConsumerStatefulWidget {
-  final List<City> cities;
-  const LeafletMap({required this.cities, Key? key}) : super(key: key);
+  const LeafletMap({Key? key}) : super(key: key);
 
   @override
   ConsumerState<LeafletMap> createState() => _LeafletMapState();
@@ -20,6 +20,7 @@ class LeafletMap extends ConsumerStatefulWidget {
 
 class _LeafletMapState extends ConsumerState<LeafletMap>
     with TickerProviderStateMixin {
+  List<City> cities = [];
   bool mapReady = false;
   bool inBackground = true;
   double initZoom = 3;
@@ -62,16 +63,16 @@ class _LeafletMapState extends ConsumerState<LeafletMap>
   }
 
   void setMarkers() {
-    markers = List.generate(widget.cities.length, (index) {
+    markers = List.generate(cities.length, (index) {
       return Marker(
-        point: widget.cities[index].center,
+        point: cities[index].center,
         anchorPos: AnchorPos.align(AnchorAlign.center),
         height: 110,
         width: 110,
         builder: (context) => CityPin(
-          city: widget.cities[index],
+          city: cities[index],
           size: 40,
-          numberOfCities: widget.cities.length,
+          numberOfCities: cities.length,
         ),
       );
     });
@@ -92,7 +93,6 @@ class _LeafletMapState extends ConsumerState<LeafletMap>
   @override
   void initState() {
     super.initState();
-    setMarkers();
     initZoomAnim();
   }
 
@@ -104,7 +104,16 @@ class _LeafletMapState extends ConsumerState<LeafletMap>
 
   @override
   Widget build(BuildContext context) {
-    inBackground = ref.watch(mapInBackgroundProvider).mapInBackground;
+    ref.watch(citiesProvider).when(
+          data: (data) {
+            cities = data;
+            setMarkers();
+          },
+          error: (error, stackTrace) => null,
+          loading: () => null,
+        );
+
+    inBackground = ref.watch(mapInBackgroundProvider);
     ref.listen(mapZoomInProvider, (old, _) {
       toForeground();
     });

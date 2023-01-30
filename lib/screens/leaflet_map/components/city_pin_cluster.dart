@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+/// A cluster icon to show when pins are too close to each other.
 class CityPinCluster extends StatefulWidget {
+  /// Number of items in this cluster.
   final int count;
   const CityPinCluster({Key? key, required this.count}) : super(key: key);
 

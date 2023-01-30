@@ -1,79 +1,71 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:satreelight/constants/size_breakpoints.dart';
 import 'package:satreelight/models/city.dart';
+import 'package:satreelight/models/coverage_type.dart';
+import 'package:satreelight/providers/providers.dart';
 import 'package:satreelight/widgets/components/city_map.dart';
 import 'package:satreelight/widgets/components/happiness_indicator.dart';
 import 'package:satreelight/widgets/components/happiness_ranks.dart';
-import 'package:satreelight/widgets/components/overlay_vegetation_image_layer.dart';
+import 'package:satreelight/widgets/components/mask_selector.dart';
 import 'package:satreelight/widgets/components/vegetation_gauge.dart';
+import 'package:satreelight/widgets/loading_indicator.dart';
 
-class StatPopup extends StatefulWidget {
-  final List<City> cities;
-  final City city;
-  final int? numberOfCities;
-
+/// A large dialog that shows details for the selected city. This includes a map
+/// with masks, ranks and coverage details.
+class StatPopup extends ConsumerStatefulWidget {
   const StatPopup({
-    required this.city,
-    this.cities = const [],
-    this.numberOfCities,
     Key? key,
   }) : super(key: key);
 
   @override
-  State<StatPopup> createState() => _StatPopupState();
+  ConsumerState<StatPopup> createState() => _StatPopupState();
 }
 
-class _StatPopupState extends State<StatPopup> {
+class _StatPopupState extends ConsumerState<StatPopup> {
   bool mapHover = false;
-  late City city;
-  late int cityIndex;
-  bool loading = false;
+  List<City> cities = [];
+  City? city;
+  int cityIndex = 0;
 
-  @override
-  void initState() {
-    super.initState();
-    city = widget.city;
-    cityIndex = widget.cities.indexOf(city);
-  }
+  bool useNewData = true;
+
+  List<CoverageType> masksToShow = CoverageType.values;
 
   @override
   Widget build(BuildContext context) {
+    cities = ref.watch(sortedCitiesProvider);
+
+    city = ref.watch(selectedCityProvider);
+
+    cityIndex = city != null ? cities.indexOf(city!) : 0;
+
     Color cardColor = Theme.of(context).dividerColor;
     var screenSize = MediaQuery.of(context).size;
 
-    final loadingDialog = Dialog(
-      insetPadding: EdgeInsets.symmetric(
-        vertical: screenSize.width < mediumWidthBreakpoint
-            ? screenSize.height * 0.03
-            : screenSize.height * 0.1,
-        horizontal: screenSize.width * 0.1,
-      ),
-      child: const Center(
-        child: CircularProgressIndicator.adaptive(),
-      ),
-    );
+    final enabledMasks = ref.watch(maskSelectionProvider).masks;
 
-    return FutureBuilder<City>(
-      future: city.loadWithData(),
-      initialData: city,
-      builder: (BuildContext context, AsyncSnapshot<City> snapshot) {
-        city = snapshot.data ?? city;
+    if (enabledMasks.contains(false)) {
+      masksToShow = [];
+      for (int i = 0; i < enabledMasks.length; i++) {
+        if (enabledMasks[i]) {
+          masksToShow.add(CoverageType.values[i]);
+        }
+      }
+    } else {
+      masksToShow = CoverageType.values;
+    }
 
-        if (!city.loaded) {
-          return loadingDialog;
-        } else {
-          return FutureBuilder<OverlayVegetationImage>(
-            future: city.getImage(
-              color: Theme.of(context).brightness == Brightness.light
-                  ? const Color.fromRGBO(0, 225, 0, 0.75)
-                  : const Color.fromRGBO(0, 125, 0, 0.75),
-            ),
-            initialData: null,
-            builder: (BuildContext context, AsyncSnapshot imageSnapshot) {
-              if (imageSnapshot.data == null) {
-                return loadingDialog;
+    return ref.watch(loadCityDataProvider).when(
+          loading: () => const LoadingIndicator(),
+          error: (error, stackTrace) => ErrorWidget.withDetails(
+            message: error.toString(),
+          ),
+          data: (loadedCity) {
+            city = loadedCity ?? city;
+            if (city != null) {
+              if (!city!.loaded) {
+                return const LoadingIndicator();
               } else {
                 final dataWidgets = <Widget>[
                   Card(
@@ -86,8 +78,22 @@ class _StatPopupState extends State<StatPopup> {
                           : screenSize.width * 0.15,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: VegetationGauge(
-                          city: city,
+                        child: Column(
+                          children: [
+                            Text(
+                              'Area coverage',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(fontWeight: FontWeight.bold),
+                            ),
+                            Expanded(
+                              child: VegetationGauge(
+                                city: city!,
+                                keys: masksToShow,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -105,10 +111,8 @@ class _StatPopupState extends State<StatPopup> {
                       child: Padding(
                         padding: const EdgeInsets.all(8),
                         child: HappinessRanks(
-                          city: city,
-                          numberOfCities: widget.cities.isNotEmpty
-                              ? widget.cities.length
-                              : widget.numberOfCities,
+                          city: city!,
+                          numberOfCities: cities.isNotEmpty ? cities.length : 0,
                         ),
                       ),
                     ),
@@ -123,15 +127,10 @@ class _StatPopupState extends State<StatPopup> {
                           : screenSize.width < mediumWidthBreakpoint
                               ? screenSize.width * 0.25
                               : screenSize.width * 0.15,
-                      child: HappinessIndicator(city: city),
+                      child: HappinessIndicator(city: city!),
                     ),
                   ),
                 ];
-
-                final cityMap = CityMap(
-                  city: city,
-                  overlayVegetationImage: imageSnapshot.data,
-                );
 
                 final widgets = [
                   Card(
@@ -161,7 +160,7 @@ class _StatPopupState extends State<StatPopup> {
                             });
                           }
                         },
-                        child: cityMap,
+                        child: const CityMap(),
                       ),
                     ),
                   ),
@@ -230,11 +229,11 @@ class _StatPopupState extends State<StatPopup> {
                               padding: const EdgeInsets.all(8.0),
                               child: RichText(
                                 text: TextSpan(
-                                  text: '${city.name}\n',
+                                  text: '${city?.name}\n',
                                   style: Theme.of(context).textTheme.headline4,
                                   children: [
                                     TextSpan(
-                                      text: city.stateLong,
+                                      text: city?.stateLong,
                                       style:
                                           Theme.of(context).textTheme.headline5,
                                     ),
@@ -242,57 +241,62 @@ class _StatPopupState extends State<StatPopup> {
                                 ),
                               ),
                             ),
+                            ElevatedButton(
+                                onPressed: () => showDialog(
+                                    context: context,
+                                    builder: (context) => const MaskSelector()),
+                                child: const Text('Masks')),
+                            /* ElevatedButton(
+                              child: Text(
+                                  ref.watch(imagesInsteadOfMasksProvider)
+                                      ? 'Showing images'
+                                      : 'Showing masks'),
+                              onPressed: () => ref
+                                  .read(imagesInsteadOfMasksProvider.notifier)
+                                  .update((state) =>
+                                      !ref.watch(imagesInsteadOfMasksProvider)),
+                            ), */
                             Row(
                               children: [
-                                if (cityIndex > 0 && widget.cities.isNotEmpty)
+                                Text(
+                                  'Relative',
+                                  style: Theme.of(context).textTheme.subtitle1,
+                                ),
+                                Checkbox(
+                                  splashRadius: Material.defaultSplashRadius,
+                                  value: ref.watch(relativeProvider),
+                                  onChanged: (value) => value != null
+                                      ? ref
+                                          .read(relativeProvider.notifier)
+                                          .update((state) => value)
+                                      : null,
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                if (cityIndex > 0 &&
+                                    ref.watch(showArrowsOnPopupProvider))
                                   IconButton(
                                     onPressed: () {
-                                      if (!loading) {
-                                        loading = true;
-                                        cityIndex--;
-                                        city = widget.cities[cityIndex];
+                                      cityIndex--;
+                                      final newCity = cities[cityIndex];
 
-                                        Navigator.of(context).pop();
-                                        showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return BackdropFilter(
-                                              filter: ImageFilter.blur(
-                                                  sigmaX: 3, sigmaY: 3),
-                                              child: StatPopup(
-                                                city: city,
-                                                cities: widget.cities,
-                                              ),
-                                            );
-                                          },
-                                        );
-                                      }
+                                      ref
+                                          .read(selectedCityProvider.notifier)
+                                          .set(newCity);
                                     },
                                     icon: const Icon(Icons.keyboard_arrow_left),
                                   ),
-                                if (cityIndex < widget.cities.length - 1 &&
-                                    widget.cities.isNotEmpty)
+                                if (cityIndex < cities.length - 1 &&
+                                    ref.watch(showArrowsOnPopupProvider))
                                   IconButton(
                                     onPressed: () {
-                                      if (!loading) {
-                                        loading = true;
-                                        cityIndex++;
-                                        city = widget.cities[cityIndex];
-                                        Navigator.of(context).pop();
-                                        showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return BackdropFilter(
-                                              filter: ImageFilter.blur(
-                                                  sigmaX: 3, sigmaY: 3),
-                                              child: StatPopup(
-                                                city: city,
-                                                cities: widget.cities,
-                                              ),
-                                            );
-                                          },
-                                        );
-                                      }
+                                      cityIndex++;
+                                      final newCity = cities[cityIndex];
+                                      ref
+                                          .read(selectedCityProvider.notifier)
+                                          .set(newCity);
                                     },
                                     icon:
                                         const Icon(Icons.keyboard_arrow_right),
@@ -311,10 +315,10 @@ class _StatPopupState extends State<StatPopup> {
                   ),
                 );
               }
-            },
-          );
-        }
-      },
-    );
+            } else {
+              return const LoadingIndicator();
+            }
+          },
+        );
   }
 }

@@ -1,50 +1,36 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:satreelight/constants/size_breakpoints.dart';
-import 'package:satreelight/models/city.dart';
+import 'package:satreelight/models/sorting.dart';
+import 'package:satreelight/providers/providers.dart';
 import 'package:satreelight/widgets/stat_popup.dart';
 
-class ListPage extends StatefulWidget {
-  final List<City> cities;
-  const ListPage({Key? key, required this.cities}) : super(key: key);
+/// A page that shows the cities in a sorted list/grid.
+class ListPage extends ConsumerStatefulWidget {
+  const ListPage({
+    Key? key,
+  }) : super(key: key);
 
   @override
-  State<ListPage> createState() => _ListPageState();
+  ConsumerState<ListPage> createState() => _ListPageState();
 }
 
-class _ListPageState extends State<ListPage> {
-  List<City> _cities = [];
-  List<String> sortings = ['Vegetation', 'Happiness', 'Alphabetically'];
-  String sortedBy = 'Alphabetically';
-  String searchString = '';
-  final searchController = TextEditingController();
+class _ListPageState extends ConsumerState<ListPage> {
+  String initSearchString = '';
+  late TextEditingController textController;
 
   void sortByVeg() {
-    setState(() {
-      sortedBy = 'Vegetation';
-      _cities.sort(
-        (a, b) => b.vegFrac.compareTo(a.vegFrac),
-      );
-    });
+    ref.read(sortingProvider.notifier).set(Sorting.vegetation);
   }
 
   void sortAlphabetically() {
-    setState(() {
-      sortedBy = 'Alphabetically';
-      _cities.sort(
-        (a, b) => a.name.compareTo(b.name),
-      );
-    });
+    ref.read(sortingProvider.notifier).set(Sorting.alphabetically);
   }
 
   void sortByHappiness() {
-    setState(() {
-      sortedBy = 'Happiness';
-      _cities.sort(
-        (a, b) => b.happyScore.compareTo(a.happyScore),
-      );
-    });
+    ref.read(sortingProvider.notifier).set(Sorting.happiness);
   }
 
   void sort(int index) {
@@ -56,41 +42,29 @@ class _ListPageState extends State<ListPage> {
   }
 
   void reverse() {
-    setState(() {
-      _cities = _cities.reversed.toList();
-    });
+    ref.read(reverseSortingProvider.notifier).reverse();
   }
 
   @override
   void initState() {
     super.initState();
-    _cities.addAll(widget.cities);
-    sortAlphabetically();
+    initSearchString = ref.read(searchStringProvider);
+    textController = TextEditingController(text: initSearchString);
   }
 
   @override
   Widget build(BuildContext context) {
-    final citiesToList = searchString == ''
-        ? _cities
-        : _cities
-            .where(
-              (city) =>
-                  city.nameAndState.toLowerCase().contains(
-                        searchString.toLowerCase(),
-                      ) ||
-                  city.stateLong.toLowerCase().contains(
-                        searchString.toLowerCase(),
-                      ),
-            )
-            .toList();
+    final cities = ref.watch(sortedCitiesProvider);
+    final sortedBy = ref.watch(sortingProvider);
+    final searchString = ref.watch(searchStringProvider);
 
     final textSearch = TextField(
       onChanged: (value) => setState(
         () {
-          searchString = value;
+          ref.read(searchStringProvider.notifier).set(value);
         },
       ),
-      controller: searchController,
+      controller: textController,
       maxLines: 1,
       maxLength: 27,
       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
@@ -122,10 +96,8 @@ class _ListPageState extends State<ListPage> {
         suffixIcon: searchString != ''
             ? IconButton(
                 onPressed: () {
-                  searchController.clear();
-                  setState(() {
-                    searchString = '';
-                  });
+                  textController.clear();
+                  ref.read(searchStringProvider.notifier).clear();
                 },
                 icon: const Icon(
                   Icons.close,
@@ -145,6 +117,10 @@ class _ListPageState extends State<ListPage> {
         title: const Text(
           'Cities',
         ),
+        leading: BackButton(onPressed: () {
+          ref.read(showArrowsOnPopupProvider.notifier).set(false);
+          Navigator.of(context).pop();
+        }),
         actions: [
           Padding(
             padding: const EdgeInsets.all(8),
@@ -173,10 +149,8 @@ class _ListPageState extends State<ListPage> {
                       if (searchString != '')
                         IconButton(
                             onPressed: () {
-                              searchController.clear();
-                              setState(() {
-                                searchString = '';
-                              });
+                              textController.clear();
+                              ref.read(searchStringProvider.notifier).clear();
                             },
                             icon: const Icon(Icons.search_off))
                     ],
@@ -216,8 +190,8 @@ class _ListPageState extends State<ListPage> {
                       : null,
               onPressed: (index) => sort(index),
               isSelected: List.generate(
-                sortings.length,
-                (index) => sortedBy == sortings[index],
+                Sorting.values.length,
+                (index) => ref.watch(sortingProvider) == Sorting.values[index],
               ),
               children: const [
                 Tooltip(
@@ -248,27 +222,25 @@ class _ListPageState extends State<ListPage> {
       ),
       body: GridView.builder(
         padding: const EdgeInsets.all(8),
-        itemCount: citiesToList.length,
+        itemCount: cities.length,
         itemBuilder: (context, index) {
-          final city = citiesToList[index];
-          final sortByText = sortedBy == 'Vegetation'
+          final city = cities[index];
+          final sortByText = sortedBy == Sorting.vegetation
               ? '\nVegetation: ${(100 * city.vegFrac).toStringAsPrecision(3)}%'
-              : sortedBy == 'Happiness'
-                  ? '\nHappiness score: ${city.happyScore}'
+              : sortedBy == Sorting.happiness
+                  ? '\nHappiness score: ${city.happinessScore}'
                   : '';
           final buttonText = city.nameAndState + sortByText;
           return ElevatedButton(
             key: UniqueKey(),
             onPressed: () {
+              ref.read(selectedCityProvider.notifier).set(city);
               showDialog(
                 context: context,
                 builder: (context) {
                   return BackdropFilter(
                     filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-                    child: StatPopup(
-                      city: city,
-                      cities: _cities,
-                    ),
+                    child: const StatPopup(),
                   );
                 },
               );
