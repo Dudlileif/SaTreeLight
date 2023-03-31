@@ -7,7 +7,7 @@ import 'package:satreelight/screens/splash/spalsh_page.dart';
 
 /// The main app of the program. It is essentially a themed [MaterialApp].
 class SaTreeLight extends ConsumerWidget {
-  SaTreeLight({Key? key}) : super(key: key);
+  SaTreeLight({super.key});
   final fontFamily = GoogleFonts.notoSansMono().fontFamily;
 
   // Helpful website for theming
@@ -17,20 +17,20 @@ class SaTreeLight extends ConsumerWidget {
   ThemeData _lightTheme(FlexScheme scheme) {
     return FlexThemeData.light(
       scheme: scheme,
-      surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
-      blendLevel: 18,
-      appBarStyle: FlexAppBarStyle.primary,
-      appBarOpacity: 0.95,
-      appBarElevation: 0,
-      transparentStatusBar: true,
-      tabBarStyle: FlexTabBarStyle.forAppBar,
-      tooltipsMatchBackground: true,
-      swapColors: false,
-      lightIsWhite: false,
-      useMaterial3: true,
-      visualDensity: FlexColorScheme.comfortablePlatformDensity,
+      blendLevel: 9,
+      appBarOpacity: 0.90,
       fontFamily: fontFamily,
-      subThemesData: const FlexSubThemesData(),
+      tabBarStyle: FlexTabBarStyle.forBackground,
+      tooltipsMatchBackground: true,
+      visualDensity: FlexColorScheme.comfortablePlatformDensity,
+      useMaterial3: true,
+      useMaterial3ErrorColors: true,
+      subThemesData: const FlexSubThemesData(
+        blendOnLevel: 10,
+        blendOnColors: false,
+        navigationBarHeight: 80,
+      ),
+      swapLegacyOnMaterial3: true,
     );
   }
 
@@ -38,20 +38,19 @@ class SaTreeLight extends ConsumerWidget {
   ThemeData _darkTheme(FlexScheme scheme) {
     return FlexThemeData.dark(
       scheme: scheme,
-      surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
-      blendLevel: 18,
-      appBarStyle: FlexAppBarStyle.background,
-      appBarOpacity: 0.95,
-      appBarElevation: 0,
-      transparentStatusBar: true,
-      tabBarStyle: FlexTabBarStyle.forAppBar,
-      tooltipsMatchBackground: true,
-      swapColors: false,
-      darkIsTrueBlack: false,
-      useMaterial3: true,
-      visualDensity: FlexColorScheme.comfortablePlatformDensity,
+      blendLevel: 15,
+      appBarOpacity: 0.90,
       fontFamily: fontFamily,
-      subThemesData: const FlexSubThemesData(),
+      tabBarStyle: FlexTabBarStyle.forBackground,
+      tooltipsMatchBackground: true,
+      visualDensity: FlexColorScheme.comfortablePlatformDensity,
+      useMaterial3: true,
+      useMaterial3ErrorColors: true,
+      subThemesData: const FlexSubThemesData(
+        blendOnLevel: 20,
+        navigationBarHeight: 80,
+      ),
+      swapLegacyOnMaterial3: true,
     );
   }
 
