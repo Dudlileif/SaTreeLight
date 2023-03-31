@@ -7,16 +7,13 @@ import 'package:satreelight/providers/providers.dart';
 import 'package:satreelight/widgets/components/city_map.dart';
 import 'package:satreelight/widgets/components/happiness_indicator.dart';
 import 'package:satreelight/widgets/components/happiness_ranks.dart';
-import 'package:satreelight/widgets/components/mask_selector.dart';
 import 'package:satreelight/widgets/components/vegetation_gauge.dart';
 import 'package:satreelight/widgets/loading_indicator.dart';
 
 /// A large dialog that shows details for the selected city. This includes a map
 /// with masks, ranks and coverage details.
 class StatPopup extends ConsumerStatefulWidget {
-  const StatPopup({
-    Key? key,
-  }) : super(key: key);
+  const StatPopup({super.key});
 
   @override
   ConsumerState<StatPopup> createState() => _StatPopupState();
@@ -28,9 +25,12 @@ class _StatPopupState extends ConsumerState<StatPopup> {
   City? city;
   int cityIndex = 0;
 
+  City? prevCity;
+
   bool useNewData = true;
 
   List<CoverageType> masksToShow = CoverageType.values;
+  List<CoverageType> prevMasksToShow = CoverageType.values;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,8 @@ class _StatPopupState extends ConsumerState<StatPopup> {
     Color cardColor = Theme.of(context).dividerColor;
     var screenSize = MediaQuery.of(context).size;
 
-    final enabledMasks = ref.watch(maskSelectionProvider).masks;
+    final List<bool> enabledMasks = ref.watch(maskSelectionProvider).masks;
+    prevMasksToShow = [...masksToShow];
 
     if (enabledMasks.contains(false)) {
       masksToShow = [];
@@ -89,8 +90,11 @@ class _StatPopupState extends ConsumerState<StatPopup> {
                             ),
                             Expanded(
                               child: VegetationGauge(
+                                key: UniqueKey(),
                                 city: city!,
+                                prevCity: prevCity,
                                 keys: masksToShow,
+                                prevKeys: prevMasksToShow,
                               ),
                             ),
                           ],
@@ -112,6 +116,7 @@ class _StatPopupState extends ConsumerState<StatPopup> {
                         padding: const EdgeInsets.all(8),
                         child: HappinessRanks(
                           city: city!,
+                          prevCity: prevCity,
                           numberOfCities: cities.isNotEmpty ? cities.length : 0,
                         ),
                       ),
@@ -127,7 +132,10 @@ class _StatPopupState extends ConsumerState<StatPopup> {
                           : screenSize.width < mediumWidthBreakpoint
                               ? screenSize.width * 0.25
                               : screenSize.width * 0.15,
-                      child: HappinessIndicator(city: city!),
+                      child: HappinessIndicator(
+                        city: city!,
+                        initValue: prevCity?.happinessScore,
+                      ),
                     ),
                   ),
                 ];
@@ -230,37 +238,26 @@ class _StatPopupState extends ConsumerState<StatPopup> {
                               child: RichText(
                                 text: TextSpan(
                                   text: '${city?.name}\n',
-                                  style: Theme.of(context).textTheme.headline4,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineMedium,
                                   children: [
                                     TextSpan(
                                       text: city?.stateLong,
-                                      style:
-                                          Theme.of(context).textTheme.headline5,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineSmall,
                                     ),
                                   ],
                                 ),
                               ),
                             ),
-                            ElevatedButton(
-                                onPressed: () => showDialog(
-                                    context: context,
-                                    builder: (context) => const MaskSelector()),
-                                child: const Text('Masks')),
-                            /* ElevatedButton(
-                              child: Text(
-                                  ref.watch(imagesInsteadOfMasksProvider)
-                                      ? 'Showing images'
-                                      : 'Showing masks'),
-                              onPressed: () => ref
-                                  .read(imagesInsteadOfMasksProvider.notifier)
-                                  .update((state) =>
-                                      !ref.watch(imagesInsteadOfMasksProvider)),
-                            ), */
                             Row(
                               children: [
                                 Text(
                                   'Relative',
-                                  style: Theme.of(context).textTheme.subtitle1,
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium,
                                 ),
                                 Checkbox(
                                   splashRadius: Material.defaultSplashRadius,
@@ -280,6 +277,7 @@ class _StatPopupState extends ConsumerState<StatPopup> {
                                   IconButton(
                                     onPressed: () {
                                       cityIndex--;
+                                      prevCity = city;
                                       final newCity = cities[cityIndex];
 
                                       ref
@@ -293,6 +291,7 @@ class _StatPopupState extends ConsumerState<StatPopup> {
                                   IconButton(
                                     onPressed: () {
                                       cityIndex++;
+                                      prevCity = city;
                                       final newCity = cities[cityIndex];
                                       ref
                                           .read(selectedCityProvider.notifier)

@@ -6,7 +6,6 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:satreelight/constants/us_states_map.dart';
 import 'package:satreelight/models/coverage_type.dart';
-import 'package:satreelight/widgets/components/overlay_vegetation_image_layer.dart';
 
 /// A class containing all necessary data for each city.
 class City {
@@ -31,6 +30,9 @@ class City {
   /// Geographic center of the city.
   final LatLng center;
 
+  /// The bounds of the city.
+  final LatLngBounds bounds;
+
   /// Rank in the happiness category, set late.
   int? happinessRank;
 
@@ -49,18 +51,6 @@ class City {
   /// Mapped coverage percentage for each mask layer.
   Map<CoverageType, double> coveragePercent = {};
 
-  /// Bounds from the new polygons.
-  late LatLngBounds boundsNew;
-
-  /// Combination of all [polygonsPointsNew], used to find [boundsNew].
-  List<LatLng> combinedPolygonPointsNew = [];
-
-  /// Polygons the city is made of, new data.
-  List<List<LatLng>> polygonsPointsNew = [];
-
-  /// Polygon holes in the city, new data.
-  Map<int, List<List<LatLng>>> polygonHolesPointsNew = {};
-
   City({
     required this.nameAndState,
     required this.vegFrac,
@@ -69,6 +59,7 @@ class City {
     required this.incomeEmpRank,
     required this.communityEnvRank,
     required this.center,
+    required this.bounds,
     Map<String, dynamic> coveragePercentMap = const {},
   }) {
     coveragePercent = coveragePercentMap.map((key, value) =>
@@ -109,50 +100,38 @@ class City {
     return LatLngBounds.fromPoints(combinedPolygonPoints).southWest;
   }
 
-  /// Gets the polygons made from [polygonsPoints] with [polygonHolesPoints] as holes.
-  List<Polygon> get polygons {
+  /// Creates polygons from [polygonsPoints] with [polygonHolesPoints] as holes.
+  ///
+  /// Enabling [isDotted] will severely hamper performance at high zoom levels.
+  List<Polygon> polygons({
+    Color? borderColor,
+    Color? fillColor,
+    bool? isFilled,
+    bool? isDotted,
+    double? borderStrokeWidth,
+  }) {
     return List<Polygon>.generate(
       polygonsPoints.length,
       (index) => Polygon(
         points: polygonsPoints[index],
         holePointsList: polygonHolesPoints[index] ?? [],
-        color: Colors.grey.withAlpha(100),
-        isFilled: true,
-        borderColor: Colors.black,
-        borderStrokeWidth: 1,
-        isDotted: true,
+        color: fillColor ?? Colors.grey.withAlpha(100),
+        isFilled: isFilled ?? true,
+        borderColor: borderColor ?? Colors.black,
+        borderStrokeWidth: borderStrokeWidth ?? 1,
+        isDotted: isDotted ?? false,
       ),
     );
-  }
-
-  /// Gets the polygons made from [polygonsPointsNew] with [polygonHolesPointsNew] as holes.
-  List<Polygon> get polygonsNew {
-    return List<Polygon>.generate(
-      polygonsPointsNew.length,
-      (index) => Polygon(
-        points: polygonsPointsNew[index],
-        holePointsList: polygonHolesPointsNew[index] ?? [],
-        color: Colors.grey.withAlpha(100),
-        isFilled: true,
-        borderColor: Colors.black,
-        borderStrokeWidth: 1,
-        isDotted: true,
-      ),
-    );
-  }
-
-  /// Gets the bounds of the city.
-  LatLngBounds get bounds {
-    return LatLngBounds.fromPoints(combinedPolygonPoints);
   }
 
   /// Gets the coverage percent for the selected [type] compared to the [others]
-  double coverage(
-      {CoverageType type = CoverageType.vegetation,
-      List<CoverageType> others = const [
-        CoverageType.notVegetated,
-        CoverageType.water
-      ]}) {
+  double coverage({
+    CoverageType type = CoverageType.vegetation,
+    List<CoverageType> others = const [
+      CoverageType.notVegetated,
+      CoverageType.water
+    ],
+  }) {
     double total = coveragePercent[type]!;
     for (final other in others) {
       total += coveragePercent[other]!;
@@ -161,69 +140,15 @@ class City {
   }
 
   /// Gets the [CenterZoom] for the city with the given [MapController].
-  CenterZoom centerZoom(MapController mapController,
-      {FitBoundsOptions options =
-          const FitBoundsOptions(padding: EdgeInsets.all(20))}) {
-    return mapController.centerZoomFitBounds(bounds, options: options);
-  }
-
-  /// Gets the [OverlayVegetationImage] of the city.
-  Future<OverlayVegetationImage> getImage({
-    /// Whether to use the new data
-    bool newData = false,
-
-    /// Which mask to get, only used with new data.
-    CoverageType mask = CoverageType.vegetation,
-
-    /// Color to override the mask with.
-    Color? color,
-  }) async {
-    String path = 'assets/images_hl_veg_only/$nameAndState hl_veg_only.png';
-    if (newData) {
-      path = 'assets/new/masks/${mask.string}/$name, $stateLong.png';
-    }
-    final manifest = await rootBundle.loadString('AssetManifest.json');
-    Map<String, dynamic> assetMap = jsonDecode(manifest);
-    if (!assetMap.containsKey(path.replaceAll(' ', '%20'))) {
-      path = 'assets/transparent.png';
-    }
-    final imageBounds = newData ? boundsNew : bounds;
-    return OverlayVegetationImage(
-      bounds: imageBounds,
-      image: Image.asset(
-        path,
-        color: color,
-        fit: BoxFit.fill,
-      ),
+  CenterZoom centerZoom(
+    MapController mapController, {
+    FitBoundsOptions options =
+        const FitBoundsOptions(padding: EdgeInsets.all(20)),
+  }) {
+    return mapController.centerZoomFitBounds(
+      bounds,
+      options: options,
     );
-  }
-
-  /// Gets the list of [OverlayVegetationImage] for all of the selected masks.
-  Future<List<OverlayVegetationImage>> getImages({
-    /// Masks to get.
-    required List<CoverageType> masks,
-
-    /// Colors to override the masks with.
-    required Map<CoverageType, Color> colors,
-  }) async {
-    List<OverlayVegetationImage> images = [];
-    for (final mask in masks) {
-      String path = 'assets/new/masks/${mask.string}/$name, $stateLong.png';
-      final manifest = await rootBundle.loadString('AssetManifest.json');
-      Map<String, dynamic> assetMap = jsonDecode(manifest);
-      if (!assetMap.containsKey(path.replaceAll(' ', '%20'))) {
-        path = 'assets/transparent.png';
-      }
-      images.add(OverlayVegetationImage(
-        bounds: boundsNew,
-        image: Image.asset(
-          path,
-          color: colors[mask],
-          fit: BoxFit.fill,
-        ),
-      ));
-    }
-    return images;
   }
 
   /// Loads all the necessarry data for the city, before it returns the loaded city object.
@@ -231,51 +156,12 @@ class City {
     if (!loaded) {
       final manifest = await rootBundle.loadString('AssetManifest.json');
       Map<String, dynamic> assetMap = jsonDecode(manifest);
-      final path = 'assets/american_cities/$nameAndState.json';
 
-      if (assetMap.containsKey(path.replaceAll(' ', '%20'))) {
+      final String path = 'assets/data/polygons/$name, $stateLong.json';
+
+      if (assetMap.containsKey(path)) {
+        // path.replaceAll(' ', '%20')
         final polygonString = await rootBundle.loadString(path);
-        final Map<String, dynamic> jsonMap = jsonDecode(polygonString);
-        List<dynamic> polygonList = [];
-        if (jsonMap.containsKey('geometries')) {
-          polygonList = jsonMap['geometries'][0]['coordinates'];
-        } else {
-          polygonList = jsonMap['coordinates'];
-        }
-
-        int index = 0;
-        for (List polygon in polygonList) {
-          int subIndex = 0;
-          for (List points in polygon) {
-            List<LatLng> polygonLatLngs = List.generate(
-              points.length,
-              (index) {
-                final point = points[index];
-                double lat = point[1].toDouble();
-                double lon = point[0].toDouble();
-                return LatLng(lat, lon);
-              },
-            );
-            if (subIndex == 0) {
-              polygonsPoints.add(polygonLatLngs);
-            } else {
-              polygonHolesPoints.update(
-                index,
-                (value) => [...value, polygonLatLngs],
-                ifAbsent: () => [polygonLatLngs],
-              );
-            }
-            combinedPolygonPoints.addAll(polygonLatLngs);
-            subIndex++;
-          }
-          index++;
-        }
-      }
-
-      final pathNew = 'assets/new/polygons/$name, $stateLong.json';
-
-      if (assetMap.containsKey(pathNew.replaceAll(' ', '%20'))) {
-        final polygonString = await rootBundle.loadString(pathNew);
         final Map<String, dynamic> jsonMap = jsonDecode(polygonString);
         List<dynamic> polygonList = [];
         if (jsonMap.containsKey('geometries')) {
@@ -298,15 +184,15 @@ class City {
               },
             );
             if (subIndex == 0) {
-              polygonsPointsNew.add(polygonLatLngs);
+              polygonsPoints.add(polygonLatLngs);
             } else {
-              polygonHolesPointsNew.update(
+              polygonHolesPoints.update(
                 index,
                 (value) => [...value, polygonLatLngs],
                 ifAbsent: () => [polygonLatLngs],
               );
             }
-            combinedPolygonPointsNew.addAll(polygonLatLngs);
+            combinedPolygonPoints.addAll(polygonLatLngs);
             subIndex++;
           }
         } else {
@@ -324,15 +210,15 @@ class City {
                 },
               );
               if (subIndex == 0) {
-                polygonsPointsNew.add(polygonLatLngs);
+                polygonsPoints.add(polygonLatLngs);
               } else {
-                polygonHolesPointsNew.update(
+                polygonHolesPoints.update(
                   index,
                   (value) => [...value, polygonLatLngs],
                   ifAbsent: () => [polygonLatLngs],
                 );
               }
-              combinedPolygonPointsNew.addAll(polygonLatLngs);
+              combinedPolygonPoints.addAll(polygonLatLngs);
               subIndex++;
             }
             index++;
@@ -354,6 +240,8 @@ class City {
       'Income and Employment Rank': incomeEmpRank,
       'Community and Environment Rank': communityEnvRank,
       'Center': center.toJson(),
+      'Coverage':
+          coveragePercent.map((key, value) => MapEntry(key.string, value)),
     };
   }
 }
@@ -365,12 +253,24 @@ class CitiesUtilities {
     List<dynamic> data = await jsonDecode(dataFile);
 
     final newDataFile = await rootBundle
-        .loadString('assets/new/coverage_percent_bands_1-11.json');
+        .loadString('assets/data/coverage_percent_bands_1-11.json');
     Map<String, dynamic> newData = await jsonDecode(newDataFile);
+
+    String bboxFile = await rootBundle.loadString('assets/data/bbox.json');
+    Map<String, dynamic> bboxData = await jsonDecode(bboxFile);
 
     List<City> cities = [];
     for (Map<String, dynamic> cityData in data) {
+      var coords = bboxData[cityData['City'].split(',')[0] +
+          ', ' +
+          usStates[cityData['City'].split(', ')[1]]];
+
+      LatLng sw = LatLng(coords[2], coords[0]);
+      LatLng ne = LatLng(coords[3], coords[1]);
+
+      final LatLngBounds bounds = LatLngBounds(sw, ne);
       final center = cityData['Center']['coordinates'];
+
       final city = City(
         nameAndState: cityData['City'],
         vegFrac: cityData['Vegetation Fraction'],
@@ -379,22 +279,11 @@ class CitiesUtilities {
         incomeEmpRank: cityData['Income and Employment Rank'],
         communityEnvRank: cityData['Community and Environment Rank'],
         center: LatLng(center.last, center.first),
+        bounds: bounds,
         coveragePercentMap: newData[cityData['City'].split(',')[0] +
             ', ' +
             usStates[cityData['City'].split(', ')[1]]],
       );
-
-      String bboxFile = await rootBundle.loadString('assets/new/bbox.json');
-      Map<String, dynamic> bboxData = await jsonDecode(bboxFile);
-
-      var coords = bboxData[cityData['City'].split(',')[0] +
-          ', ' +
-          usStates[cityData['City'].split(', ')[1]]];
-
-      LatLng sw = LatLng(coords[2], coords[0]);
-      LatLng ne = LatLng(coords[3], coords[1]);
-
-      city.boundsNew = LatLngBounds(sw, ne);
 
       cities.add(city);
     }

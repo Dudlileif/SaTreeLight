@@ -11,12 +11,12 @@ class LoadingIndicator extends StatelessWidget {
   /// Background color of the [CircularProgressIndicator.adaptive] child
   final Color? backgroundColor;
 
-  const LoadingIndicator(
-      {Key? key,
-      this.sizeFraction = 0.05,
-      this.strokeWidthFraction = 0.005,
-      this.backgroundColor})
-      : super(key: key);
+  const LoadingIndicator({
+    super.key,
+    this.sizeFraction = 0.05,
+    this.strokeWidthFraction = 0.005,
+    this.backgroundColor,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class LoadingIndicator extends StatelessWidget {
           dimension: constraints.biggest.longestSide * sizeFraction,
           child: CircularProgressIndicator.adaptive(
             backgroundColor:
-                backgroundColor ?? Theme.of(context).backgroundColor,
+                backgroundColor ?? Theme.of(context).colorScheme.background,
             strokeWidth: constraints.biggest.longestSide * strokeWidthFraction,
           ),
         ),

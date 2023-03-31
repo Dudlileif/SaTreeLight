@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:flex_color_scheme/flex_color_scheme.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:satreelight/models/city.dart';
 import 'package:satreelight/models/coverage_type.dart';
+import 'package:satreelight/models/skip_missing_file_tile_provider.dart';
 import 'package:satreelight/models/sorting.dart';
 import 'package:satreelight/providers/notifiers/notifiers.dart';
 import 'package:satreelight/screens/leaflet_map/components/themed_tiles_container.dart';
@@ -118,31 +122,9 @@ final imageMasksProvider = Provider<List<CoverageType>>((ref) {
   return masks;
 });
 
-/* final cityImagesProvider = FutureProvider.autoDispose
-    .family<List<OverlayVegetationImage>, BuildContext>((ref, context) async {
-  final city = ref.watch(loadCityDataProvider).when(
-      data: (data) => data,
-      error: (error, stackTrace) => null,
-      loading: () => null);
-  final List<OverlayVegetationImage> images = [];
-  if (city != null) {
-    final List<CoverageType> masks = ref.watch(imageMasksProvider);
-    final overlayImages = await city.getImages(
-      masks: masks,
-      colors: CoverageColors().colorMapWithOpacity(
-        dark: Theme.of(context).brightness == Brightness.dark,
-        opacity: 0.5,
-      ),
-    );
-    images.addAll(overlayImages);
-  }
-
-  return images;
-}); */
-
 /// Provider for the selected masks' tile servers.
 final cityMasksProvider =
-    FutureProvider.autoDispose<List<TileLayerWidget>>((ref) async {
+    FutureProvider.autoDispose<List<TileLayer>>((ref) async {
   final city = ref.watch(loadCityDataProvider).when(
       data: (data) => data,
       error: (error, stackTrace) => null,
@@ -151,20 +133,25 @@ final cityMasksProvider =
 
   if (city != null) {
     return List.generate(masks.length, (index) {
-      final mask = masks[index];
-      return TileLayerWidget(
-        options: TileLayerOptions(
-          tileProvider: FileTileProvider(),
-          urlTemplate:
-              '/home/gaute/Documents/Projects/SaTreeLight/Sentinelsat/export/tiles/separate/${city.name}, ${city.stateLong}/${mask.string}/{z}/{x}/{y}.png',
-          subdomains: ['a', 'b', 'c'],
-          backgroundColor: Colors.transparent,
-          tms: true,
-          maxNativeZoom: 14,
-          minNativeZoom: 0,
-          tileBounds: city.boundsNew,
-          tilesContainerBuilder: (context, tilesContainer, tiles) =>
-              MaskTilesContainer(tilesContainer: tilesContainer, mask: mask),
+      final String path = kIsWeb
+          ? '../SaTreeLight-data-processing/export'
+          : Platform.isLinux
+              ? '/home/gaute/Documents/Projects/SaTreeLight/Sentinelsat/export'
+              : 'E:/Projects/SaTreeLight-data-processing/export';
+      final CoverageType mask = masks[index];
+      return TileLayer(
+        tileProvider: !kIsWeb ? SkipMissingFileTileProvider() : null,
+        urlTemplate: '$path/tiles/merged/${mask.string}/{z}/{x}/{y}.png',
+        // '$path/tiles/separate/${city.name}, ${city.stateLong}/${mask.string}/{z}/{x}/{y}.png',
+        backgroundColor: Colors.transparent,
+        tms: true,
+        maxNativeZoom: 14,
+        minNativeZoom: 0,
+        tileBounds: city.bounds,
+        tilesContainerBuilder: (context, tilesContainer, tiles) =>
+            MaskTilesContainer(
+          tilesContainer: tilesContainer,
+          mask: mask,
         ),
       );
     });
@@ -177,6 +164,3 @@ final relativeProvider = StateProvider<bool>((ref) => false);
 
 /// Provider for notifying that the mask selection has changed.
 final updatedMasks = StateProvider<bool>((ref) => false);
-
-/* final imagesInsteadOfMasksProvider = StateProvider<bool>((ref) => false);
- */

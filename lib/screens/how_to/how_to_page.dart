@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:satreelight/models/city.dart';
 import 'package:satreelight/providers/providers.dart';
 import 'package:satreelight/screens/leaflet_map/components/city_pin.dart';
 
 /// A page that shows the user how to use the map.
 class HowToPage extends ConsumerWidget {
-  const HowToPage({Key? key}) : super(key: key);
+  const HowToPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final cities = ref.watch(citiesProvider).when(
+    final List<City>? cities = ref.watch(citiesProvider).when(
           data: (data) => data,
-          error: (error, stackTrace) => [],
-          loading: () => [],
+          error: (error, stackTrace) => null,
+          loading: () => null,
         );
-    final city = cities.firstWhere((element) => element.name == 'Los Angeles');
+    final City? city = cities?.firstWhere(
+      (element) => element.name == 'Los Angeles',
+    );
     return Scaffold(
       appBar: AppBar(
         title: const Text('How it works'),
@@ -26,14 +29,15 @@ class HowToPage extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text('Click on the location pin',
-                style: Theme.of(context).textTheme.headline3),
+                style: Theme.of(context).textTheme.displaySmall),
             const SizedBox(height: 100),
-            CityPin(
-              city: city,
-              numberOfCities: cities.length,
-              size: 60,
-              textStyle: Theme.of(context).primaryTextTheme.bodyText1,
-            ),
+            if (city != null)
+              CityPin(
+                city: city,
+                numberOfCities: cities?.length,
+                size: 60,
+                textStyle: Theme.of(context).primaryTextTheme.bodyLarge,
+              ),
           ],
         ),
       ),

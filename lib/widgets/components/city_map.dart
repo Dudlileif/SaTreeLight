@@ -1,10 +1,18 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:satreelight/models/city.dart';
+import 'package:satreelight/models/coverage_colors.dart';
 import 'package:satreelight/providers/providers.dart';
 import 'package:satreelight/screens/leaflet_map/components/osm_contribution.dart';
 import 'package:satreelight/screens/leaflet_map/components/themed_tiles_container.dart';
+import 'package:satreelight/widgets/components/mask_selector.dart';
+import 'package:satreelight/widgets/components/polygon_clipper.dart';
+import 'package:satreelight/widgets/components/providers/swap_image_colors.dart';
 
 /// Provider for the map bounds, used to keep position on mask selection update.
 final boundsProvider = StateProvider.autoDispose<LatLngBounds?>((ref) => null);
@@ -20,7 +28,7 @@ final centerProvider = StateProvider.autoDispose<LatLng>(
 
 /// A map of the city, with a bounds polygon and selected masks.
 class CityMap extends ConsumerStatefulWidget {
-  const CityMap({Key? key}) : super(key: key);
+  const CityMap({super.key});
 
   @override
   ConsumerState<CityMap> createState() => _CityMapState();
@@ -28,7 +36,11 @@ class CityMap extends ConsumerStatefulWidget {
 
 class _CityMapState extends ConsumerState<CityMap> {
   final MapController mapController = MapController();
-  final boundsOptions = const FitBoundsOptions(padding: EdgeInsets.all(20));
+  final FitBoundsOptions boundsOptions =
+      const FitBoundsOptions(padding: EdgeInsets.all(20));
+
+  bool useImages = false;
+  bool useCombinedImages = false;
 
   @override
   void initState() {
@@ -56,46 +68,32 @@ class _CityMapState extends ConsumerState<CityMap> {
       }
     });
 
-    final city = ref.watch(loadCityDataProvider).when(
+    final City? city = ref.watch(loadCityDataProvider).when(
         error: (error, stackTrace) => null,
         loading: () => null,
         data: (data) {
           if (data != null) {
             WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-              final bounds = data.boundsNew;
-              ref.read(boundsProvider.notifier).update((state) => bounds);
-              mapController.fitBounds(bounds, options: boundsOptions);
+              ref.read(boundsProvider.notifier).update((state) => data.bounds);
+              mapController.fitBounds(data.bounds, options: boundsOptions);
             });
           }
           return data;
         });
 
-    final bounds = ref.watch(boundsProvider);
+    final LatLngBounds? bounds = ref.watch(boundsProvider);
 
-    /* final List<OverlayVegetationImage> overlayImages =
-        ref.watch(cityImagesProvider(context)).when(
-            loading: () => [],
-            error: (error, stackTrace) => [],
-            data: (data) {
-              WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                ref.read(updatedMasks.notifier).update((state) => true);
-              });
-              return data;
-            }); */
-
-    final List<TileLayerWidget> maskLayers = ref.watch(cityMasksProvider).when(
+    final List<TileLayer> maskLayers = ref.watch(cityMasksProvider).when(
         error: (error, stackTrace) => [],
         loading: () => [],
         data: (data) {
-          WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-            ref.read(updatedMasks.notifier).update((state) => true);
-          });
+          // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+          //   ref.read(updatedMasks.notifier).update((state) => true);
+          // });
           return data;
         });
 
-/*     final imagesInsteadOfMasks = ref.watch(imagesInsteadOfMasksProvider);
- */
-    final map = FlutterMap(
+    final FlutterMap map = FlutterMap(
       mapController: mapController,
       options: MapOptions(
         interactiveFlags: InteractiveFlag.all & ~InteractiveFlag.rotate,
@@ -108,38 +106,147 @@ class _CityMapState extends ConsumerState<CityMap> {
         boundsOptions: boundsOptions,
         slideOnBoundaries: true,
       ),
-      children: [
-        TileLayerWidget(
-          options: TileLayerOptions(
-            urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            subdomains: ['a', 'b', 'c'],
-            tilesContainerBuilder: (context, tilesContainer, tiles) =>
-                ThemedTilesContainer(tilesContainer: tilesContainer),
-            backgroundColor: Colors.transparent,
-          ),
+      children: <Widget>[
+        TileLayer(
+          urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+          tilesContainerBuilder: (context, tilesContainer, tiles) =>
+              ThemedTilesContainer(tilesContainer: tilesContainer),
+          backgroundColor: Colors.transparent,
         ),
-        PolygonLayerWidget(
-          options: PolygonLayerOptions(
-            polygons: city?.polygonsNew ?? [],
-          ),
+        if (city != null && useImages && useCombinedImages)
+          ref
+              .watch(swapImageColorsProvider(
+                  Theme.of(context).brightness == Brightness.dark))
+              .when(
+                loading: () => const SizedBox.shrink(),
+                error: (error, stackTrace) => const SizedBox.shrink(),
+                data: (data) => OverlayImageLayer(
+                  overlayImages: [
+                    OverlayImage(
+                      bounds: city.bounds,
+                      opacity: 0.5,
+                      imageProvider: MemoryImage(data),
+                    )
+                  ],
+                ),
+              ),
+        if (city != null && useImages && !useCombinedImages)
+          ...ref.watch(imageMasksProvider).map(
+                (mask) => ColorFiltered(
+                  colorFilter: ColorFilter.mode(
+                    CoverageColors.colorMapWithOpacity(
+                      dark: Theme.of(context).brightness == Brightness.dark,
+                      opacity: 1,
+                    )[mask]!,
+                    BlendMode.srcIn,
+                  ),
+                  child: OverlayImageLayer(
+                    overlayImages: [
+                      OverlayImage(
+                        bounds: city.bounds,
+                        opacity: 0.75,
+                        imageProvider: kIsWeb
+                            ? Image.network(
+                                    '../data/masks/${mask.string}/${city.name}, ${city.stateLong}.png')
+                                .image
+                            : FileImage(
+                                File(
+                                    'E:/Projects/SaTreeLight-data-processing/export/masks/${mask.string}/${city.name}, ${city.stateLong}.png'),
+                              ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+        PolygonLayer(
+          polygonCulling: true,
+          polygons: city?.polygons(
+                fillColor: Theme.of(context).brightness == Brightness.light
+                    ? null
+                    : Colors.grey.withAlpha(75),
+              ) ??
+              [],
         ),
-        /*  if (imagesInsteadOfMasks)
-          OverlayVegetationImageLayerWidget(
-            options: OverlayVegetationImageLayerOptions(
-                overlayImages: overlayImages),
-          ), */
-        /*         if (!imagesInsteadOfMasks)  */ ...maskLayers,
+        if (!useImages)
+          Builder(
+            builder: (context) => ClipPath(
+              clipper: PolygonClipper(
+                map: FlutterMapState.maybeOf(context, nullOk: true),
+                polygons: city?.polygons(),
+              ),
+              child: Stack(children: maskLayers),
+            ),
+          ),
       ],
     );
 
     return Stack(
       children: [
         map,
+        Align(
+          alignment: Alignment.topRight,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: FilledButton.tonal(
+              onPressed: () => showDialog(
+                  context: context, builder: (context) => const MaskSelector()),
+              child: const Text('Masks'),
+            ),
+          ),
+        ),
         const Align(
           alignment: Alignment.bottomRight,
           child: OSMContribution(),
         ),
+        Align(
+          alignment: Alignment.topLeft,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text('Use images'),
+                        Checkbox(
+                          value: useImages,
+                          onChanged: (value) =>
+                              setState(() => useImages = value ?? useImages),
+                        )
+                      ],
+                    ),
+                    if (useImages)
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Text('Use combined images'),
+                          Checkbox(
+                            value: useCombinedImages,
+                            onChanged: (value) => setState(
+                              () => useCombinedImages =
+                                  value ?? useCombinedImages,
+                            ),
+                          )
+                        ],
+                      ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        )
       ],
     );
+  }
+
+  @override
+  void dispose() {
+    mapController.dispose();
+    super.dispose();
   }
 }

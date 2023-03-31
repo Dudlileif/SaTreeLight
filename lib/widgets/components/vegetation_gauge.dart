@@ -10,37 +10,124 @@ import 'package:satreelight/providers/providers.dart';
 final compactDouble = NumberFormat.compact();
 
 /// A circular chart/gauge for showing the amount of coverage for the masks.
-class VegetationGauge extends ConsumerWidget {
+class VegetationGauge extends ConsumerStatefulWidget {
   final City city;
+  final City? prevCity;
   final List<CoverageType> keys;
-  const VegetationGauge(
-      {Key? key, required this.city, this.keys = CoverageType.values})
-      : super(key: key);
+  final List<CoverageType>? prevKeys;
+  const VegetationGauge({
+    super.key,
+    required this.city,
+    this.prevCity,
+    this.keys = CoverageType.values,
+    this.prevKeys,
+  });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _VegetationGaugeState();
+}
+
+class _VegetationGaugeState extends ConsumerState<VegetationGauge>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController animationController;
+
+  late Map<CoverageType, double> coveragePercent = {}..addAll(
+      widget.prevCity != null
+          ? widget.prevCity!.coveragePercent
+          : widget.city.coveragePercent,
+    );
+
+  @override
+  void initState() {
+    super.initState();
+    animationController = AnimationController(
+      vsync: this,
+      value: 0,
+      duration: const Duration(milliseconds: 500),
+    );
+
+    if (widget.prevCity != null) {
+      Map<CoverageType, Animation<double>> coverageAnimMap = {};
+      for (final coverageType in CoverageType.values) {
+        coverageAnimMap[coverageType] = Tween<double>(
+          begin: widget.prevCity!.coveragePercent[coverageType],
+          end: widget.city.coveragePercent[coverageType],
+        ).animate(animationController);
+      }
+      animationController.addListener(
+        () => setState(
+          () {
+            for (final coverageType in CoverageType.values) {
+              coveragePercent[coverageType] =
+                  coverageAnimMap[coverageType]!.value;
+            }
+          },
+        ),
+      );
+
+      animationController.animateTo(1,
+          duration: const Duration(milliseconds: 500));
+    }
+
+    if (widget.prevKeys != null) {
+      if (widget.prevKeys!.join() != widget.keys.join()) {
+        Map<CoverageType, Animation<double>> coverageAnimMap = {};
+        for (final coverageType in widget.keys) {
+          if (widget.prevKeys!.contains(coverageType)) {
+            coverageAnimMap[coverageType] = Tween<double>(
+              begin: 0,
+              end: widget.city.coveragePercent[coverageType],
+            ).animate(animationController);
+          }
+        }
+        for (final coverageType in widget.prevKeys!) {
+          if (!widget.keys.contains(coverageType)) {
+            coverageAnimMap[coverageType] = Tween<double>(
+              begin: widget.city.coveragePercent[coverageType],
+              end: 0,
+            ).animate(animationController);
+          }
+        }
+        animationController.animateTo(1,
+            duration: const Duration(milliseconds: 500));
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     int hasValue = 0;
     CoverageType? coverageWithValue;
     if (hasValue < 2) {
-      for (final key in keys) {
-        if ((city.coveragePercent[key] ?? 0) > 0) {
+      for (final key in widget.keys) {
+        if ((coveragePercent[key] ?? 0) > 0) {
           hasValue++;
           coverageWithValue = key;
         }
       }
     }
+
+    final useRelative = ref.watch(relativeProvider);
+
     return hasValue >= 1
         ? LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
               return hasValue == 1
                   ? Text(
-                      '${coverageWithValue?.capitalizedString() ?? ''}: ${compactDouble.format(city.coveragePercent[coverageWithValue])}%')
+                      '${coverageWithValue?.capitalizedString() ?? ''}: ${compactDouble.format(coveragePercent[coverageWithValue])}%')
                   : Chart(
                       data: List.generate(
-                          keys.length,
+                          widget.keys.length,
                           (index) => {
-                                'type': keys[index].capitalizedString(),
-                                'coverage': city.coveragePercent[keys[index]]
+                                'type': widget.keys[index].capitalizedString(),
+                                'coverage': coveragePercent[widget.keys[index]]
                               }),
                       variables: {
                         'type': Variable(
@@ -60,7 +147,7 @@ class VegetationGauge extends ConsumerWidget {
                         IntervalElement(
                           color: ColorAttr(
                               values: CoverageColors.colorsFromKeys(
-                                keys,
+                                widget.keys,
                                 dark: Theme.of(context).brightness ==
                                     Brightness.dark,
                               ),
@@ -70,10 +157,10 @@ class VegetationGauge extends ConsumerWidget {
                           label: LabelAttr(
                             encoder: (tuple) => Label(
                                 tuple['percent'] > 0.05
-                                    ? '${compactDouble.format(ref.watch(relativeProvider) ? tuple['percent'] * 100 : tuple['coverage'])}% ${tuple['type']}'
+                                    ? '${compactDouble.format(useRelative ? tuple['percent'] * 100 : tuple['coverage'])}% ${tuple['type']}'
                                     : ' ',
                                 LabelStyle(
-                                  style: Theme.of(context).textTheme.subtitle2,
+                                  style: Theme.of(context).textTheme.labelSmall,
                                   minWidth: 50,
                                   maxWidth: 85,
                                   maxLines: 3,

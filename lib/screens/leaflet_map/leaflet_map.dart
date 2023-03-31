@@ -1,18 +1,23 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:satreelight/models/city.dart';
+import 'package:satreelight/models/skip_missing_file_tile_provider.dart';
 import 'package:satreelight/providers/providers.dart';
 import 'package:satreelight/screens/leaflet_map/components/city_pin.dart';
 import 'package:satreelight/screens/leaflet_map/components/city_pin_cluster.dart';
 import 'package:satreelight/screens/leaflet_map/components/osm_contribution.dart';
 import 'package:satreelight/screens/leaflet_map/components/themed_tiles_container.dart';
+import 'package:satreelight/widgets/components/mask_selector.dart';
 
 /// The map used behind the main menu. The map can be brought out of the background.
 class LeafletMap extends ConsumerStatefulWidget {
-  const LeafletMap({Key? key}) : super(key: key);
+  const LeafletMap({super.key});
 
   @override
   ConsumerState<LeafletMap> createState() => _LeafletMapState();
@@ -65,6 +70,7 @@ class _LeafletMapState extends ConsumerState<LeafletMap>
   void setMarkers() {
     markers = List.generate(cities.length, (index) {
       return Marker(
+        key: ValueKey(cities[index]),
         point: cities[index].center,
         anchorPos: AnchorPos.align(AnchorAlign.center),
         height: 110,
@@ -121,6 +127,12 @@ class _LeafletMapState extends ConsumerState<LeafletMap>
       toBackground();
     });
 
+    final String path = kIsWeb
+        ? '../SaTreeLight-data-processing/export'
+        : Platform.isLinux
+            ? '/home/gaute/Documents/Projects/SaTreeLight/Sentinelsat/export'
+            : 'E:/Projects/SaTreeLight-data-processing/export';
+
     return Stack(
       children: [
         LayoutBuilder(
@@ -135,22 +147,36 @@ class _LeafletMapState extends ConsumerState<LeafletMap>
                 center: usaCenter,
                 zoom: initZoom,
                 maxZoom: 18.25,
-                plugins: [
-                  MarkerClusterPlugin(),
-                ],
                 slideOnBoundaries: true,
               ),
               children: [
-                TileLayerWidget(
-                  options: TileLayerOptions(
-                    urlTemplate:
-                        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                    subdomains: ['a', 'b', 'c'],
-                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                    tilesContainerBuilder: (context, tilesContainer, tiles) =>
-                        ThemedTilesContainer(tilesContainer: tilesContainer),
-                  ),
+                TileLayer(
+                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                  tilesContainerBuilder: (context, tilesContainer, tiles) =>
+                      ThemedTilesContainer(tilesContainer: tilesContainer),
                 ),
+                ...ref
+                    .watch(imageMasksProvider)
+                    .map(
+                      (mask) => TileLayer(
+                        tileProvider:
+                            !kIsWeb ? SkipMissingFileTileProvider() : null,
+                        urlTemplate:
+                            '$path/tiles/merged/${mask.string}/{z}/{x}/{y}.png',
+                        backgroundColor: Colors.transparent,
+                        minNativeZoom: 0,
+                        maxNativeZoom: 14,
+                        tms: true,
+                        tilesContainerBuilder:
+                            (context, tilesContainer, tiles) =>
+                                MaskTilesContainer(
+                          tilesContainer: tilesContainer,
+                          mask: mask,
+                        ),
+                      ),
+                    )
+                    .toList(),
                 if (!inBackground)
                   MarkerClusterLayerWidget(
                     options: MarkerClusterLayerOptions(
@@ -177,6 +203,17 @@ class _LeafletMapState extends ConsumerState<LeafletMap>
               ],
             );
           },
+        ),
+        Align(
+          alignment: Alignment.topRight,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: FilledButton.tonal(
+              onPressed: () => showDialog(
+                  context: context, builder: (context) => const MaskSelector()),
+              child: const Text('Masks'),
+            ),
+          ),
         ),
         const Align(
           alignment: Alignment.bottomRight,

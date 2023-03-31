@@ -2,14 +2,93 @@ import 'package:flutter/material.dart';
 import 'package:satreelight/models/city.dart';
 
 /// A widget with all the separate ranks for the city, out of the number of cities.
-class HappinessRanks extends StatelessWidget {
+class HappinessRanks extends StatefulWidget {
   /// The city to show ranks for.
   final City city;
 
+  /// The previous city to animate from, if there is one.
+  final City? prevCity;
+
   /// The total number of cities.
   final int? numberOfCities;
-  const HappinessRanks({Key? key, required this.city, this.numberOfCities})
-      : super(key: key);
+  const HappinessRanks({
+    super.key,
+    required this.city,
+    this.prevCity,
+    this.numberOfCities,
+  });
+
+  @override
+  State<HappinessRanks> createState() => _HappinessRanksState();
+}
+
+class _HappinessRanksState extends State<HappinessRanks>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController animationController;
+
+  late int? happinessRank = widget.prevCity != null
+      ? widget.prevCity?.happinessRank
+      : widget.city.happinessRank;
+  late int? emoPhysRank = widget.prevCity != null
+      ? widget.prevCity?.emoPhysRank
+      : widget.city.emoPhysRank;
+  late int? incomeEmpRank = widget.prevCity != null
+      ? widget.prevCity?.incomeEmpRank
+      : widget.city.incomeEmpRank;
+  late int? communityEnvRank = widget.prevCity != null
+      ? widget.prevCity?.communityEnvRank
+      : widget.city.communityEnvRank;
+
+  @override
+  void initState() {
+    super.initState();
+    animationController = AnimationController(
+      vsync: this,
+      value: 0,
+      duration: const Duration(milliseconds: 500),
+    );
+    if (widget.prevCity != null) {
+      final happinessTween = IntTween(
+        begin: happinessRank,
+        end: widget.city.happinessRank,
+      ).animate(animationController);
+
+      final emoPhysTween = IntTween(
+        begin: emoPhysRank,
+        end: widget.city.emoPhysRank,
+      ).animate(animationController);
+
+      final incomeEmpTween = IntTween(
+        begin: incomeEmpRank,
+        end: widget.city.incomeEmpRank,
+      ).animate(animationController);
+
+      final communityEnvTween = IntTween(
+        begin: communityEnvRank,
+        end: widget.city.communityEnvRank,
+      ).animate(animationController);
+
+      animationController.addListener(
+        () => setState(
+          () {
+            happinessRank = happinessTween.value;
+            emoPhysRank = emoPhysTween.value;
+            incomeEmpRank = incomeEmpTween.value;
+            communityEnvRank = communityEnvTween.value;
+          },
+        ),
+      );
+
+      animationController.animateTo(1,
+          duration: const Duration(milliseconds: 500));
+    }
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,18 +107,18 @@ class HappinessRanks extends StatelessWidget {
               ),
             ),
             Text(
-              '#${city.happinessRank}',
+              '#$happinessRank',
               style: Theme.of(context)
                   .textTheme
-                  .subtitle1
+                  .titleMedium
                   ?.copyWith(fontWeight: FontWeight.bold),
             ),
-            if (numberOfCities != null)
+            if (widget.numberOfCities != null)
               Text(
-                ' of $numberOfCities',
+                ' of ${widget.numberOfCities}',
                 style: Theme.of(context)
                     .textTheme
-                    .subtitle1
+                    .titleMedium
                     ?.copyWith(fontWeight: FontWeight.bold),
               )
           ],
@@ -60,14 +139,14 @@ class HappinessRanks extends StatelessWidget {
             Flexible(
               child: Text(
                 'Emotional and Physical \nWell-being Rank ',
-                style: Theme.of(context).textTheme.overline,
+                style: Theme.of(context).textTheme.labelSmall,
               ),
             ),
             Text(
-              '#${city.emoPhysRank}',
+              '#$emoPhysRank',
               style: Theme.of(context)
                   .textTheme
-                  .subtitle1
+                  .titleMedium
                   ?.copyWith(fontWeight: FontWeight.bold),
             ),
           ],
@@ -88,14 +167,14 @@ class HappinessRanks extends StatelessWidget {
             Flexible(
               child: Text(
                 'Income and Employment Rank ',
-                style: Theme.of(context).textTheme.overline,
+                style: Theme.of(context).textTheme.labelSmall,
               ),
             ),
             Text(
-              '#${city.incomeEmpRank}',
+              '#$incomeEmpRank',
               style: Theme.of(context)
                   .textTheme
-                  .subtitle1
+                  .titleMedium
                   ?.copyWith(fontWeight: FontWeight.bold),
             ),
           ],
@@ -116,16 +195,16 @@ class HappinessRanks extends StatelessWidget {
             Flexible(
               child: Text(
                 'Community and Enviorment Rank ',
-                style: Theme.of(context).textTheme.overline,
+                style: Theme.of(context).textTheme.labelSmall,
               ),
             ),
             Align(
               alignment: Alignment.centerRight,
               child: Text(
-                '#${city.communityEnvRank}',
+                '#$communityEnvRank',
                 style: Theme.of(context)
                     .textTheme
-                    .subtitle1
+                    .titleMedium
                     ?.copyWith(fontWeight: FontWeight.bold),
               ),
             ),
