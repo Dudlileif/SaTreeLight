@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:satreelight/providers/providers.dart';
 import 'package:satreelight/screens/credits/credits_page.dart';
+import 'package:satreelight/screens/emoji_page/emoji_page.dart';
 import 'package:satreelight/screens/how_to/how_to_page.dart';
 import 'package:satreelight/screens/list_page/list_page.dart';
 
 /// The start menu of the app.
 class StartMenu extends ConsumerWidget {
   const StartMenu({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -44,7 +45,7 @@ class StartMenu extends ConsumerWidget {
         Text(
           'SaTreeLight',
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.headline1?.copyWith(
+          style: Theme.of(context).textTheme.displayLarge?.copyWith(
                 shadows: List.generate(4, (index) {
                   const offsets = [
                     Offset(1, 0),
@@ -135,6 +136,19 @@ class StartMenu extends ConsumerWidget {
                         MaterialPageRoute(
                           builder: (context) => const CreditsPage(),
                         ),
+                      ),
+                    ),
+                  ),
+                ),
+                Card(
+                  elevation: 8,
+                  child: ListTile(
+                    title: const Text('Emoji test'),
+                    leading: const Icon(Icons.emoji_emotions),
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const EmojiPage(),
                       ),
                     ),
                   ),

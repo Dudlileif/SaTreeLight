@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class CityPinCluster extends StatefulWidget {
   /// Number of items in this cluster.
   final int count;
-  const CityPinCluster({Key? key, required this.count}) : super(key: key);
+  const CityPinCluster({super.key, required this.count});
 
   @override
   State<CityPinCluster> createState() => _CityPinClusterState();
@@ -36,7 +36,7 @@ class _CityPinClusterState extends State<CityPinCluster> {
         child: Text(
           widget.count.toString(),
           textAlign: TextAlign.center,
-          style: Theme.of(context).primaryTextTheme.headline6,
+          style: Theme.of(context).primaryTextTheme.titleLarge,
         ),
       ),
     );

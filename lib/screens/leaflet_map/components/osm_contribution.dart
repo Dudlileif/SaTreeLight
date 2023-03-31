@@ -4,7 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 /// A small OpenStreetMap contribution widget, to use in corner of the map.
 class OSMContribution extends StatelessWidget {
-  const OSMContribution({Key? key}) : super(key: key);
+  const OSMContribution({super.key});
 
   @override
   Widget build(BuildContext context) {

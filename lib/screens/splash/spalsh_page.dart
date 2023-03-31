@@ -10,7 +10,7 @@ import 'package:satreelight/screens/splash/components/start_menu.dart';
 /// The landing/start page of the app. Contains the start menu with the map
 /// in the background.
 class SplashPage extends ConsumerWidget {
-  const SplashPage({Key? key}) : super(key: key);
+  const SplashPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

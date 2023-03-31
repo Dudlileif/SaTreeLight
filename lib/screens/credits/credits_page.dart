@@ -5,7 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 /// A page that shows credits and attribution to the people, data and software
 /// used to create this program.
 class CreditsPage extends StatelessWidget {
-  const CreditsPage({Key? key}) : super(key: key);
+  const CreditsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,49 +28,49 @@ class CreditsPage extends StatelessWidget {
           children: [
             Text(
               'EiT Group 3',
-              style: Theme.of(context).textTheme.headline1,
+              style: Theme.of(context).textTheme.displayLarge,
               textAlign: TextAlign.center,
             ),
             Text(
               'TTK4852 - NTNU, Spring 2022',
-              style: Theme.of(context).textTheme.headline5,
+              style: Theme.of(context).textTheme.headlineSmall,
               textAlign: TextAlign.center,
             ),
             divider,
             Text(
               'Team members:',
-              style: Theme.of(context).textTheme.headline3,
+              style: Theme.of(context).textTheme.displaySmall,
               textAlign: TextAlign.center,
             ),
             Text(
               'Gaute Hagen',
-              style: Theme.of(context).textTheme.bodyText1,
+              style: Theme.of(context).textTheme.bodyLarge,
               textAlign: TextAlign.center,
             ),
             Text(
               'Victor Pierre Hamran',
-              style: Theme.of(context).textTheme.bodyText1,
+              style: Theme.of(context).textTheme.bodyLarge,
               textAlign: TextAlign.center,
             ),
             Text(
               'Trym Jørgensen',
-              style: Theme.of(context).textTheme.bodyText1,
+              style: Theme.of(context).textTheme.bodyLarge,
               textAlign: TextAlign.center,
             ),
             Text(
               'Thomas Bakken Moe',
-              style: Theme.of(context).textTheme.bodyText1,
+              style: Theme.of(context).textTheme.bodyLarge,
               textAlign: TextAlign.center,
             ),
             Text(
               'Sofie Trovik',
-              style: Theme.of(context).textTheme.bodyText1,
+              style: Theme.of(context).textTheme.bodyLarge,
               textAlign: TextAlign.center,
             ),
             divider,
             Text(
               'Data sources:',
-              style: Theme.of(context).textTheme.headline3,
+              style: Theme.of(context).textTheme.displaySmall,
               textAlign: TextAlign.center,
             ),
             RichText(
@@ -79,12 +79,12 @@ class CreditsPage extends StatelessWidget {
                 children: [
                   TextSpan(
                       text: 'Base map tiles and city polygons, ',
-                      style: Theme.of(context).textTheme.bodyText1),
+                      style: Theme.of(context).textTheme.bodyLarge),
                   TextSpan(
-                      text: '© ', style: Theme.of(context).textTheme.bodyText1),
+                      text: '© ', style: Theme.of(context).textTheme.bodyLarge),
                   TextSpan(
                       text: 'OpenStreetMap',
-                      style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                             decoration: TextDecoration.underline,
                           ),
                       recognizer: TapGestureRecognizer()
@@ -97,14 +97,14 @@ class CreditsPage extends StatelessWidget {
                         }),
                   TextSpan(
                     text: ' contributors',
-                    style: Theme.of(context).textTheme.bodyText1,
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ],
               ),
             ),
             Text(
               'Contains modified Copernicus Sentinel data [2022] processed by Sentinel Hub',
-              style: Theme.of(context).textTheme.bodyText1,
+              style: Theme.of(context).textTheme.bodyLarge,
               textAlign: TextAlign.center,
             ),
             RichText(
@@ -113,13 +113,13 @@ class CreditsPage extends StatelessWidget {
                 children: [
                   TextSpan(
                     text: '2022’s Happiest Cities in America, ',
-                    style: Theme.of(context).textTheme.bodyText1,
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   TextSpan(
                     text: 'WalletHub.com',
                     style: Theme.of(context)
                         .textTheme
-                        .bodyText1
+                        .bodyLarge
                         ?.copyWith(decoration: TextDecoration.underline),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () async {
@@ -140,7 +140,7 @@ class CreditsPage extends StatelessWidget {
                 child: ElevatedButton(
                   child: Text(
                     'Software licenses',
-                    style: Theme.of(context).primaryTextTheme.bodyText1,
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   onPressed: () => Navigator.push(
                     context,

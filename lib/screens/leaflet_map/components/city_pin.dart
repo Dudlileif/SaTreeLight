@@ -21,12 +21,12 @@ class CityPin extends ConsumerStatefulWidget {
   /// The text style of the city name.
   final TextStyle? textStyle;
   const CityPin({
-    Key? key,
+    super.key,
     required this.city,
     this.numberOfCities,
     this.size = 40,
     this.textStyle,
-  }) : super(key: key);
+  });
 
   @override
   ConsumerState<CityPin> createState() => _CityPinState();

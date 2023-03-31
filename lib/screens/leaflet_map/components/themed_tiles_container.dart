@@ -8,8 +8,7 @@ import 'package:themed/themed.dart';
 class ThemedTilesContainer extends StatelessWidget {
   /// The tiles containter to apply a theme to.
   final Widget tilesContainer;
-  const ThemedTilesContainer({Key? key, required this.tilesContainer})
-      : super(key: key);
+  const ThemedTilesContainer({super.key, required this.tilesContainer});
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +38,12 @@ class MaskTilesContainer extends ConsumerWidget {
 
   /// Which mask the tiles contain, used to set the right color.
   final CoverageType mask;
-  const MaskTilesContainer(
-      {Key? key, required this.tilesContainer, required this.mask})
-      : super(key: key);
+
+  const MaskTilesContainer({
+    super.key,
+    required this.tilesContainer,
+    required this.mask,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

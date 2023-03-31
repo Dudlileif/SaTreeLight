@@ -10,8 +10,8 @@ import 'package:satreelight/widgets/stat_popup.dart';
 /// A page that shows the cities in a sorted list/grid.
 class ListPage extends ConsumerStatefulWidget {
   const ListPage({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   ConsumerState<ListPage> createState() => _ListPageState();
@@ -67,12 +67,7 @@ class _ListPageState extends ConsumerState<ListPage> {
       controller: textController,
       maxLines: 1,
       maxLength: 27,
-      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-            color: Colors.white,
-          ),
-      cursorColor: Theme.of(context).brightness == Brightness.light
-          ? Colors.white
-          : null,
+      style: Theme.of(context).textTheme.bodyLarge,
       decoration: InputDecoration(
         label: Row(
           mainAxisSize: MainAxisSize.min,
@@ -80,17 +75,9 @@ class _ListPageState extends ConsumerState<ListPage> {
             const Icon(
               Icons.search,
             ),
-            Text(
-              'Search',
-              style: Theme.of(context).brightness == Brightness.light
-                  ? Theme.of(context).primaryTextTheme.bodyLarge
-                  : null,
-            ),
+            Text('Search', style: Theme.of(context).textTheme.bodyLarge),
           ],
         ),
-        fillColor: Theme.of(context).brightness == Brightness.light
-            ? Theme.of(context).primaryColor
-            : null,
         counterText: '',
         constraints: const BoxConstraints(maxWidth: 300),
         suffixIcon: searchString != ''
@@ -99,13 +86,8 @@ class _ListPageState extends ConsumerState<ListPage> {
                   textController.clear();
                   ref.read(searchStringProvider.notifier).clear();
                 },
-                icon: const Icon(
-                  Icons.close,
-                ),
+                icon: const Icon(Icons.close),
                 splashRadius: 20,
-                color: Theme.of(context).brightness == Brightness.light
-                    ? Theme.of(context).primaryIconTheme.color
-                    : null,
               )
             : null,
       ),
@@ -133,11 +115,6 @@ class _ListPageState extends ConsumerState<ListPage> {
                               context: context,
                               builder: (context) {
                                 return SimpleDialog(
-                                  backgroundColor:
-                                      Theme.of(context).brightness ==
-                                              Brightness.light
-                                          ? Theme.of(context).primaryColor
-                                          : null,
                                   children: [
                                     textSearch,
                                   ],
@@ -162,32 +139,13 @@ class _ListPageState extends ConsumerState<ListPage> {
             child: Center(
               child: Text(
                 'Sort by',
-                style: Theme.of(context)
-                    .textTheme
-                    .headline6
-                    ?.copyWith(color: Colors.white),
+                style: Theme.of(context).textTheme.titleLarge,
               ),
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: ToggleButtons(
-              fillColor: Theme.of(context).brightness == Brightness.light
-                  ? Colors.white
-                  : null,
-              selectedColor: Theme.of(context).brightness == Brightness.light
-                  ? Theme.of(context).primaryColor
-                  : null,
-              color: Theme.of(context).brightness == Brightness.light
-                  ? Colors.white
-                  : null,
-              borderColor: Theme.of(context).brightness == Brightness.light
-                  ? Colors.white
-                  : null,
-              selectedBorderColor:
-                  Theme.of(context).brightness == Brightness.light
-                      ? Colors.white
-                      : null,
               onPressed: (index) => sort(index),
               isSelected: List.generate(
                 Sorting.values.length,
@@ -213,9 +171,6 @@ class _ListPageState extends ConsumerState<ListPage> {
             tooltip: 'Reverse list',
             onPressed: reverse,
             icon: const Icon(Icons.import_export),
-            color: Theme.of(context).brightness == Brightness.light
-                ? Colors.white
-                : Theme.of(context).primaryColor,
             padding: const EdgeInsets.all(8),
           )
         ],

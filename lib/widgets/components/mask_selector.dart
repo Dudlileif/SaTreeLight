@@ -7,7 +7,7 @@ import 'package:satreelight/providers/providers.dart';
 
 /// A dialog that containts toggles for the mask layers.
 class MaskSelector extends ConsumerStatefulWidget {
-  const MaskSelector({Key? key}) : super(key: key);
+  const MaskSelector({super.key});
 
   @override
   ConsumerState<MaskSelector> createState() => _MaskSelectorState();
@@ -75,7 +75,7 @@ class _MaskSelectorState extends ConsumerState<MaskSelector> {
               Center(
                 child: Text(
                   'Mask selection',
-                  style: Theme.of(context).textTheme.headline6,
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
               ),
               const Align(

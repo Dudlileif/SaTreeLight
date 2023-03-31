@@ -53,9 +53,10 @@ class ShowArrowsOnPopupNotifier extends StateNotifier<bool> {
 
 /// A notifier keeping track of the selected masks.
 class MaskSelectionNotifier extends ChangeNotifier {
-  final _masks = List.generate(CoverageType.values.length, (index) => true);
+  final List<bool> _masks =
+      List.generate(CoverageType.values.length, (index) => true);
 
-  get masks => _masks;
+  List<bool> get masks => _masks;
 
   void updateMask(int index, bool value) {
     _masks[index] = value;
