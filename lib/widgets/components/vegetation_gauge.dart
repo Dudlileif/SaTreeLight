@@ -143,9 +143,9 @@ class _VegetationGaugeState extends ConsumerState<VegetationGauge>
                           as: 'percent',
                         )
                       ],
-                      elements: [
-                        IntervalElement(
-                          color: ColorAttr(
+                      marks: [
+                        IntervalMark(
+                          color: ColorEncode(
                               values: CoverageColors.colorsFromKeys(
                                 widget.keys,
                                 dark: Theme.of(context).brightness ==
@@ -154,19 +154,20 @@ class _VegetationGaugeState extends ConsumerState<VegetationGauge>
                               variable: 'type'),
                           position: Varset('percent') / Varset('type'),
                           modifiers: [StackModifier()],
-                          label: LabelAttr(
+                          label: LabelEncode(
                             encoder: (tuple) => Label(
                                 tuple['percent'] > 0.05
                                     ? '${compactDouble.format(useRelative ? tuple['percent'] * 100 : tuple['coverage'])}% ${tuple['type']}'
                                     : ' ',
                                 LabelStyle(
-                                  style: Theme.of(context).textTheme.labelSmall,
+                                  textStyle:
+                                      Theme.of(context).textTheme.labelSmall,
                                   minWidth: 50,
                                   maxWidth: 85,
                                   maxLines: 3,
                                 )),
                           ),
-                          size: SizeAttr(
+                          size: SizeEncode(
                               value: constraints.smallest.longestSide / 10),
                         ),
                       ],
