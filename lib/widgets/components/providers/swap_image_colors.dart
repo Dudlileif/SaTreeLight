@@ -12,9 +12,13 @@ final swapImageColorsProvider =
   final city = ref.watch(selectedCityProvider);
   final masks = ref.watch(imageMasksProvider);
 
-  if (city != null) {
+  if (city != null && (Platform.isLinux || Platform.isWindows)) {
+    final dirPath = Platform.isLinux
+        ? '/home/gaute/Documents/Projects/SaTreeLight/Sentinelsat/images/masked'
+        : 'E:/Projects/SaTreeLight-data-processing/images/masked';
     final file = File(
-        'E:/Projects/SaTreeLight-data-processing/images/masked/${city.name}, ${city.stateLong}.png',);
+      '$dirPath/${city.name}, ${city.stateLong}.png',
+    );
 
     final imageBytes = await file.readAsBytes();
 
@@ -23,17 +27,22 @@ final swapImageColorsProvider =
       final convertedImage = image.convert(
         numChannels: 4,
         alpha: 0,
+        noAnimation: true,
       );
 
       for (final pixel in convertedImage) {
         if (masks.any((mask) => pixel.r - 1 == mask.index)) {
-          pixel.set(CoverageColors.colorFromMaskIndex(
-            pixel.r.toInt() - 1,
-            dark: isDarkMode,
-          ),);
+          pixel.set(
+            CoverageColors.colorFromMaskIndex(
+              pixel.r.toInt() - 1,
+              dark: isDarkMode,
+            ),
+          );
         }
       }
-      return image_lib.encodePng(convertedImage);
+      return image_lib.encodeBmp(
+        convertedImage,
+      );
     }
   }
   return Uint8List(0);

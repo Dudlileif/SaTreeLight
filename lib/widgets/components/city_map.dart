@@ -40,8 +40,9 @@ class _CityMapState extends ConsumerState<CityMap> {
   final FitBoundsOptions boundsOptions =
       const FitBoundsOptions(padding: EdgeInsets.all(20));
 
-  bool useImages = false;
-  bool useCombinedImages = false;
+  bool useImages = true;
+  bool useCombinedImages = true;
+  bool useClipper = true;
 
   @override
   void initState() {
@@ -129,15 +130,36 @@ class _CityMapState extends ConsumerState<CityMap> {
               .when(
                 loading: () => const SizedBox.shrink(),
                 error: (error, stackTrace) => const SizedBox.shrink(),
-                data: (data) => OverlayImageLayer(
-                  overlayImages: [
-                    OverlayImage(
-                      bounds: city.bounds,
-                      opacity: 0.5,
-                      imageProvider: MemoryImage(data),
-                    )
-                  ],
-                ),
+                data: (data) => useClipper
+                    ? Builder(
+                        builder: (context) => ClipPath(
+                          clipper: PolygonClipper(
+                            map: FlutterMapState.maybeOf(
+                              context,
+                              nullOk: true,
+                            ),
+                            polygons: city.polygons(),
+                          ),
+                          child: OverlayImageLayer(
+                            overlayImages: [
+                              OverlayImage(
+                                bounds: city.bounds,
+                                opacity: 0.5,
+                                imageProvider: MemoryImage(data),
+                              )
+                            ],
+                          ),
+                        ),
+                      )
+                    : OverlayImageLayer(
+                        overlayImages: [
+                          OverlayImage(
+                            bounds: city.bounds,
+                            opacity: 0.5,
+                            imageProvider: MemoryImage(data),
+                          )
+                        ],
+                      ),
               ),
         if (city != null && useImages && !useCombinedImages)
           ...ref.watch(imageMasksProvider).map(
@@ -159,7 +181,7 @@ class _CityMapState extends ConsumerState<CityMap> {
                               ).image
                             : FileImage(
                                 File(
-                                  'E:/Projects/SaTreeLight-data-processing/export/masks/${mask.string}/${city.name}, ${city.stateLong}.png',
+                                  '${Platform.isLinux ? '/home/gaute/Documents/Projects/SaTreeLight/Sentinelsat/export/masks' : 'E:/Projects/SaTreeLight-data-processing/export/masks'}/${mask.string}/${city.name}, ${city.stateLong}.png',
                                 ),
                               ),
                       )
@@ -178,13 +200,15 @@ class _CityMapState extends ConsumerState<CityMap> {
         ),
         if (!useImages)
           Builder(
-            builder: (context) => ClipPath(
-              clipper: PolygonClipper(
-                map: FlutterMapState.maybeOf(context, nullOk: true),
-                polygons: city?.polygons(),
-              ),
-              child: Stack(children: maskLayers),
-            ),
+            builder: (context) => useClipper
+                ? ClipPath(
+                    clipper: PolygonClipper(
+                      map: FlutterMapState.maybeOf(context, nullOk: true),
+                      polygons: city?.polygons(),
+                    ),
+                    child: Stack(children: maskLayers),
+                  )
+                : Stack(children: maskLayers),
           ),
       ],
     );
@@ -220,6 +244,17 @@ class _CityMapState extends ConsumerState<CityMap> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text('Use polygon clipper'),
+                        Checkbox(
+                          value: useClipper,
+                          onChanged: (value) =>
+                              setState(() => useClipper = value ?? useClipper),
+                        )
+                      ],
+                    ),
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
