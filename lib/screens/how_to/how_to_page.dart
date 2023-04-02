@@ -26,8 +26,10 @@ class HowToPage extends ConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Click on the location pin',
-                style: Theme.of(context).textTheme.displaySmall,),
+            Text(
+              'Click on the location pin',
+              style: Theme.of(context).textTheme.displaySmall,
+            ),
             const SizedBox(height: 100),
             if (city != null)
               CityPin(

@@ -65,27 +65,39 @@ class CoverageColors {
   };
 
   /// Gets mapped light/dark mode colors, with the ability to adjust opacity.
-  static Map<CoverageType, Color> colorMapWithOpacity(
-      {double opacity = 1, bool dark = false,}) {
+  static Map<CoverageType, Color> colorMapWithOpacity({
+    double opacity = 1,
+    bool dark = false,
+  }) {
     final colorMap = dark ? colorMapDark : colorMapLight;
     return colorMap
         .map((key, value) => MapEntry(key, value.withOpacity(opacity)));
   }
 
   /// Gets light/dark mode colors, with the ability to adjust opacity.
-  static List<Color> colorsWithOpacity(
-      {double opacity = 1, bool dark = false,}) {
+  static List<Color> colorsWithOpacity({
+    double opacity = 1,
+    bool dark = false,
+  }) {
     final colors = dark ? colorsDark : colorsLight;
     return List.generate(
-        colors.length, (index) => colors[index].withOpacity(opacity),);
+      colors.length,
+      (index) => colors[index].withOpacity(opacity),
+    );
   }
 
-  /// Gets only the requested light/dark mode colors for the keys, with the ability to adjust opacity.
-  static List<Color> colorsFromKeys(List<CoverageType> keys,
-      {bool dark = false, double opacity = 1,}) {
+  /// Gets only the requested light/dark mode colors for the keys,
+  /// with the ability to adjust opacity.
+  static List<Color> colorsFromKeys(
+    List<CoverageType> keys, {
+    bool dark = false,
+    double opacity = 1,
+  }) {
     final colorMap = dark ? colorMapDark : colorMapLight;
     return List.generate(
-        keys.length, (index) => colorMap[keys[index]]!.withOpacity(opacity),);
+      keys.length,
+      (index) => colorMap[keys[index]]!.withOpacity(opacity),
+    );
   }
 
   static image_lib.Color colorFromMaskIndex(
@@ -97,11 +109,13 @@ class CoverageColors {
             colorsDark[index].red,
             colorsDark[index].green,
             colorsDark[index].blue,
-            colorsDark[index].alpha,)
+            colorsDark[index].alpha,
+          )
         : image_lib.ColorUint8.rgba(
             colorsLight[index].red,
             colorsLight[index].green,
             colorsLight[index].blue,
-            colorsLight[index].alpha,);
+            colorsLight[index].alpha,
+          );
   }
 }

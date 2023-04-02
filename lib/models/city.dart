@@ -155,7 +155,8 @@ class City {
     );
   }
 
-  /// Loads all the necessarry data for the city, before it returns the loaded city object.
+  /// Loads all the necessarry data for the city, before it returns
+  /// the loaded city object.
   Future<City> loadWithData() async {
     if (!loaded) {
       final manifest = await rootBundle.loadString('AssetManifest.json');

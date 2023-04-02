@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
 
 class PolygonClipper extends CustomClipper<Path> {
-
   const PolygonClipper({
     this.map,
     this.polygons,
