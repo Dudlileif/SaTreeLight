@@ -12,14 +12,14 @@ import 'package:satreelight/widgets/loading_indicator.dart';
 
 /// A large dialog that shows details for the selected city. This includes a map
 /// with masks, ranks and coverage details.
-class StatPopup extends ConsumerStatefulWidget {
-  const StatPopup({super.key});
+class CityDialog extends ConsumerStatefulWidget {
+  const CityDialog({super.key});
 
   @override
-  ConsumerState<StatPopup> createState() => _StatPopupState();
+  ConsumerState<CityDialog> createState() => _CityDialogState();
 }
 
-class _StatPopupState extends ConsumerState<StatPopup> {
+class _CityDialogState extends ConsumerState<CityDialog> {
   bool mapHover = false;
   List<City> cities = [];
   City? city;

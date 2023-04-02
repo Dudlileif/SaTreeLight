@@ -33,7 +33,7 @@ final mapZoomInProvider = ChangeNotifierProvider((ref) => MapZoomInNotifier());
 final mapZoomOutProvider =
     ChangeNotifierProvider((ref) => MapZoomOutNotifier());
 
-/// Provider for whether the StatPopup should show next/previous arrow buttons.
+/// Provider for whether the CityDialog should show next/previous arrow buttons.
 final showArrowsOnPopupProvider =
     StateNotifierProvider<ShowArrowsOnPopupNotifier, bool>(
         (ref) => ShowArrowsOnPopupNotifier());

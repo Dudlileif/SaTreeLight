@@ -43,7 +43,7 @@ class MapZoomOutNotifier extends ChangeNotifier {
   }
 }
 
-/// Whether the StatPopup should show next/prev arrows in the top bar.
+/// Whether the CityDialog should show next/prev arrows in the top bar.
 class ShowArrowsOnPopupNotifier extends StateNotifier<bool> {
   ShowArrowsOnPopupNotifier() : super(false);
 

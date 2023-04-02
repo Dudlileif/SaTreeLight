@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:satreelight/constants/size_breakpoints.dart';
 import 'package:satreelight/models/sorting.dart';
 import 'package:satreelight/providers/providers.dart';
-import 'package:satreelight/widgets/stat_popup.dart';
+import 'package:satreelight/widgets/city_dialog.dart';
 
 /// A page that shows the cities in a sorted list/grid.
 class ListPage extends ConsumerStatefulWidget {
@@ -195,7 +195,7 @@ class _ListPageState extends ConsumerState<ListPage> {
                 builder: (context) {
                   return BackdropFilter(
                     filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-                    child: const StatPopup(),
+                    child: const CityDialog(),
                   );
                 },
               );

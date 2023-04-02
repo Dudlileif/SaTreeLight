@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:satreelight/models/city.dart';
 import 'package:satreelight/providers/providers.dart';
-import 'package:satreelight/widgets/stat_popup.dart';
+import 'package:satreelight/widgets/city_dialog.dart';
 
 /// A widget width the city name pinned to the city location.
 class CityPin extends ConsumerStatefulWidget {
@@ -35,14 +35,14 @@ class CityPin extends ConsumerStatefulWidget {
 class _CityPinState extends ConsumerState<CityPin> {
   bool hovering = false;
 
-  showStatPopup() {
+  showCityDialog() {
     ref.read(selectedCityProvider.notifier).set(widget.city);
     showDialog(
       context: context,
       builder: (context) {
         return BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-          child: const StatPopup(),
+          child: const CityDialog(),
         );
       },
     );
@@ -71,7 +71,7 @@ class _CityPinState extends ConsumerState<CityPin> {
             elevation: 4,
             color: pinColor,
             child: GestureDetector(
-              onTap: showStatPopup,
+              onTap: showCityDialog,
               child: Padding(
                 padding: const EdgeInsets.all(4.0),
                 child: Text(
@@ -93,7 +93,7 @@ class _CityPinState extends ConsumerState<CityPin> {
           }),
           cursor: SystemMouseCursors.click,
           child: GestureDetector(
-            onTap: showStatPopup,
+            onTap: showCityDialog,
             child: DecoratedIcon(
               Icons.pin_drop,
               color: pinColor,
