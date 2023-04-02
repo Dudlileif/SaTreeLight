@@ -17,12 +17,12 @@ class OSMContribution extends StatelessWidget {
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(2.0),
+        padding: const EdgeInsets.all(2),
         child: RichText(
           text: TextSpan(
             children: [
               TextSpan(
-                  text: '© ', style: Theme.of(context).textTheme.bodySmall),
+                  text: '© ', style: Theme.of(context).textTheme.bodySmall,),
               TextSpan(
                   text: 'OpenStreetMap',
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -33,9 +33,9 @@ class OSMContribution extends StatelessWidget {
                       final url =
                           Uri.parse('https://www.openstreetmap.org/copyright');
                       if (await canLaunchUrl(url)) {
-                        launchUrl(url);
+                        await launchUrl(url);
                       }
-                    }),
+                    },),
               TextSpan(
                 text: ' contributors',
                 style: Theme.of(context).textTheme.bodySmall,

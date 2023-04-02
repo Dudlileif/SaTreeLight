@@ -25,7 +25,7 @@ class ColorSchemeNotifier extends StateNotifier<FlexScheme> {
 class MapBackgroundNotifier extends StateNotifier<bool> {
   MapBackgroundNotifier() : super(true);
 
-  void set(bool value) => state = value;
+  void set({required bool value}) => state = value;
   void invert() => state = !state;
 }
 
@@ -47,7 +47,7 @@ class MapZoomOutNotifier extends ChangeNotifier {
 class ShowArrowsOnPopupNotifier extends StateNotifier<bool> {
   ShowArrowsOnPopupNotifier() : super(false);
 
-  void set(bool value) => state = value;
+  void set({required bool value}) => state = value;
   void invert() => state = !state;
 }
 
@@ -58,20 +58,22 @@ class MaskSelectionNotifier extends ChangeNotifier {
 
   List<bool> get masks => _masks;
 
-  void updateMask(int index, bool value) {
+  void updateMask({required int index, required bool value}) {
     _masks[index] = value;
     notifyListeners();
   }
 
   void enableAll() {
-    _masks.clear();
-    _masks.addAll(List.generate(CoverageType.values.length, (index) => true));
+    _masks
+      ..clear()
+      ..addAll(List.generate(CoverageType.values.length, (index) => true));
     notifyListeners();
   }
 
   void disableAll() {
-    _masks.clear();
-    _masks.addAll(List.generate(CoverageType.values.length, (index) => false));
+    _masks
+      ..clear()
+      ..addAll(List.generate(CoverageType.values.length, (index) => false));
     notifyListeners();
   }
 }
@@ -91,7 +93,8 @@ class SortingNotifier extends StateNotifier<Sorting> {
   void set(Sorting sorting) => state = sorting;
 }
 
-/// A notifier that keeps the state for whether the city list should be reversed.
+/// A notifier that keeps the state for whether the
+/// city list should be reversed.
 class ReverseSortingNotifier extends StateNotifier<bool> {
   ReverseSortingNotifier() : super(false);
 

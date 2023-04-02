@@ -9,6 +9,25 @@ import 'package:satreelight/models/coverage_type.dart';
 
 /// A class containing all necessary data for each city.
 class City {
+  City({
+    required this.nameAndState,
+    required this.vegFrac,
+    required this.happinessScore,
+    required this.emoPhysRank,
+    required this.incomeEmpRank,
+    required this.communityEnvRank,
+    required this.center,
+    required this.bounds,
+    Map<String, double> coveragePercentMap = const {},
+  }) {
+    coveragePercent = coveragePercentMap.map(
+      (key, value) => MapEntry<CoverageType, double>(
+        CoverageType.values.firstWhere((element) => element.string == key),
+        value,
+      ),
+    );
+  }
+
   /// City name with abbreviated state name,
   final String nameAndState;
 
@@ -51,27 +70,12 @@ class City {
   /// Mapped coverage percentage for each mask layer.
   Map<CoverageType, double> coveragePercent = {};
 
-  City({
-    required this.nameAndState,
-    required this.vegFrac,
-    required this.happinessScore,
-    required this.emoPhysRank,
-    required this.incomeEmpRank,
-    required this.communityEnvRank,
-    required this.center,
-    required this.bounds,
-    Map<String, dynamic> coveragePercentMap = const {},
-  }) {
-    coveragePercent = coveragePercentMap.map((key, value) =>
-        MapEntry<CoverageType, double>(
-            CoverageType.values.firstWhere((element) => element.string == key),
-            value));
-  }
-
   /// Set the happiness rank.
-  set rank(int rank) {
+  set rank(int? rank) {
     happinessRank = rank;
   }
+
+  int? get rank => happinessRank;
 
   /// Get the city name.
   String get name {
@@ -132,7 +136,7 @@ class City {
       CoverageType.water
     ],
   }) {
-    double total = coveragePercent[type]!;
+    var total = coveragePercent[type]!;
     for (final other in others) {
       total += coveragePercent[other]!;
     }
@@ -155,31 +159,35 @@ class City {
   Future<City> loadWithData() async {
     if (!loaded) {
       final manifest = await rootBundle.loadString('AssetManifest.json');
-      Map<String, dynamic> assetMap = jsonDecode(manifest);
+      final assetMap = Map<String, dynamic>.from(jsonDecode(manifest) as Map);
 
-      final String path = 'assets/data/polygons/$name, $stateLong.json';
+      final path = 'assets/data/polygons/$name, $stateLong.json';
 
       if (assetMap.containsKey(path)) {
         // path.replaceAll(' ', '%20')
         final polygonString = await rootBundle.loadString(path);
-        final Map<String, dynamic> jsonMap = jsonDecode(polygonString);
-        List<dynamic> polygonList = [];
+        final jsonMap =
+            Map<String, dynamic>.from(jsonDecode(polygonString) as Map);
+        var polygonList = <List<dynamic>>[];
         if (jsonMap.containsKey('geometries')) {
-          polygonList = jsonMap['geometries'][0]['coordinates'];
+          polygonList = List.from(
+            (List<dynamic>.from(jsonMap['geometries'] as List)[0]
+                as Map)['coordinates'] as List,
+          );
         } else {
-          polygonList = jsonMap['coordinates'];
+          polygonList = List.from(jsonMap['coordinates'] as List);
         }
 
         if (jsonMap['type'] == 'Polygon') {
-          int index = 0;
-          int subIndex = 0;
-          for (List polygon in polygonList) {
-            List<LatLng> polygonLatLngs = List.generate(
+          const index = 0;
+          var subIndex = 0;
+          for (final polygon in polygonList) {
+            final polygonLatLngs = List<LatLng>.generate(
               polygon.length,
               (index) {
-                final point = polygon[index];
-                double lat = point[1].toDouble();
-                double lon = point[0].toDouble();
+                final point = List<double>.from(polygon[index] as List);
+                final lat = point[1];
+                final lon = point[0];
                 return LatLng(lat, lon);
               },
             );
@@ -196,16 +204,16 @@ class City {
             subIndex++;
           }
         } else {
-          int index = 0;
-          for (List polygon in polygonList) {
-            int subIndex = 0;
-            for (List points in polygon) {
-              List<LatLng> polygonLatLngs = List.generate(
+          var index = 0;
+          for (final polygon in polygonList) {
+            var subIndex = 0;
+            for (final points in List<List<dynamic>>.from(polygon)) {
+              final polygonLatLngs = List<LatLng>.generate(
                 points.length,
                 (index) {
-                  final point = points[index];
-                  double lat = point[1].toDouble();
-                  double lon = point[0].toDouble();
+                  final point = List<double>.from(points[index] as List);
+                  final lat = point[1];
+                  final lon = point[0];
                   return LatLng(lat, lon);
                 },
               );
@@ -250,39 +258,45 @@ class CitiesUtilities {
   /// Initializes the cities from asset storage.
   static Future<List<City>> loadCities() async {
     final dataFile = await rootBundle.loadString('assets/city_data.json');
-    List<dynamic> data = await jsonDecode(dataFile);
+    final data =
+        List<Map<String, dynamic>>.from(await jsonDecode(dataFile) as List);
 
-    final newDataFile = await rootBundle
+    final coveragePercentFile = await rootBundle
         .loadString('assets/data/coverage_percent_bands_1-11.json');
-    Map<String, dynamic> newData = await jsonDecode(newDataFile);
+    final coveragePercentData =
+        Map<String, dynamic>.from(await jsonDecode(coveragePercentFile) as Map);
 
-    String bboxFile = await rootBundle.loadString('assets/data/bbox.json');
-    Map<String, dynamic> bboxData = await jsonDecode(bboxFile);
+    final bboxFile = await rootBundle.loadString('assets/data/bbox.json');
+    final bboxData =
+        Map<String, dynamic>.from(await jsonDecode(bboxFile) as Map);
 
-    List<City> cities = [];
-    for (Map<String, dynamic> cityData in data) {
-      var coords = bboxData[cityData['City'].split(',')[0] +
-          ', ' +
-          usStates[cityData['City'].split(', ')[1]]];
+    final cities = <City>[];
+    for (final cityData in data) {
+      final cityName = (cityData['City'] as String).split(',')[0];
+      final state = usStates[(cityData['City'] as String).split(', ')[1]];
+      final cityAndState = '$cityName, $state';
+      final coords = List<double>.from(
+        bboxData[cityAndState] as List,
+      );
 
-      LatLng sw = LatLng(coords[2], coords[0]);
-      LatLng ne = LatLng(coords[3], coords[1]);
+      final sw = LatLng(coords[2], coords[0]);
+      final ne = LatLng(coords[3], coords[1]);
 
-      final LatLngBounds bounds = LatLngBounds(sw, ne);
-      final center = cityData['Center']['coordinates'];
+      final bounds = LatLngBounds(sw, ne);
+      final center =
+          List<double>.from((cityData['Center'] as Map)['coordinates'] as List);
 
       final city = City(
-        nameAndState: cityData['City'],
-        vegFrac: cityData['Vegetation Fraction'],
-        happinessScore: cityData['Happiness Score'].toDouble(),
-        emoPhysRank: cityData['Emotional and Physical Well-Being Rank'],
-        incomeEmpRank: cityData['Income and Employment Rank'],
-        communityEnvRank: cityData['Community and Environment Rank'],
+        nameAndState: cityData['City'] as String,
+        vegFrac: cityData['Vegetation Fraction'] as double,
+        happinessScore: cityData['Happiness Score'] as double,
+        emoPhysRank: cityData['Emotional and Physical Well-Being Rank'] as int,
+        incomeEmpRank: cityData['Income and Employment Rank'] as int,
+        communityEnvRank: cityData['Community and Environment Rank'] as int,
         center: LatLng(center.last, center.first),
         bounds: bounds,
-        coveragePercentMap: newData[cityData['City'].split(',')[0] +
-            ', ' +
-            usStates[cityData['City'].split(', ')[1]]],
+        coveragePercentMap:
+            Map<String, double>.from(coveragePercentData[cityAndState] as Map),
       );
 
       cities.add(city);
@@ -301,7 +315,7 @@ class CitiesUtilities {
 
   /// Gets a JSON map of all the cities.
   static String getDataString(List<City> cities) {
-    List<dynamic> jsonMap = [];
+    final jsonMap = <dynamic>[];
     for (final city in cities) {
       jsonMap.add(city.toMap());
     }

@@ -56,8 +56,8 @@ class SaTreeLight extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final FlexScheme scheme = ref.watch(colorSchemeProvider);
-    final ThemeMode themeMode = ref.watch(themeModeProvider);
+    final scheme = ref.watch(colorSchemeProvider);
+    final themeMode = ref.watch(themeModeProvider);
 
     return MaterialApp(
       title: 'SaTreeLight',

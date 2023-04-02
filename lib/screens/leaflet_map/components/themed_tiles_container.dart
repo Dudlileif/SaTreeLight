@@ -6,9 +6,13 @@ import 'package:themed/themed.dart';
 
 /// A class for theming the map tiles, used to get a dark mode map.
 class ThemedTilesContainer extends StatelessWidget {
+  const ThemedTilesContainer({
+    required this.tilesContainer,
+    super.key,
+  });
+
   /// The tiles containter to apply a theme to.
   final Widget tilesContainer;
-  const ThemedTilesContainer({super.key, required this.tilesContainer});
 
   @override
   Widget build(BuildContext context) {
@@ -33,28 +37,29 @@ class ThemedTilesContainer extends StatelessWidget {
 
 /// A class for coloring the mask tiles.
 class MaskTilesContainer extends ConsumerWidget {
+  const MaskTilesContainer({
+    required this.tilesContainer,
+    required this.mask,
+    super.key,
+  });
+
   /// The tiles container to apply a color to.
   final Widget tilesContainer;
 
   /// Which mask the tiles contain, used to set the right color.
   final CoverageType mask;
 
-  const MaskTilesContainer({
-    super.key,
-    required this.tilesContainer,
-    required this.mask,
-  });
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ColorFiltered(
       colorFilter: ColorFilter.mode(
-          CoverageColors.colorMapWithOpacity(
-                dark: Theme.of(context).brightness == Brightness.dark,
-                opacity: 0.5,
-              )[mask] ??
-              Colors.white,
-          BlendMode.srcIn),
+        CoverageColors.colorMapWithOpacity(
+              dark: Theme.of(context).brightness == Brightness.dark,
+              opacity: 0.5,
+            )[mask] ??
+            Colors.white,
+        BlendMode.srcIn,
+      ),
       child: tilesContainer,
     );
   }

@@ -11,17 +11,17 @@ final compactDouble = NumberFormat.compact();
 
 /// A circular chart/gauge for showing the amount of coverage for the masks.
 class VegetationGauge extends ConsumerStatefulWidget {
-  final City city;
-  final City? prevCity;
-  final List<CoverageType> keys;
-  final List<CoverageType>? prevKeys;
   const VegetationGauge({
-    super.key,
     required this.city,
     this.prevCity,
     this.keys = CoverageType.values,
     this.prevKeys,
+    super.key,
   });
+  final City city;
+  final City? prevCity;
+  final List<CoverageType> keys;
+  final List<CoverageType>? prevKeys;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -48,31 +48,33 @@ class _VegetationGaugeState extends ConsumerState<VegetationGauge>
     );
 
     if (widget.prevCity != null) {
-      Map<CoverageType, Animation<double>> coverageAnimMap = {};
+      final coverageAnimMap = <CoverageType, Animation<double>>{};
       for (final coverageType in CoverageType.values) {
         coverageAnimMap[coverageType] = Tween<double>(
           begin: widget.prevCity!.coveragePercent[coverageType],
           end: widget.city.coveragePercent[coverageType],
         ).animate(animationController);
       }
-      animationController.addListener(
-        () => setState(
-          () {
-            for (final coverageType in CoverageType.values) {
-              coveragePercent[coverageType] =
-                  coverageAnimMap[coverageType]!.value;
-            }
-          },
-        ),
-      );
-
-      animationController.animateTo(1,
-          duration: const Duration(milliseconds: 500));
+      animationController
+        ..addListener(
+          () => setState(
+            () {
+              for (final coverageType in CoverageType.values) {
+                coveragePercent[coverageType] =
+                    coverageAnimMap[coverageType]!.value;
+              }
+            },
+          ),
+        )
+        ..animateTo(
+          1,
+          duration: const Duration(milliseconds: 500),
+        );
     }
 
     if (widget.prevKeys != null) {
       if (widget.prevKeys!.join() != widget.keys.join()) {
-        Map<CoverageType, Animation<double>> coverageAnimMap = {};
+        final coverageAnimMap = <CoverageType, Animation<double>>{};
         for (final coverageType in widget.keys) {
           if (widget.prevKeys!.contains(coverageType)) {
             coverageAnimMap[coverageType] = Tween<double>(
@@ -89,8 +91,10 @@ class _VegetationGaugeState extends ConsumerState<VegetationGauge>
             ).animate(animationController);
           }
         }
-        animationController.animateTo(1,
-            duration: const Duration(milliseconds: 500));
+        animationController.animateTo(
+          1,
+          duration: const Duration(milliseconds: 500),
+        );
       }
     }
   }
@@ -103,7 +107,7 @@ class _VegetationGaugeState extends ConsumerState<VegetationGauge>
 
   @override
   Widget build(BuildContext context) {
-    int hasValue = 0;
+    var hasValue = 0;
     CoverageType? coverageWithValue;
     if (hasValue < 2) {
       for (final key in widget.keys) {
@@ -121,19 +125,24 @@ class _VegetationGaugeState extends ConsumerState<VegetationGauge>
             builder: (BuildContext context, BoxConstraints constraints) {
               return hasValue == 1
                   ? Text(
-                      '${coverageWithValue?.capitalizedString() ?? ''}: ${compactDouble.format(coveragePercent[coverageWithValue])}%')
+                      '${coverageWithValue?.capitalizedString() ?? ''}: ${compactDouble.format(coveragePercent[coverageWithValue])}%',
+                    )
                   : Chart(
                       data: List.generate(
-                          widget.keys.length,
-                          (index) => {
-                                'type': widget.keys[index].capitalizedString(),
-                                'coverage': coveragePercent[widget.keys[index]]
-                              }),
+                        widget.keys.length,
+                        (index) => {
+                          'type': widget.keys[index].capitalizedString(),
+                          'coverage': coveragePercent[widget.keys[index]]
+                        },
+                      ),
                       variables: {
                         'type': Variable(
-                            accessor: (Map datum) => datum['type'] as String),
+                          accessor: (Map<String, dynamic> datum) =>
+                              datum['type'] as String,
+                        ),
                         'coverage': Variable(
-                          accessor: (Map datum) => datum['coverage'] as num,
+                          accessor: (Map<String, dynamic> datum) =>
+                              datum['coverage'] as num,
                           scale: LinearScale(min: 0),
                         )
                       },
@@ -146,29 +155,32 @@ class _VegetationGaugeState extends ConsumerState<VegetationGauge>
                       marks: [
                         IntervalMark(
                           color: ColorEncode(
-                              values: CoverageColors.colorsFromKeys(
-                                widget.keys,
-                                dark: Theme.of(context).brightness ==
-                                    Brightness.dark,
-                              ),
-                              variable: 'type'),
+                            values: CoverageColors.colorsFromKeys(
+                              widget.keys,
+                              dark: Theme.of(context).brightness ==
+                                  Brightness.dark,
+                            ),
+                            variable: 'type',
+                          ),
                           position: Varset('percent') / Varset('type'),
                           modifiers: [StackModifier()],
                           label: LabelEncode(
                             encoder: (tuple) => Label(
-                                tuple['percent'] > 0.05
-                                    ? '${compactDouble.format(useRelative ? tuple['percent'] * 100 : tuple['coverage'])}% ${tuple['type']}'
-                                    : ' ',
-                                LabelStyle(
-                                  textStyle:
-                                      Theme.of(context).textTheme.labelSmall,
-                                  minWidth: 50,
-                                  maxWidth: 85,
-                                  maxLines: 3,
-                                )),
+                              tuple['percent'] as double > 0.05
+                                  ? '${compactDouble.format(useRelative ? (tuple['percent'] as double) * 100 : (tuple['coverage'] as double))}% ${tuple['type'] as String}'
+                                  : ' ',
+                              LabelStyle(
+                                textStyle:
+                                    Theme.of(context).textTheme.labelSmall,
+                                minWidth: 50,
+                                maxWidth: 85,
+                                maxLines: 3,
+                              ),
+                            ),
                           ),
                           size: SizeEncode(
-                              value: constraints.smallest.longestSide / 10),
+                            value: constraints.smallest.longestSide / 10,
+                          ),
                         ),
                       ],
                       coord: PolarCoord(

@@ -9,6 +9,14 @@ import 'package:satreelight/widgets/city_dialog.dart';
 
 /// A widget width the city name pinned to the city location.
 class CityPin extends ConsumerStatefulWidget {
+  const CityPin({
+    required this.city,
+    this.numberOfCities,
+    this.size = 40,
+    this.textStyle,
+    super.key,
+  });
+
   /// The city this pin attaches to.
   final City city;
 
@@ -20,13 +28,6 @@ class CityPin extends ConsumerStatefulWidget {
 
   /// The text style of the city name.
   final TextStyle? textStyle;
-  const CityPin({
-    super.key,
-    required this.city,
-    this.numberOfCities,
-    this.size = 40,
-    this.textStyle,
-  });
 
   @override
   ConsumerState<CityPin> createState() => _CityPinState();
@@ -35,9 +36,9 @@ class CityPin extends ConsumerStatefulWidget {
 class _CityPinState extends ConsumerState<CityPin> {
   bool hovering = false;
 
-  showCityDialog() {
+  void showCityDialog() {
     ref.read(selectedCityProvider.notifier).set(widget.city);
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (context) {
         return BackdropFilter(
@@ -67,13 +68,13 @@ class _CityPinState extends ConsumerState<CityPin> {
           }),
           cursor: SystemMouseCursors.click,
           child: Card(
-            margin: const EdgeInsets.all(0),
+            margin: EdgeInsets.zero,
             elevation: 4,
             color: pinColor,
             child: GestureDetector(
               onTap: showCityDialog,
               child: Padding(
-                padding: const EdgeInsets.all(4.0),
+                padding: const EdgeInsets.all(4),
                 child: Text(
                   widget.city.name,
                   textAlign: TextAlign.center,

@@ -12,9 +12,10 @@ enum CoverageType {
   thinCirrus('thin_cirrus'),
   snow('snow');
 
+  const CoverageType(this.string);
+
   /// Useful for texts, paths and data.
   final String string;
-  const CoverageType(this.string);
 
   /// A more usable version of [string].
   String capitalizedString() => string

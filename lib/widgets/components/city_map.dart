@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:satreelight/models/city.dart';
 import 'package:satreelight/models/coverage_colors.dart';
 import 'package:satreelight/providers/providers.dart';
 import 'package:satreelight/screens/leaflet_map/components/osm_contribution.dart';
@@ -19,12 +18,14 @@ final boundsProvider = StateProvider.autoDispose<LatLngBounds?>((ref) => null);
 
 /// Provider for the map zoom, used to keep position on mask selection update.
 final zoomProvider = StateProvider.autoDispose.family<double, MapController>(
-    (ref, controller) =>
-        ref.read(selectedCityProvider)?.centerZoom(controller).zoom ?? 7);
+  (ref, controller) =>
+      ref.read(selectedCityProvider)?.centerZoom(controller).zoom ?? 7,
+);
 
 /// Provider for the map center, used to keep position on mask selection update.
 final centerProvider = StateProvider.autoDispose<LatLng>(
-    (ref) => ref.read(selectedCityProvider)?.center ?? LatLng(0, 0));
+  (ref) => ref.read(selectedCityProvider)?.center ?? LatLng(0, 0),
+);
 
 /// A map of the city, with a bounds polygon and selected masks.
 class CityMap extends ConsumerStatefulWidget {
@@ -64,36 +65,42 @@ class _CityMapState extends ConsumerState<CityMap> {
     ref.listen<bool>(updatedMasks, (previous, next) {
       if (next) {
         mapController.move(
-            ref.watch(centerProvider), ref.watch(zoomProvider(mapController)));
+          ref.watch(centerProvider),
+          ref.watch(zoomProvider(mapController)),
+        );
       }
     });
 
-    final City? city = ref.watch(loadCityDataProvider).when(
-        error: (error, stackTrace) => null,
-        loading: () => null,
-        data: (data) {
-          if (data != null) {
-            WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-              ref.read(boundsProvider.notifier).update((state) => data.bounds);
-              mapController.fitBounds(data.bounds, options: boundsOptions);
-            });
-          }
-          return data;
-        });
+    final city = ref.watch(loadCityDataProvider).when(
+          error: (error, stackTrace) => null,
+          loading: () => null,
+          data: (data) {
+            if (data != null) {
+              WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                ref
+                    .read(boundsProvider.notifier)
+                    .update((state) => data.bounds);
+                mapController.fitBounds(data.bounds, options: boundsOptions);
+              });
+            }
+            return data;
+          },
+        );
 
-    final LatLngBounds? bounds = ref.watch(boundsProvider);
+    final bounds = ref.watch(boundsProvider);
 
-    final List<TileLayer> maskLayers = ref.watch(cityMasksProvider).when(
-        error: (error, stackTrace) => [],
-        loading: () => [],
-        data: (data) {
-          // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-          //   ref.read(updatedMasks.notifier).update((state) => true);
-          // });
-          return data;
-        });
+    final maskLayers = ref.watch(cityMasksProvider).when(
+          error: (error, stackTrace) => <Widget>[],
+          loading: () => <Widget>[],
+          data: (data) {
+            // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+            //   ref.read(updatedMasks.notifier).update((state) => true);
+            // });
+            return data;
+          },
+        );
 
-    final FlutterMap map = FlutterMap(
+    final map = FlutterMap(
       mapController: mapController,
       options: MapOptions(
         interactiveFlags: InteractiveFlag.all & ~InteractiveFlag.rotate,
@@ -101,7 +108,6 @@ class _CityMapState extends ConsumerState<CityMap> {
         maxZoom: 18.25,
         swPanBoundary: bounds?.southWest,
         nePanBoundary: bounds?.northEast,
-        enableScrollWheel: true,
         bounds: bounds,
         boundsOptions: boundsOptions,
         slideOnBoundaries: true,
@@ -115,8 +121,11 @@ class _CityMapState extends ConsumerState<CityMap> {
         ),
         if (city != null && useImages && useCombinedImages)
           ref
-              .watch(swapImageColorsProvider(
-                  Theme.of(context).brightness == Brightness.dark))
+              .watch(
+                swapImageColorsProvider(
+                  Theme.of(context).brightness == Brightness.dark,
+                ),
+              )
               .when(
                 loading: () => const SizedBox.shrink(),
                 error: (error, stackTrace) => const SizedBox.shrink(),
@@ -136,7 +145,6 @@ class _CityMapState extends ConsumerState<CityMap> {
                   colorFilter: ColorFilter.mode(
                     CoverageColors.colorMapWithOpacity(
                       dark: Theme.of(context).brightness == Brightness.dark,
-                      opacity: 1,
                     )[mask]!,
                     BlendMode.srcIn,
                   ),
@@ -147,11 +155,12 @@ class _CityMapState extends ConsumerState<CityMap> {
                         opacity: 0.75,
                         imageProvider: kIsWeb
                             ? Image.network(
-                                    '../data/masks/${mask.string}/${city.name}, ${city.stateLong}.png')
-                                .image
+                                '../data/masks/${mask.string}/${city.name}, ${city.stateLong}.png',
+                              ).image
                             : FileImage(
                                 File(
-                                    'E:/Projects/SaTreeLight-data-processing/export/masks/${mask.string}/${city.name}, ${city.stateLong}.png'),
+                                  'E:/Projects/SaTreeLight-data-processing/export/masks/${mask.string}/${city.name}, ${city.stateLong}.png',
+                                ),
                               ),
                       )
                     ],
@@ -186,10 +195,12 @@ class _CityMapState extends ConsumerState<CityMap> {
         Align(
           alignment: Alignment.topRight,
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8),
             child: FilledButton.tonal(
-              onPressed: () => showDialog(
-                  context: context, builder: (context) => const MaskSelector()),
+              onPressed: () => showDialog<void>(
+                context: context,
+                builder: (context) => const MaskSelector(),
+              ),
               child: const Text('Masks'),
             ),
           ),
@@ -201,10 +212,10 @@ class _CityMapState extends ConsumerState<CityMap> {
         Align(
           alignment: Alignment.topLeft,
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8),
             child: Card(
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,

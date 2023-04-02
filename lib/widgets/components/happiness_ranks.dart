@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:satreelight/models/city.dart';
 
-/// A widget with all the separate ranks for the city, out of the number of cities.
+/// A widget with all the separate ranks for the city,
+/// out of the number of cities.
 class HappinessRanks extends StatefulWidget {
+  const HappinessRanks({
+    required this.city,
+    this.prevCity,
+    this.numberOfCities,
+    super.key,
+  });
+
   /// The city to show ranks for.
   final City city;
 
@@ -11,12 +19,6 @@ class HappinessRanks extends StatefulWidget {
 
   /// The total number of cities.
   final int? numberOfCities;
-  const HappinessRanks({
-    super.key,
-    required this.city,
-    this.prevCity,
-    this.numberOfCities,
-  });
 
   @override
   State<HappinessRanks> createState() => _HappinessRanksState();
@@ -68,19 +70,21 @@ class _HappinessRanksState extends State<HappinessRanks>
         end: widget.city.communityEnvRank,
       ).animate(animationController);
 
-      animationController.addListener(
-        () => setState(
-          () {
-            happinessRank = happinessTween.value;
-            emoPhysRank = emoPhysTween.value;
-            incomeEmpRank = incomeEmpTween.value;
-            communityEnvRank = communityEnvTween.value;
-          },
-        ),
-      );
-
-      animationController.animateTo(1,
-          duration: const Duration(milliseconds: 500));
+      animationController
+        ..addListener(
+          () => setState(
+            () {
+              happinessRank = happinessTween.value;
+              emoPhysRank = emoPhysTween.value;
+              incomeEmpRank = incomeEmpTween.value;
+              communityEnvRank = communityEnvTween.value;
+            },
+          ),
+        )
+        ..animateTo(
+          1,
+          duration: const Duration(milliseconds: 500),
+        );
     }
   }
 
@@ -126,7 +130,7 @@ class _HappinessRanksState extends State<HappinessRanks>
         Row(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(right: 6.0),
+              padding: const EdgeInsets.only(right: 6),
               child: ImageIcon(
                 Image.asset(
                   'assets/graphics/Emotional and Physical Well-Being.png',
@@ -154,7 +158,7 @@ class _HappinessRanksState extends State<HappinessRanks>
         Row(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(right: 6.0),
+              padding: const EdgeInsets.only(right: 6),
               child: ImageIcon(
                 Image.asset(
                   'assets/graphics/Income and Employer.png',
@@ -182,7 +186,7 @@ class _HappinessRanksState extends State<HappinessRanks>
         Row(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(right: 6.0),
+              padding: const EdgeInsets.only(right: 6),
               child: ImageIcon(
                 Image.asset(
                   'assets/graphics/Community and Environment.png',

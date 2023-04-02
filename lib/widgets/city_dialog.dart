@@ -40,15 +40,15 @@ class _CityDialogState extends ConsumerState<CityDialog> {
 
     cityIndex = city != null ? cities.indexOf(city!) : 0;
 
-    Color cardColor = Theme.of(context).dividerColor;
-    var screenSize = MediaQuery.of(context).size;
+    final cardColor = Theme.of(context).dividerColor;
+    final screenSize = MediaQuery.of(context).size;
 
-    final List<bool> enabledMasks = ref.watch(maskSelectionProvider).masks;
+    final enabledMasks = ref.watch(maskSelectionProvider).masks;
     prevMasksToShow = [...masksToShow];
 
     if (enabledMasks.contains(false)) {
       masksToShow = [];
-      for (int i = 0; i < enabledMasks.length; i++) {
+      for (var i = 0; i < enabledMasks.length; i++) {
         if (enabledMasks[i]) {
           masksToShow.add(CoverageType.values[i]);
         }
@@ -78,7 +78,7 @@ class _CityDialogState extends ConsumerState<CityDialog> {
                           ? screenSize.width * 0.8
                           : screenSize.width * 0.15,
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8),
                         child: Column(
                           children: [
                             Text(
@@ -225,7 +225,7 @@ class _CityDialogState extends ConsumerState<CityDialog> {
                   clipBehavior: Clip.hardEdge,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 20.0,
+                      horizontal: 20,
                       vertical: 10,
                     ),
                     child: Column(
@@ -234,7 +234,7 @@ class _CityDialogState extends ConsumerState<CityDialog> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.all(8),
                               child: RichText(
                                 text: TextSpan(
                                   text: '${city?.name}\n',

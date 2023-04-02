@@ -15,7 +15,8 @@ import 'package:satreelight/screens/leaflet_map/components/osm_contribution.dart
 import 'package:satreelight/screens/leaflet_map/components/themed_tiles_container.dart';
 import 'package:satreelight/widgets/components/mask_selector.dart';
 
-/// The map used behind the main menu. The map can be brought out of the background.
+/// The map used behind the main menu.
+/// The map can be brought out of the background.
 class LeafletMap extends ConsumerStatefulWidget {
   const LeafletMap({super.key});
 
@@ -39,30 +40,32 @@ class _LeafletMapState extends ConsumerState<LeafletMap>
   void initZoomAnim({bool zoomOut = false}) {
     zoomController = AnimationController(
       vsync: this,
-      lowerBound: 0,
-      upperBound: 1,
       duration: const Duration(
         milliseconds: 500,
       ),
     );
     final zoomAnim = CurvedAnimation(
-        parent: zoomController,
-        curve: zoomOut ? Curves.fastOutSlowIn.flipped : Curves.fastOutSlowIn);
+      parent: zoomController,
+      curve: zoomOut ? Curves.fastOutSlowIn.flipped : Curves.fastOutSlowIn,
+    );
     zoomAnim.addListener(() {
       if (zoomOut) {
         final pos = LatLng(
-            usaCenter.latitude -
-                (1 - zoomAnim.value) *
-                    (usaCenter.latitude - mapController.center.latitude),
-            usaCenter.longitude -
-                (1 - zoomAnim.value) *
-                    (usaCenter.longitude - mapController.center.longitude));
+          usaCenter.latitude -
+              (1 - zoomAnim.value) *
+                  (usaCenter.latitude - mapController.center.latitude),
+          usaCenter.longitude -
+              (1 - zoomAnim.value) *
+                  (usaCenter.longitude - mapController.center.longitude),
+        );
         final zoom =
             initZoom + (1 - zoomAnim.value) * (mapController.zoom - initZoom);
         mapController.move(pos, zoom);
       } else {
         mapController.move(
-            usaCenter, initZoom + zoomAnim.value * (endZoom - initZoom));
+          usaCenter,
+          initZoom + zoomAnim.value * (endZoom - initZoom),
+        );
       }
     });
   }
@@ -77,7 +80,6 @@ class _LeafletMapState extends ConsumerState<LeafletMap>
         width: 110,
         builder: (context) => CityPin(
           city: cities[index],
-          size: 40,
           numberOfCities: cities.length,
         ),
       );
@@ -120,14 +122,15 @@ class _LeafletMapState extends ConsumerState<LeafletMap>
         );
 
     inBackground = ref.watch(mapInBackgroundProvider);
-    ref.listen(mapZoomInProvider, (old, _) {
-      toForeground();
-    });
-    ref.listen(mapZoomOutProvider, (old, _) {
-      toBackground();
-    });
+    ref
+      ..listen(mapZoomInProvider, (old, _) {
+        toForeground();
+      })
+      ..listen(mapZoomOutProvider, (old, _) {
+        toBackground();
+      });
 
-    final String path = kIsWeb
+    final path = kIsWeb
         ? '../SaTreeLight-data-processing/export'
         : Platform.isLinux
             ? '/home/gaute/Documents/Projects/SaTreeLight/Sentinelsat/export'
@@ -156,9 +159,7 @@ class _LeafletMapState extends ConsumerState<LeafletMap>
                   tilesContainerBuilder: (context, tilesContainer, tiles) =>
                       ThemedTilesContainer(tilesContainer: tilesContainer),
                 ),
-                ...ref
-                    .watch(imageMasksProvider)
-                    .map(
+                ...ref.watch(imageMasksProvider).map(
                       (mask) => TileLayer(
                         tileProvider:
                             !kIsWeb ? SkipMissingFileTileProvider() : null,
@@ -175,15 +176,16 @@ class _LeafletMapState extends ConsumerState<LeafletMap>
                           mask: mask,
                         ),
                       ),
-                    )
-                    .toList(),
+                    ),
                 if (!inBackground)
                   MarkerClusterLayerWidget(
                     options: MarkerClusterLayerOptions(
                       showPolygon: false,
                       maxClusterRadius: 120,
-                      size: Size(MediaQuery.of(context).textScaleFactor * 55,
-                          MediaQuery.of(context).textScaleFactor * 30),
+                      size: Size(
+                        MediaQuery.of(context).textScaleFactor * 55,
+                        MediaQuery.of(context).textScaleFactor * 30,
+                      ),
                       markers: markers,
                       builder: (context, localMarkers) {
                         return CityPinCluster(
@@ -196,8 +198,6 @@ class _LeafletMapState extends ConsumerState<LeafletMap>
                           horizontal: constraints.biggest.width * 0.2,
                         ),
                       ),
-                      zoomToBoundsOnClick: true,
-                      centerMarkerOnClick: true,
                     ),
                   ),
               ],
@@ -207,10 +207,12 @@ class _LeafletMapState extends ConsumerState<LeafletMap>
         Align(
           alignment: Alignment.topRight,
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8),
             child: FilledButton.tonal(
-              onPressed: () => showDialog(
-                  context: context, builder: (context) => const MaskSelector()),
+              onPressed: () => showDialog<void>(
+                context: context,
+                builder: (context) => const MaskSelector(),
+              ),
               child: const Text('Masks'),
             ),
           ),

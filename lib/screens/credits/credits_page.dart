@@ -9,22 +9,23 @@ class CreditsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final divider = LayoutBuilder(builder: (context, constraints) {
-      return Divider(
-        indent: constraints.maxWidth * 0.1,
-        endIndent: constraints.maxWidth * 0.1,
-      );
-    });
+    final divider = LayoutBuilder(
+      builder: (context, constraints) {
+        return Divider(
+          indent: constraints.maxWidth * 0.1,
+          endIndent: constraints.maxWidth * 0.1,
+        );
+      },
+    );
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Credits'),
       ),
       body: Align(
-        alignment: Alignment.center,
         child: ListView(
           shrinkWrap: true,
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8),
           children: [
             Text(
               'EiT Group 3',
@@ -78,23 +79,28 @@ class CreditsPage extends StatelessWidget {
               text: TextSpan(
                 children: [
                   TextSpan(
-                      text: 'Base map tiles and city polygons, ',
-                      style: Theme.of(context).textTheme.bodyLarge),
+                    text: 'Base map tiles and city polygons, ',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
                   TextSpan(
-                      text: '© ', style: Theme.of(context).textTheme.bodyLarge),
+                    text: '© ',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
                   TextSpan(
-                      text: 'OpenStreetMap',
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            decoration: TextDecoration.underline,
-                          ),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () async {
-                          final url = Uri.parse(
-                              'https://www.openstreetmap.org/copyright');
-                          if (await canLaunchUrl(url)) {
-                            launchUrl(url);
-                          }
-                        }),
+                    text: 'OpenStreetMap',
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          decoration: TextDecoration.underline,
+                        ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () async {
+                        final url = Uri.parse(
+                          'https://www.openstreetmap.org/copyright',
+                        );
+                        if (await canLaunchUrl(url)) {
+                          await launchUrl(url);
+                        }
+                      },
+                  ),
                   TextSpan(
                     text: ' contributors',
                     style: Theme.of(context).textTheme.bodyLarge,
@@ -124,9 +130,10 @@ class CreditsPage extends StatelessWidget {
                     recognizer: TapGestureRecognizer()
                       ..onTap = () async {
                         final url = Uri.parse(
-                            'https://web.archive.org/web/20220302040616/https://wallethub.com/edu/happiest-places-to-live/32619');
+                          'https://web.archive.org/web/20220302040616/https://wallethub.com/edu/happiest-places-to-live/32619',
+                        );
                         if (await canLaunchUrl(url)) {
-                          launchUrl(url);
+                          await launchUrl(url);
                         }
                       },
                   ),
@@ -136,7 +143,7 @@ class CreditsPage extends StatelessWidget {
             divider,
             Center(
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8),
                 child: ElevatedButton(
                   child: Text(
                     'Software licenses',
@@ -144,7 +151,7 @@ class CreditsPage extends StatelessWidget {
                   ),
                   onPressed: () => Navigator.push(
                     context,
-                    MaterialPageRoute(
+                    MaterialPageRoute<void>(
                       builder: (context) => LicensePage(
                         applicationName: 'SaTreeLight',
                         applicationIcon: Image(

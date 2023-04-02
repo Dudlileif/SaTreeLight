@@ -4,7 +4,11 @@ import 'package:satreelight/app/satreelight.dart';
 import 'package:satreelight/widgets/loading_indicator.dart';
 
 Future<void> main() async {
-  runApp(const LoadingIndicator());
+  runApp(
+    const ProviderScope(
+      child: LoadingIndicator(),
+    ),
+  );
 
   WidgetsFlutterBinding.ensureInitialized();
 

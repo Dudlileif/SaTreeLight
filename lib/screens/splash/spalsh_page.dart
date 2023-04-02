@@ -21,10 +21,12 @@ class SplashPage extends ConsumerWidget {
         title: mapInBackground ? const Text('Home') : const Text('Map'),
         leading: mapInBackground
             ? null
-            : BackButton(onPressed: () {
-                ref.read(mapInBackgroundProvider.notifier).set(true);
-                ref.read(mapZoomOutProvider).start();
-              }),
+            : BackButton(
+                onPressed: () {
+                  ref.read(mapInBackgroundProvider.notifier).set(value: true);
+                  ref.read(mapZoomOutProvider).start();
+                },
+              ),
         actions: [
           IconButton(
             padding: const EdgeInsets.all(8),
@@ -36,9 +38,11 @@ class SplashPage extends ConsumerWidget {
                         : ThemeMode.light,
                   );
             },
-            icon: Icon(Theme.of(context).brightness == Brightness.light
-                ? Icons.light_mode
-                : Icons.dark_mode),
+            icon: Icon(
+              Theme.of(context).brightness == Brightness.light
+                  ? Icons.light_mode
+                  : Icons.dark_mode,
+            ),
           ),
           PopupMenuButton<int>(
             onSelected: (int index) {
@@ -53,19 +57,21 @@ class SplashPage extends ConsumerWidget {
                 PopupMenuItem<int>(
                   value: colorSchemeIndex,
                   child: ListTile(
-                    leading: Icon(Icons.lens,
-                        color: Theme.of(context).brightness == Brightness.light
-                            ? FlexColor
-                                .schemesList[colorSchemeIndex].light.primary
-                            : FlexColor
-                                .schemesList[colorSchemeIndex].dark.primary,
-                        size: 35),
+                    leading: Icon(
+                      Icons.lens,
+                      color: Theme.of(context).brightness == Brightness.light
+                          ? FlexColor
+                              .schemesList[colorSchemeIndex].light.primary
+                          : FlexColor
+                              .schemesList[colorSchemeIndex].dark.primary,
+                      size: 35,
+                    ),
                     title: Text(FlexColor.schemesList[colorSchemeIndex].name),
                   ),
                 )
             ],
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8),
               child: Stack(
                 alignment: Alignment.center,
                 children: [

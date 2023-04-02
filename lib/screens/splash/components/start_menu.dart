@@ -65,7 +65,6 @@ class StartMenu extends ConsumerWidget {
         ),
         Align(
           heightFactor: 1.1,
-          alignment: Alignment.center,
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 250, maxHeight: 400),
             child: ListView(
@@ -77,12 +76,15 @@ class StartMenu extends ConsumerWidget {
                     message: 'Open and explore the map',
                     waitDuration: const Duration(milliseconds: 250),
                     child: ListTile(
-                        title: const Text('Start'),
-                        leading: const Icon(Icons.map),
-                        onTap: () {
-                          ref.read(mapInBackgroundProvider.notifier).set(false);
-                          ref.read(mapZoomInProvider).start();
-                        }),
+                      title: const Text('Start'),
+                      leading: const Icon(Icons.map),
+                      onTap: () {
+                        ref
+                            .read(mapInBackgroundProvider.notifier)
+                            .set(value: false);
+                        ref.read(mapZoomInProvider).start();
+                      },
+                    ),
                   ),
                 ),
                 Card(
@@ -95,7 +97,7 @@ class StartMenu extends ConsumerWidget {
                       leading: const Icon(Icons.help),
                       onTap: () => Navigator.push(
                         context,
-                        MaterialPageRoute(
+                        MaterialPageRoute<void>(
                           builder: (context) => const HowToPage(),
                         ),
                       ),
@@ -108,19 +110,20 @@ class StartMenu extends ConsumerWidget {
                     message: 'Browse a sortable list of cities',
                     waitDuration: const Duration(milliseconds: 250),
                     child: ListTile(
-                        title: const Text('Cities'),
-                        leading: const Icon(Icons.list_alt),
-                        onTap: () {
-                          ref
-                              .read(showArrowsOnPopupProvider.notifier)
-                              .set(true);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const ListPage(),
-                            ),
-                          );
-                        }),
+                      title: const Text('Cities'),
+                      leading: const Icon(Icons.list_alt),
+                      onTap: () {
+                        ref
+                            .read(showArrowsOnPopupProvider.notifier)
+                            .set(value: true);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (context) => const ListPage(),
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
                 Card(
@@ -133,7 +136,7 @@ class StartMenu extends ConsumerWidget {
                       leading: const Icon(Icons.people),
                       onTap: () => Navigator.push(
                         context,
-                        MaterialPageRoute(
+                        MaterialPageRoute<void>(
                           builder: (context) => const CreditsPage(),
                         ),
                       ),
@@ -147,7 +150,7 @@ class StartMenu extends ConsumerWidget {
                     leading: const Icon(Icons.emoji_emotions),
                     onTap: () => Navigator.push(
                       context,
-                      MaterialPageRoute(
+                      MaterialPageRoute<void>(
                         builder: (context) => const EmojiPage(),
                       ),
                     ),

@@ -65,7 +65,6 @@ class _ListPageState extends ConsumerState<ListPage> {
         },
       ),
       controller: textController,
-      maxLines: 1,
       maxLength: 27,
       style: Theme.of(context).textTheme.bodyLarge,
       decoration: InputDecoration(
@@ -99,10 +98,12 @@ class _ListPageState extends ConsumerState<ListPage> {
         title: const Text(
           'Cities',
         ),
-        leading: BackButton(onPressed: () {
-          ref.read(showArrowsOnPopupProvider.notifier).set(false);
-          Navigator.of(context).pop();
-        }),
+        leading: BackButton(
+          onPressed: () {
+            ref.read(showArrowsOnPopupProvider.notifier).set(value: false);
+            Navigator.of(context).pop();
+          },
+        ),
         actions: [
           Padding(
             padding: const EdgeInsets.all(8),
@@ -111,25 +112,27 @@ class _ListPageState extends ConsumerState<ListPage> {
                     children: [
                       IconButton(
                         onPressed: () {
-                          showDialog(
-                              context: context,
-                              builder: (context) {
-                                return SimpleDialog(
-                                  children: [
-                                    textSearch,
-                                  ],
-                                );
-                              });
+                          showDialog<void>(
+                            context: context,
+                            builder: (context) {
+                              return SimpleDialog(
+                                children: [
+                                  textSearch,
+                                ],
+                              );
+                            },
+                          );
                         },
                         icon: const Icon(Icons.search),
                       ),
                       if (searchString != '')
                         IconButton(
-                            onPressed: () {
-                              textController.clear();
-                              ref.read(searchStringProvider.notifier).clear();
-                            },
-                            icon: const Icon(Icons.search_off))
+                          onPressed: () {
+                            textController.clear();
+                            ref.read(searchStringProvider.notifier).clear();
+                          },
+                          icon: const Icon(Icons.search_off),
+                        )
                     ],
                   )
                 : textSearch,
@@ -144,9 +147,9 @@ class _ListPageState extends ConsumerState<ListPage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8),
             child: ToggleButtons(
-              onPressed: (index) => sort(index),
+              onPressed: sort,
               isSelected: List.generate(
                 Sorting.values.length,
                 (index) => ref.watch(sortingProvider) == Sorting.values[index],
@@ -190,7 +193,7 @@ class _ListPageState extends ConsumerState<ListPage> {
             key: UniqueKey(),
             onPressed: () {
               ref.read(selectedCityProvider.notifier).set(city);
-              showDialog(
+              showDialog<void>(
                 context: context,
                 builder: (context) {
                   return BackdropFilter(

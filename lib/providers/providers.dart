@@ -14,17 +14,20 @@ import 'package:satreelight/screens/leaflet_map/components/themed_tiles_containe
 
 /// Provider for the theme mode state.
 final themeModeProvider = StateNotifierProvider<ThemeModeNotifier, ThemeMode>(
-    (ref) => ThemeModeNotifier());
+  (ref) => ThemeModeNotifier(),
+);
 
 /// Provider for the color scheme state.
 final colorSchemeProvider =
     StateNotifierProvider<ColorSchemeNotifier, FlexScheme>(
-        (ref) => ColorSchemeNotifier());
+  (ref) => ColorSchemeNotifier(),
+);
 
 /// Provider for the map in background boolean state.
 final mapInBackgroundProvider =
     StateNotifierProvider<MapBackgroundNotifier, bool>(
-        (ref) => MapBackgroundNotifier());
+  (ref) => MapBackgroundNotifier(),
+);
 
 /// Provider for starting home map zoom in.
 final mapZoomInProvider = ChangeNotifierProvider((ref) => MapZoomInNotifier());
@@ -36,7 +39,8 @@ final mapZoomOutProvider =
 /// Provider for whether the CityDialog should show next/previous arrow buttons.
 final showArrowsOnPopupProvider =
     StateNotifierProvider<ShowArrowsOnPopupNotifier, bool>(
-        (ref) => ShowArrowsOnPopupNotifier());
+  (ref) => ShowArrowsOnPopupNotifier(),
+);
 
 /// Provider for the selected mask state.
 final maskSelectionProvider =
@@ -44,7 +48,8 @@ final maskSelectionProvider =
 
 /// Provider for the cities.
 final citiesProvider = FutureProvider<List<City>>(
-    (ref) async => await CitiesUtilities.loadCities());
+  (ref) async => CitiesUtilities.loadCities(),
+);
 
 /// Provider for the city sorting state.
 final sortingProvider =
@@ -53,7 +58,8 @@ final sortingProvider =
 /// Provider for whether to reverse the sorting.
 final reverseSortingProvider =
     StateNotifierProvider<ReverseSortingNotifier, bool>(
-        (ref) => ReverseSortingNotifier());
+  (ref) => ReverseSortingNotifier(),
+);
 
 /// Provider for the search string state.
 final searchStringProvider =
@@ -63,10 +69,10 @@ final searchStringProvider =
 
 /// Provider for the sorted city list.
 final sortedCitiesProvider = Provider<List<City>>((ref) {
-  List<City> cities = ref.watch(citiesProvider).when(
+  var cities = ref.watch(citiesProvider).when(
         data: (data) => data,
-        error: (error, stackTrace) => [],
-        loading: () => [],
+        error: (error, stackTrace) => <City>[],
+        loading: () => <City>[],
       );
   switch (ref.watch(sortingProvider)) {
     case Sorting.alphabetically:
@@ -77,8 +83,6 @@ final sortedCitiesProvider = Provider<List<City>>((ref) {
       break;
     case Sorting.vegetation:
       cities.sort((a, b) => a.vegFrac.compareTo(b.vegFrac));
-      break;
-    default:
       break;
   }
   final searchString = ref.watch(searchStringProvider);
@@ -104,17 +108,19 @@ final sortedCitiesProvider = Provider<List<City>>((ref) {
 
 /// Provider for the selected city.
 final selectedCityProvider = StateNotifierProvider<SelectedCityNotifier, City?>(
-    (ref) => SelectedCityNotifier());
+  (ref) => SelectedCityNotifier(),
+);
 
 /// Provider for loading the city data.
 final loadCityDataProvider = FutureProvider.autoDispose<City?>(
-    (ref) async => await ref.watch(selectedCityProvider)?.loadWithData());
+  (ref) async => await ref.watch(selectedCityProvider)?.loadWithData(),
+);
 
 /// Provider for the selected image masks.
 final imageMasksProvider = Provider<List<CoverageType>>((ref) {
-  List<CoverageType> masks = [];
+  final masks = <CoverageType>[];
   final selectedMasks = ref.watch(maskSelectionProvider).masks;
-  for (int i = 0; i < selectedMasks.length; i++) {
+  for (var i = 0; i < selectedMasks.length; i++) {
     if (selectedMasks[i]) {
       masks.add(CoverageType.values[i]);
     }
@@ -126,19 +132,20 @@ final imageMasksProvider = Provider<List<CoverageType>>((ref) {
 final cityMasksProvider =
     FutureProvider.autoDispose<List<TileLayer>>((ref) async {
   final city = ref.watch(loadCityDataProvider).when(
-      data: (data) => data,
-      error: (error, stackTrace) => null,
-      loading: () => null);
-  final List<CoverageType> masks = ref.watch(imageMasksProvider);
+        data: (data) => data,
+        error: (error, stackTrace) => null,
+        loading: () => null,
+      );
+  final masks = ref.watch(imageMasksProvider);
 
   if (city != null) {
     return List.generate(masks.length, (index) {
-      final String path = kIsWeb
+      final path = kIsWeb
           ? '../SaTreeLight-data-processing/export'
           : Platform.isLinux
               ? '/home/gaute/Documents/Projects/SaTreeLight/Sentinelsat/export'
               : 'E:/Projects/SaTreeLight-data-processing/export';
-      final CoverageType mask = masks[index];
+      final mask = masks[index];
       return TileLayer(
         tileProvider: !kIsWeb ? SkipMissingFileTileProvider() : null,
         urlTemplate: '$path/tiles/merged/${mask.string}/{z}/{x}/{y}.png',

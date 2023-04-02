@@ -18,7 +18,6 @@ class _AnimatedEmojiState extends State<AnimatedEmoji>
     return Stack(
       children: [
         Align(
-          alignment: Alignment.center,
           child: FractionallySizedBox(
             heightFactor: 0.9,
             widthFactor: 0.9,
@@ -65,75 +64,77 @@ class EmojiPainter extends CustomPainter {
 
   void drawEyes(Canvas canvas, Size size) {
     final leftEye = eyePath(
-        size,
-        Offset(
-          -size.shortestSide * 0.2,
-          -size.shortestSide * 0.1,
-        ));
+      size,
+      Offset(
+        -size.shortestSide * 0.2,
+        -size.shortestSide * 0.1,
+      ),
+    );
 
     final rightEye = eyePath(
-        size,
-        Offset(
-          size.shortestSide * 0.2,
-          -size.shortestSide * 0.1,
-        ));
+      size,
+      Offset(
+        size.shortestSide * 0.2,
+        -size.shortestSide * 0.1,
+      ),
+    );
     final eyes = leftEye..addPath(rightEye, Offset.zero);
 
-    canvas.drawPath(
-      eyes,
-      Paint()
-        ..color = Colors.white.withOpacity(0.5)
-        ..style = PaintingStyle.fill,
-    );
-
-    canvas.drawShadow(eyes, Colors.black, 10, true);
-
-    canvas.drawPath(
-      eyes,
-      Paint()
-        ..color = Colors.white
-        ..strokeWidth = 1.5 * size.shortestSide * 0.025
-        ..style = PaintingStyle.stroke,
-    );
+    canvas
+      ..drawPath(
+        eyes,
+        Paint()
+          ..color = Colors.white.withOpacity(0.5)
+          ..style = PaintingStyle.fill,
+      )
+      ..drawShadow(eyes, Colors.black, 10, true)
+      ..drawPath(
+        eyes,
+        Paint()
+          ..color = Colors.white
+          ..strokeWidth = 1.5 * size.shortestSide * 0.025
+          ..style = PaintingStyle.stroke,
+      );
   }
 
   Path eyePath(Size size, Offset offset) {
     final eyePath = Path()
-      ..addOval(Rect.fromCenter(
-        center: size.center(offset),
-        width: size.shortestSide * 0.25,
-        height: size.shortestSide * 0.175,
-      ));
+      ..addOval(
+        Rect.fromCenter(
+          center: size.center(offset),
+          width: size.shortestSide * 0.25,
+          height: size.shortestSide * 0.175,
+        ),
+      );
     return eyePath;
   }
 
   void drawMouth(Canvas canvas, Size size) {
     final mouthValue = pow(0.5 - value, 2) * 4;
 
-    Path mouth = value < 0.5
+    final mouth = value < 0.5
         ? invertedMouthPath(size, mouthValue)
         : mouthPath(size, mouthValue);
 
-    canvas.drawPath(
-      mouth,
-      Paint()
-        ..color = Colors.white.withOpacity(0.5)
-        ..style = PaintingStyle.fill,
-    );
-
-    canvas.drawShadow(mouth, Colors.black, 10, true);
-
-    canvas.drawPath(
-      mouth,
-      Paint()
-        ..color = Colors.white
-        ..strokeWidth =
-            2.5 * size.shortestSide * 0.025 < mouth.getBounds().height
-                ? 1.5 * size.shortestSide * 0.025
-                : 2.5 * size.shortestSide * 0.025
-        ..strokeCap = StrokeCap.round
-        ..style = PaintingStyle.stroke,
-    );
+    canvas
+      ..drawPath(
+        mouth,
+        Paint()
+          ..color = Colors.white.withOpacity(0.5)
+          ..style = PaintingStyle.fill,
+      )
+      ..drawShadow(mouth, Colors.black, 10, true)
+      ..drawPath(
+        mouth,
+        Paint()
+          ..color = Colors.white
+          ..strokeWidth =
+              2.5 * size.shortestSide * 0.025 < mouth.getBounds().height
+                  ? 1.5 * size.shortestSide * 0.025
+                  : 2.5 * size.shortestSide * 0.025
+          ..strokeCap = StrokeCap.round
+          ..style = PaintingStyle.stroke,
+      );
   }
 
   Path mouthPath(Size size, num value) {
@@ -223,24 +224,26 @@ class EmojiPainter extends CustomPainter {
         ).transform(value) ??
         Colors.yellow;
 
-    canvas.drawShadow(
-      Path()
-        ..addArc(
+    canvas
+      ..drawShadow(
+        Path()
+          ..addArc(
             Rect.fromCircle(
-                center: size.center(Offset.zero),
-                radius: size.shortestSide / 2),
+              center: size.center(Offset.zero),
+              radius: size.shortestSide / 2,
+            ),
             0,
-            2 * pi),
-      Colors.black,
-      10,
-      false,
-    );
-
-    canvas.drawCircle(
-      size.center(Offset.zero),
-      size.shortestSide / 2,
-      Paint()..color = faceColor,
-    );
+            2 * pi,
+          ),
+        Colors.black,
+        10,
+        false,
+      )
+      ..drawCircle(
+        size.center(Offset.zero),
+        size.shortestSide / 2,
+        Paint()..color = faceColor,
+      );
   }
 
   @override

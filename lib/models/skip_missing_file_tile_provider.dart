@@ -10,7 +10,7 @@ class SkipMissingFileTileProvider extends TileProvider {
 
   @override
   ImageProvider getImage(Coords<num> coords, TileLayer options) {
-    final File file = File(getTileUrl(coords, options));
+    final file = File(getTileUrl(coords, options));
     if (file.existsSync()) {
       return FileImage(file);
     }

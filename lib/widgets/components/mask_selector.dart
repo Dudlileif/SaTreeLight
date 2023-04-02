@@ -30,7 +30,7 @@ class _MaskSelectorState extends ConsumerState<MaskSelector> {
 
   @override
   Widget build(BuildContext context) {
-    List<bool> enabledMasks = ref.watch(maskSelectionProvider).masks;
+    final enabledMasks = ref.watch(maskSelectionProvider).masks;
     final colors = CoverageColors.colorMapWithOpacity(
       dark: Theme.of(context).brightness == Brightness.dark,
       opacity: 0.5,
@@ -46,30 +46,36 @@ class _MaskSelectorState extends ConsumerState<MaskSelector> {
         value: enabled,
         onChanged: (newValue) => ref
             .read(maskSelectionProvider.notifier)
-            .updateMask(index, newValue ?? true),
+            .updateMask(index: index, value: newValue ?? true),
         title: Text(CoverageType.values[index].capitalizedString()),
-        secondary: Stack(children: [
-          DecoratedIcon(
-            icons[index],
-            color: color,
-            shadows: enabled
-                ? [
-                    Shadow(
+        secondary: Stack(
+          children: [
+            DecoratedIcon(
+              icons[index],
+              color: color,
+              shadows: enabled
+                  ? [
+                      Shadow(
                         blurRadius: 0.5,
                         offset: const Offset(1, 1),
-                        color:
-                            Color.lerp(colors[index], shadowBlendColor, 0.33) ??
-                                shadowBlendColor)
-                  ]
-                : null,
-          ),
-        ]),
+                        color: Color.lerp(
+                              colors[CoverageType.values[index]],
+                              shadowBlendColor,
+                              0.33,
+                            ) ??
+                            shadowBlendColor,
+                      )
+                    ]
+                  : null,
+            ),
+          ],
+        ),
       );
     });
     return SimpleDialog(
       children: [
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8),
           child: Stack(
             children: [
               Center(
@@ -79,7 +85,9 @@ class _MaskSelectorState extends ConsumerState<MaskSelector> {
                 ),
               ),
               const Align(
-                  alignment: Alignment.centerRight, child: CloseButton())
+                alignment: Alignment.centerRight,
+                child: CloseButton(),
+              )
             ],
           ),
         ),
@@ -90,11 +98,15 @@ class _MaskSelectorState extends ConsumerState<MaskSelector> {
             shadows: !enabledMasks.contains(false)
                 ? [
                     Shadow(
-                        blurRadius: 0.5,
-                        offset: const Offset(1, 1),
-                        color: Color.lerp(Theme.of(context).iconTheme.color,
-                                shadowBlendColor, 0.33) ??
-                            shadowBlendColor)
+                      blurRadius: 0.5,
+                      offset: const Offset(1, 1),
+                      color: Color.lerp(
+                            Theme.of(context).iconTheme.color,
+                            shadowBlendColor,
+                            0.33,
+                          ) ??
+                          shadowBlendColor,
+                    )
                   ]
                 : null,
           ),

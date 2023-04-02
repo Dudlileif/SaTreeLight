@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 
 /// A cluster icon to show when pins are too close to each other.
 class CityPinCluster extends StatefulWidget {
+  const CityPinCluster({
+    required this.count,
+    super.key,
+  });
+
   /// Number of items in this cluster.
   final int count;
-  const CityPinCluster({super.key, required this.count});
 
   @override
   State<CityPinCluster> createState() => _CityPinClusterState();
@@ -30,7 +34,7 @@ class _CityPinClusterState extends State<CityPinCluster> {
       }),
       cursor: SystemMouseCursors.click,
       child: Card(
-        margin: const EdgeInsets.all(0),
+        margin: EdgeInsets.zero,
         elevation: 4,
         color: pinColor,
         child: Text(

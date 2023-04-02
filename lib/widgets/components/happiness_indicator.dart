@@ -4,14 +4,15 @@ import 'package:satreelight/screens/emoji_page/animated_emoji.dart';
 
 /// An indicator for the happiness score of the city.
 class HappinessIndicator extends StatefulWidget {
+  const HappinessIndicator({
+    required this.city,
+    this.initValue,
+    super.key,
+  });
+
   /// The city to show the happiness score for.
   final City city;
   final double? initValue;
-  const HappinessIndicator({
-    super.key,
-    required this.city,
-    this.initValue,
-  });
 
   @override
   State<HappinessIndicator> createState() => _HappinessIndicatorState();
@@ -35,14 +36,16 @@ class _HappinessIndicatorState extends State<HappinessIndicator>
       duration: const Duration(milliseconds: 500),
     );
     if (widget.initValue != null) {
-      animationController.addListener(() => setState(
+      animationController
+        ..addListener(
+          () => setState(
             () => happinessScore = animationController.value,
-          ));
-
-      animationController.animateTo(
-        widget.city.happinessScore,
-        duration: const Duration(milliseconds: 500),
-      );
+          ),
+        )
+        ..animateTo(
+          widget.city.happinessScore,
+          duration: const Duration(milliseconds: 500),
+        );
     }
   }
 
@@ -57,12 +60,14 @@ class _HappinessIndicatorState extends State<HappinessIndicator>
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text('Total Happiness Score',
-            textAlign: TextAlign.center,
-            style: Theme.of(context)
-                .textTheme
-                .bodyMedium
-                ?.copyWith(fontWeight: FontWeight.bold)),
+        Text(
+          'Total Happiness Score',
+          textAlign: TextAlign.center,
+          style: Theme.of(context)
+              .textTheme
+              .bodyMedium
+              ?.copyWith(fontWeight: FontWeight.bold),
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -74,7 +79,7 @@ class _HappinessIndicatorState extends State<HappinessIndicator>
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8),
               child: SizedBox.square(
                 dimension: 50,
                 child: CustomPaint(
