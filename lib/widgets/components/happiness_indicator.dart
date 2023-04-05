@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:satreelight/constants/animation_config.dart';
 import 'package:satreelight/models/city.dart';
 import 'package:satreelight/screens/emoji_page/animated_emoji.dart';
 
@@ -44,7 +45,8 @@ class _HappinessIndicatorState extends State<HappinessIndicator>
         )
         ..animateTo(
           widget.city.happinessScore,
-          duration: const Duration(milliseconds: 500),
+          duration: AnimationConfig.duration,
+          curve: AnimationConfig.curve,
         );
     }
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:satreelight/constants/animation_config.dart';
 import 'package:satreelight/models/city.dart';
 
 /// A widget with all the separate ranks for the city,
@@ -47,7 +48,7 @@ class _HappinessRanksState extends State<HappinessRanks>
     animationController = AnimationController(
       vsync: this,
       value: 0,
-      duration: const Duration(milliseconds: 500),
+      duration: AnimationConfig.duration,
     );
     if (widget.prevCity != null) {
       final happinessTween = IntTween(
@@ -83,7 +84,8 @@ class _HappinessRanksState extends State<HappinessRanks>
         )
         ..animateTo(
           1,
-          duration: const Duration(milliseconds: 500),
+          duration: AnimationConfig.duration,
+          curve: AnimationConfig.curve,
         );
     }
   }

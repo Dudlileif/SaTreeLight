@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:graphic/graphic.dart';
 import 'package:intl/intl.dart' show NumberFormat;
+import 'package:satreelight/constants/animation_config.dart';
 import 'package:satreelight/models/city.dart';
 import 'package:satreelight/models/coverage_colors.dart';
 import 'package:satreelight/models/coverage_type.dart';
@@ -44,7 +45,7 @@ class _VegetationGaugeState extends ConsumerState<VegetationGauge>
     animationController = AnimationController(
       vsync: this,
       value: 0,
-      duration: const Duration(milliseconds: 500),
+      duration: AnimationConfig.duration,
     );
 
     if (widget.prevCity != null) {
@@ -68,7 +69,8 @@ class _VegetationGaugeState extends ConsumerState<VegetationGauge>
         )
         ..animateTo(
           1,
-          duration: const Duration(milliseconds: 500),
+          duration: AnimationConfig.duration,
+          curve: AnimationConfig.curve,
         );
     }
 
@@ -93,7 +95,8 @@ class _VegetationGaugeState extends ConsumerState<VegetationGauge>
         }
         animationController.animateTo(
           1,
-          duration: const Duration(milliseconds: 500),
+          duration: AnimationConfig.duration,
+          curve: AnimationConfig.curve,
         );
       }
     }
@@ -128,6 +131,7 @@ class _VegetationGaugeState extends ConsumerState<VegetationGauge>
                       '${coverageWithValue?.capitalizedString() ?? ''}: ${compactDouble.format(coveragePercent[coverageWithValue])}%',
                     )
                   : Chart(
+                      key: UniqueKey(),
                       data: List.generate(
                         widget.keys.length,
                         (index) => {
@@ -165,18 +169,25 @@ class _VegetationGaugeState extends ConsumerState<VegetationGauge>
                           position: Varset('percent') / Varset('type'),
                           modifiers: [StackModifier()],
                           label: LabelEncode(
-                            encoder: (tuple) => Label(
-                              tuple['percent'] as double > 0.05
-                                  ? '${compactDouble.format(useRelative ? (tuple['percent'] as double) * 100 : (tuple['coverage'] as double))}% ${tuple['type'] as String}'
-                                  : ' ',
-                              LabelStyle(
-                                textStyle:
-                                    Theme.of(context).textTheme.labelSmall,
-                                minWidth: 50,
-                                maxWidth: 85,
-                                maxLines: 3,
-                              ),
-                            ),
+                            encoder: (tuple) {
+                              final val = useRelative
+                                  ? (tuple['percent'] as double) * 100
+                                  : (tuple['coverage'] as double);
+                              final type = tuple['type'] as String;
+                              final label = val > 5
+                                  ? '${compactDouble.format(val)}% $type'
+                                  : '';
+                              return Label(
+                                label,
+                                LabelStyle(
+                                  textStyle:
+                                      Theme.of(context).textTheme.labelSmall,
+                                  minWidth: 50,
+                                  maxWidth: 85,
+                                  maxLines: 3,
+                                ),
+                              );
+                            },
                           ),
                           size: SizeEncode(
                             value: constraints.smallest.longestSide / 10,
