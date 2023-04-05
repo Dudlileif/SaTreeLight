@@ -13,10 +13,11 @@ class LatLngBoundsTween {
   /// The ending bounds/position.
   final LatLngBounds end;
 
-  /// Returns the [LatLngBounds] in-between position for the fraction [value].
-  /// [value] is clamped between 0 and 1.
-  LatLngBounds evaluate(double value) {
-    final clampedValue = value.clamp(0.0, 1.0);
+  /// Returns the [LatLngBounds] in-between bounds/position for [value].
+  /// [value] is divided by [maxValue] and then clamped between 0 and 1
+  /// in case maxValue isn't set.
+  LatLngBounds evaluate(double value, {double maxValue = 1}) {
+    final clampedValue = (value / maxValue).clamp(0.0, 1.0);
 
     final northWest = LatLngTween(
       begin: begin.northWest,

@@ -12,10 +12,11 @@ class LatLngTween {
   /// The ending position.
   final LatLng end;
 
-  /// Returns the [LatLng] in-between position for the fraction [value].
-  /// [value] is clamped between 0 and 1.
-  LatLng evaluate(double value) {
-    final clampedValue = value.clamp(0, 1);
+  /// Returns the [LatLng] in-between position for [value].
+  /// [value] is divided by [maxValue] and then clamped between 0 and 1
+  /// in case maxValue isn't set.
+  LatLng evaluate(double value, {double maxValue = 1}) {
+    final clampedValue = (value / maxValue).clamp(0.0, 1.0);
 
     final latitude =
         begin.latitude * (1 - clampedValue) + end.latitude * clampedValue;
