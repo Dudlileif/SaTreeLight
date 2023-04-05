@@ -1,3 +1,4 @@
+import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:satreelight/app/satreelight.dart';
@@ -9,6 +10,7 @@ Future<void> main() async {
       child: LoadingIndicator(),
     ),
   );
+  await FastCachedImageConfig.init();
 
   WidgetsFlutterBinding.ensureInitialized();
 

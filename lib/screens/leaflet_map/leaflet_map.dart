@@ -1,14 +1,12 @@
-import 'dart:io';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:satreelight/constants/animation_config.dart';
 import 'package:satreelight/models/city.dart';
-import 'package:satreelight/models/skip_missing_file_tile_provider.dart';
 import 'package:satreelight/providers/providers.dart';
+import 'package:satreelight/screens/leaflet_map/components/cached_tile_provider.dart';
 import 'package:satreelight/screens/leaflet_map/components/city_pin.dart';
 import 'package:satreelight/screens/leaflet_map/components/city_pin_cluster.dart';
 import 'package:satreelight/screens/leaflet_map/components/osm_contribution.dart';
@@ -40,9 +38,7 @@ class _LeafletMapState extends ConsumerState<LeafletMap>
   void initZoomAnim({bool zoomOut = false}) {
     zoomController = AnimationController(
       vsync: this,
-      duration: const Duration(
-        milliseconds: 500,
-      ),
+      duration: AnimationConfig.duration,
     );
     final zoomAnim = CurvedAnimation(
       parent: zoomController,
@@ -130,11 +126,11 @@ class _LeafletMapState extends ConsumerState<LeafletMap>
         toBackground();
       });
 
-    final path = kIsWeb
-        ? '../SaTreeLight-data-processing/export'
-        : Platform.isLinux
-            ? '/home/gaute/Documents/Projects/SaTreeLight/Sentinelsat/export'
-            : 'E:/Projects/SaTreeLight-data-processing/export';
+    // final path = kIsWeb
+    //     ? '../SaTreeLight-data-processing/export'
+    //     : Platform.isLinux
+    //         ? '/home/gaute/Documents/Projects/SaTreeLight/Sentinelsat/export'
+    //         : 'E:/Projects/SaTreeLight-data-processing/export';
 
     return Stack(
       children: [
@@ -158,25 +154,27 @@ class _LeafletMapState extends ConsumerState<LeafletMap>
                   backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                   tilesContainerBuilder: (context, tilesContainer, tiles) =>
                       ThemedTilesContainer(tilesContainer: tilesContainer),
+                  tileProvider: CachedTileProvider(),
+                  userAgentPackageName: 'satreelight',
                 ),
-                ...ref.watch(imageMasksProvider).map(
-                      (mask) => TileLayer(
-                        tileProvider:
-                            !kIsWeb ? SkipMissingFileTileProvider() : null,
-                        urlTemplate:
-                            '$path/tiles/merged/${mask.string}/{z}/{x}/{y}.png',
-                        backgroundColor: Colors.transparent,
-                        minNativeZoom: 0,
-                        maxNativeZoom: 14,
-                        tms: true,
-                        tilesContainerBuilder:
-                            (context, tilesContainer, tiles) =>
-                                MaskTilesContainer(
-                          tilesContainer: tilesContainer,
-                          mask: mask,
-                        ),
-                      ),
-                    ),
+                // ...ref.watch(imageMasksProvider).map(
+                //       (mask) => TileLayer(
+                //         tileProvider:
+                //             !kIsWeb ? SkipMissingFileTileProvider() : CachedTileProvider(),
+                //         urlTemplate:
+                //             '$path/tiles/merged/${mask.string}/{z}/{x}/{y}.png',
+                //         backgroundColor: Colors.transparent,
+                //         minNativeZoom: 0,
+                //         maxNativeZoom: 14,
+                //         tms: true,
+                //         tilesContainerBuilder:
+                //             (context, tilesContainer, tiles) =>
+                //                 MaskTilesContainer(
+                //           tilesContainer: tilesContainer,
+                //           mask: mask,
+                //         ),
+                //       ),
+                //     ),
                 if (!inBackground)
                   MarkerClusterLayerWidget(
                     options: MarkerClusterLayerOptions(

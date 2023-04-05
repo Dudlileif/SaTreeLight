@@ -28,7 +28,8 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
     decorated_icon: ^1.2.1
-    flex_color_scheme: ^7.0.0-dev.3
+    fast_cached_network_image: ^1.1.1
+    flex_color_scheme: ^7.0.0
     flutter:
         sdk: flutter
     flutter_map: ^3.1.0
@@ -36,7 +37,7 @@ dependencies:
     flutter_riverpod: ^2.3.2
     flutter_staggered_grid_view: ^0.6.2
     google_fonts: ^4.0.3
-    graphic: ^1.1.0
+    graphic: ^2.0.0
     hooks_riverpod: ^2.3.2
     image: ^4.0.15
     intl: ^0.18.0
