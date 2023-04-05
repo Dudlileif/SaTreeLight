@@ -5,12 +5,16 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:satreelight/models/city.dart';
 import 'package:satreelight/models/coverage_type.dart';
 import 'package:satreelight/models/skip_missing_file_tile_provider.dart';
 import 'package:satreelight/models/sorting.dart';
 import 'package:satreelight/providers/notifiers/notifiers.dart';
+import 'package:satreelight/screens/leaflet_map/components/cached_tile_provider.dart';
 import 'package:satreelight/screens/leaflet_map/components/themed_tiles_container.dart';
+
+part 'providers.g.dart';
 
 /// Provider for the theme mode state.
 final themeModeProvider = StateNotifierProvider<ThemeModeNotifier, ThemeMode>(
@@ -112,9 +116,9 @@ final selectedCityProvider = StateNotifierProvider<SelectedCityNotifier, City?>(
 );
 
 /// Provider for loading the city data.
-final loadCityDataProvider = FutureProvider.autoDispose<City?>(
-  (ref) async => await ref.watch(selectedCityProvider)?.loadWithData(),
-);
+@riverpod
+FutureOr<City?> loadCityData(LoadCityDataRef ref, City? city) async =>
+    await city?.loadWithData();
 
 /// Provider for the selected image masks.
 final imageMasksProvider = Provider<List<CoverageType>>((ref) {
@@ -129,13 +133,14 @@ final imageMasksProvider = Provider<List<CoverageType>>((ref) {
 });
 
 /// Provider for the selected masks' tile servers.
-final cityMasksProvider =
+final cityMasksTilesProvider =
     FutureProvider.autoDispose<List<TileLayer>>((ref) async {
-  final city = ref.watch(loadCityDataProvider).when(
-        data: (data) => data,
-        error: (error, stackTrace) => null,
-        loading: () => null,
-      );
+  final city =
+      ref.watch(loadCityDataProvider(ref.watch(selectedCityProvider))).when(
+            data: (data) => data,
+            error: (error, stackTrace) => null,
+            loading: () => null,
+          );
   final masks = ref.watch(imageMasksProvider);
 
   if (city != null) {
@@ -147,7 +152,8 @@ final cityMasksProvider =
               : 'E:/Projects/SaTreeLight-data-processing/export';
       final mask = masks[index];
       return TileLayer(
-        tileProvider: !kIsWeb ? SkipMissingFileTileProvider() : null,
+        tileProvider:
+            !kIsWeb ? SkipMissingFileTileProvider() : CachedTileProvider(),
         urlTemplate: '$path/tiles/merged/${mask.string}/{z}/{x}/{y}.png',
         // '$path/tiles/separate/${city.name}, ${city.stateLong}/${mask.string}/{z}/{x}/{y}.png',
         backgroundColor: Colors.transparent,
