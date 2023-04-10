@@ -9,7 +9,6 @@ import 'package:satreelight/screens/leaflet_map/components/cached_tile_provider.
 import 'package:satreelight/screens/leaflet_map/components/osm_contribution.dart';
 import 'package:satreelight/screens/leaflet_map/components/themed_tiles_container.dart';
 import 'package:satreelight/utilities/lat_lng_bounds_tween.dart';
-import 'package:satreelight/utilities/lat_lng_tween.dart';
 import 'package:satreelight/widgets/components/city_layer.dart';
 import 'package:satreelight/widgets/components/mask_selector.dart';
 import 'package:satreelight/widgets/components/providers/city_layer_options.dart';
@@ -39,48 +38,25 @@ class _CityMapState extends ConsumerState<CityMap>
 
   late final AnimationController animationController;
 
-  late LatLngBoundsTween boundsTween;
+  late Animation<LatLngBounds> boundsAnimation;
+  late Animation<double> maxZoomAnimation;
 
   late LatLngBounds bounds;
-
-  late LatLngTween centerTween;
-
-  late LatLng center;
 
   LatLng? swPanBoundary;
   LatLng? nePanBoundary;
 
-  double? _initZoom;
-  double? _endZoom;
-  double? _midZoom;
-
-  late double? _maxZoom;
-
   void boundsAnimationListener() => setState(() {
-        final value = animationController.value;
-        bounds = boundsTween.evaluate(
-          value < 1
-              ? 0
-              : value < 2
-                  ? 3 * (value - 1)
-                  : 3,
-          maxValue: 3,
-        );
-
-        _maxZoom = value < 1
-            ? _midZoom! * value + _initZoom! * (1 - value)
-            : value < 2
-                ? _midZoom
-                : _endZoom! * (value - 2) + _midZoom! * (3 - value);
+        bounds = boundsAnimation.value;
 
         mapController.fitBounds(
           bounds,
           options: FitBoundsOptions(
             padding: const EdgeInsets.all(20),
-            maxZoom: _maxZoom!,
+            maxZoom: maxZoomAnimation.value,
           ),
         );
-        if (value == 3) {
+        if (animationController.value == 1) {
           nePanBoundary = city.bounds.northEast;
           swPanBoundary = city.bounds.southWest;
         }
@@ -92,24 +68,33 @@ class _CityMapState extends ConsumerState<CityMap>
       ..removeListener(boundsAnimationListener);
 
     if (prevCity != null) {
-      boundsTween = LatLngBoundsTween(
+      boundsAnimation = LatLngBoundsTween(
         begin: prevCity!.bounds,
         end: city.bounds,
+      ).animate(
+        CurvedAnimation(
+          parent: animationController,
+          curve: Interval(
+            1 / 3,
+            2 / 3,
+            curve: AnimationConfig.curve,
+          ),
+        ),
       );
 
-      _initZoom = mapController
+      final initZoom = mapController
           .centerZoomFitBounds(
             prevCity!.bounds,
             options: boundsOptions,
           )
           .zoom;
-      _endZoom = mapController
+      final endZoom = mapController
           .centerZoomFitBounds(
             city.bounds,
             options: boundsOptions,
           )
           .zoom;
-      _midZoom = mapController
+      final midZoom = mapController
           .centerZoomFitBounds(
             LatLngBounds.fromPoints([
               prevCity!.bounds.northWest,
@@ -120,10 +105,28 @@ class _CityMapState extends ConsumerState<CityMap>
             options: boundsOptions,
           )
           .zoom;
+
+      maxZoomAnimation = TweenSequence(
+        [
+          TweenSequenceItem(
+            tween: Tween<double>(begin: initZoom, end: midZoom),
+            weight: 1,
+          ),
+          TweenSequenceItem(
+            tween: Tween<double>(begin: midZoom, end: midZoom),
+            weight: 1,
+          ),
+          TweenSequenceItem(
+            tween: Tween<double>(begin: midZoom, end: endZoom),
+            weight: 1,
+          )
+        ],
+      ).animate(animationController);
+
       animationController
         ..addListener(boundsAnimationListener)
         ..animateTo(
-          3,
+          1,
           duration: AnimationConfig.duration,
           curve: AnimationConfig.curve,
         );
@@ -139,8 +142,6 @@ class _CityMapState extends ConsumerState<CityMap>
     nePanBoundary = city.bounds.northEast;
     animationController = AnimationController(
       vsync: this,
-      value: 0,
-      upperBound: 3,
       duration: AnimationConfig.duration,
     );
   }

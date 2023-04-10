@@ -1,54 +1,69 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:satreelight/constants/animation_config.dart';
 import 'package:satreelight/models/city.dart';
+import 'package:satreelight/providers/providers.dart';
 import 'package:satreelight/screens/emoji_page/animated_emoji.dart';
 
 /// An indicator for the happiness score of the city.
-class HappinessIndicator extends StatefulWidget {
+class HappinessIndicator extends ConsumerStatefulWidget {
   const HappinessIndicator({
     required this.city,
-    this.initValue,
     super.key,
   });
 
   /// The city to show the happiness score for.
   final City city;
-  final double? initValue;
 
   @override
-  State<HappinessIndicator> createState() => _HappinessIndicatorState();
+  ConsumerState<HappinessIndicator> createState() => _HappinessIndicatorState();
 }
 
-class _HappinessIndicatorState extends State<HappinessIndicator>
+class _HappinessIndicatorState extends ConsumerState<HappinessIndicator>
     with SingleTickerProviderStateMixin {
+  City? prevCity;
+  late City city;
+
   late final AnimationController animationController;
 
-  late double? happinessScore = widget.initValue ?? widget.city.happinessScore;
+  late double? happinessScore;
 
-  @override
-  void initState() {
-    super.initState();
+  late Animation<double> happinessAnimation;
 
-    animationController = AnimationController(
-      vsync: this,
-      lowerBound: 32,
-      upperBound: 78,
-      value: widget.initValue ?? happinessScore,
-      duration: const Duration(milliseconds: 500),
-    );
-    if (widget.initValue != null) {
+  void animationListener() => setState(
+        () => happinessScore = happinessAnimation.value,
+      );
+
+  void animateTransition() {
+    animationController
+      ..reset()
+      ..removeListener(animationListener);
+
+    if (prevCity != null) {
+      happinessAnimation = Tween<double>(
+        begin: prevCity!.happinessScore,
+        end: city.happinessScore,
+      ).animate(animationController);
+
       animationController
-        ..addListener(
-          () => setState(
-            () => happinessScore = animationController.value,
-          ),
-        )
+        ..addListener(animationListener)
         ..animateTo(
-          widget.city.happinessScore,
+          1,
           duration: AnimationConfig.duration,
           curve: AnimationConfig.curve,
         );
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    city = widget.city;
+    happinessScore = city.happinessScore;
+    animationController = AnimationController(
+      vsync: this,
+      duration: AnimationConfig.duration,
+    );
   }
 
   @override
@@ -59,35 +74,40 @@ class _HappinessIndicatorState extends State<HappinessIndicator>
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(
+      selectedCityProvider,
+      (previous, next) => setState(() {
+        prevCity = previous ?? prevCity;
+        city = next ?? city;
+        happinessScore = prevCity?.happinessScore ?? city.happinessScore;
+        animateTransition();
+      }),
+    );
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text(
-          'Total Happiness Score',
+          'Total Happiness Score: ${happinessScore?.toStringAsFixed(2) ?? ''}',
           textAlign: TextAlign.center,
           style: Theme.of(context)
               .textTheme
               .bodyMedium
               ?.copyWith(fontWeight: FontWeight.bold),
         ),
-        Row(
+        Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.all(10),
-              child: Text(
-                happinessScore?.toStringAsFixed(2) ?? '',
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
-            ),
-            Padding(
               padding: const EdgeInsets.all(8),
-              child: SizedBox.square(
-                dimension: 50,
-                child: CustomPaint(
-                  painter: EmojiPainter(
-                    // Normalized over min and max scores
-                    value: ((happinessScore ?? 50) - 32) / (78 - 32),
+              child: LayoutBuilder(
+                builder: (context, constraints) => SizedBox.square(
+                  dimension: constraints.biggest.shortestSide / 2.5,
+                  child: CustomPaint(
+                    painter: EmojiPainter(
+                      // Normalized over min and max scores
+                      value: ((happinessScore ?? 50) - 32) / (78 - 32),
+                    ),
                   ),
                 ),
               ),
