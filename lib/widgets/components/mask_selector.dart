@@ -44,9 +44,14 @@ class _MaskSelectorState extends ConsumerState<MaskSelector> {
 
       return CheckboxListTile(
         value: enabled,
-        onChanged: (newValue) => ref
-            .read(maskSelectionProvider.notifier)
-            .updateMask(index: index, value: newValue ?? true),
+        onChanged: (newValue) {
+          ref
+              .read(maskSelectionProvider.notifier)
+              .updateMask(index: index, value: newValue ?? true);
+          ref
+              .read(selectedMasksProvider.notifier)
+              .update(CoverageType.values[index]);
+        },
         title: Text(CoverageType.values[index].capitalizedString()),
         secondary: Stack(
           children: [
@@ -112,9 +117,17 @@ class _MaskSelectorState extends ConsumerState<MaskSelector> {
           ),
           title: const Text('Toggle all'),
           value: !enabledMasks.contains(false),
-          onChanged: (value) => value ?? true
-              ? ref.read(maskSelectionProvider.notifier).enableAll()
-              : ref.read(maskSelectionProvider.notifier).disableAll(),
+          onChanged: (value) {
+            if (value != null) {
+              if (value) {
+                ref.read(maskSelectionProvider.notifier).enableAll();
+                ref.read(selectedMasksProvider.notifier).enableAll();
+              } else {
+                ref.read(maskSelectionProvider.notifier).disableAll();
+                ref.read(selectedMasksProvider.notifier).disableAll();
+              }
+            }
+          },
         ),
         const Divider(),
         ...items

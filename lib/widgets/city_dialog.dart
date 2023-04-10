@@ -5,9 +5,9 @@ import 'package:satreelight/models/city.dart';
 import 'package:satreelight/models/coverage_type.dart';
 import 'package:satreelight/providers/providers.dart';
 import 'package:satreelight/widgets/components/city_map.dart';
+import 'package:satreelight/widgets/components/coverage_pie_chart.dart';
 import 'package:satreelight/widgets/components/happiness_indicator.dart';
 import 'package:satreelight/widgets/components/happiness_ranks.dart';
-import 'package:satreelight/widgets/components/vegetation_gauge.dart';
 
 /// A large dialog that shows details for the selected city. This includes a map
 /// with masks, ranks and coverage details.
@@ -25,9 +25,6 @@ class _CityDialogState extends ConsumerState<CityDialog> {
   int cityIndex = 0;
 
   City? prevCity;
-
-  List<CoverageType> masksToShow = CoverageType.values;
-  List<CoverageType> prevMasksToShow = CoverageType.values;
 
   @override
   Widget build(BuildContext context) {
@@ -60,20 +57,6 @@ class _CityDialogState extends ConsumerState<CityDialog> {
     final cardColor = Theme.of(context).dividerColor;
     final screenSize = MediaQuery.of(context).size;
 
-    final enabledMasks = ref.watch(maskSelectionProvider).masks;
-    prevMasksToShow = [...masksToShow];
-
-    if (enabledMasks.contains(false)) {
-      masksToShow = [];
-      for (var i = 0; i < enabledMasks.length; i++) {
-        if (enabledMasks[i]) {
-          masksToShow.add(CoverageType.values[i]);
-        }
-      }
-    } else {
-      masksToShow = CoverageType.values;
-    }
-
     final dataWidgets = <Widget>[
       Card(
         elevation: 4,
@@ -94,32 +77,39 @@ class _CityDialogState extends ConsumerState<CityDialog> {
                       .bodyMedium
                       ?.copyWith(fontWeight: FontWeight.bold),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Relative %',
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                    Checkbox(
-                      splashRadius: Material.defaultSplashRadius,
-                      value: ref.watch(relativeProvider),
-                      onChanged: (value) => value != null
-                          ? ref
-                              .read(relativeProvider.notifier)
-                              .update((state) => value)
-                          : null,
-                    ),
-                  ],
+                Builder(
+                  builder: (context) {
+                    final numMasksActive =
+                        ref.watch(selectedMasksProvider).length;
+                    final showRelative = numMasksActive > 0 &&
+                        numMasksActive < CoverageType.values.length;
+                    return showRelative
+                        ? Tooltip(
+                            message: 'Relative to current mask selection.',
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Relative %',
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                                Checkbox(
+                                  splashRadius: Material.defaultSplashRadius,
+                                  value: ref.watch(relativeProvider),
+                                  onChanged: (value) => value != null
+                                      ? ref
+                                          .read(relativeProvider.notifier)
+                                          .update((state) => value)
+                                      : null,
+                                ),
+                              ],
+                            ),
+                          )
+                        : const SizedBox.shrink();
+                  },
                 ),
-                Expanded(
-                  child: VegetationGauge(
-                    key: ValueKey(city),
-                    city: city!,
-                    prevCity: prevCity,
-                    keys: masksToShow,
-                    prevKeys: prevMasksToShow,
-                  ),
+                const Expanded(
+                  child: CoveragePieChart(),
                 ),
               ],
             ),
@@ -139,9 +129,7 @@ class _CityDialogState extends ConsumerState<CityDialog> {
           child: Padding(
             padding: const EdgeInsets.all(8),
             child: HappinessRanks(
-              key: ValueKey(city),
               city: city!,
-              prevCity: prevCity,
               numberOfCities: cities.isNotEmpty ? cities.length : 0,
             ),
           ),
@@ -157,11 +145,7 @@ class _CityDialogState extends ConsumerState<CityDialog> {
               : screenSize.width < mediumWidthBreakpoint
                   ? screenSize.width * 0.25
                   : screenSize.width * 0.15,
-          child: HappinessIndicator(
-            key: ValueKey(city),
-            city: city!,
-            initValue: prevCity?.happinessScore,
-          ),
+          child: HappinessIndicator(city: city!),
         ),
       ),
     ];
@@ -277,7 +261,6 @@ class _CityDialogState extends ConsumerState<CityDialog> {
                           cityIndex--;
                           prevCity = city;
                           final newCity = cities[cityIndex];
-
                           ref.read(selectedCityProvider.notifier).set(newCity);
                         },
                         icon: const Icon(Icons.keyboard_arrow_left),
