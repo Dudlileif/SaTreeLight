@@ -70,47 +70,54 @@ class _CityDialogState extends ConsumerState<CityDialog> {
             padding: const EdgeInsets.all(8),
             child: Column(
               children: [
-                Text(
-                  'Area coverage',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium
-                      ?.copyWith(fontWeight: FontWeight.bold),
-                ),
-                Builder(
-                  builder: (context) {
-                    final numMasksActive =
-                        ref.watch(selectedMasksProvider).length;
-                    final showRelative = numMasksActive > 0 &&
-                        numMasksActive < CoverageType.values.length;
-                    return showRelative
-                        ? Tooltip(
-                            message: 'Relative to current mask selection.',
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Relative %',
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                ),
-                                Checkbox(
-                                  splashRadius: Material.defaultSplashRadius,
-                                  value: ref.watch(relativeProvider),
-                                  onChanged: (value) => value != null
-                                      ? ref
-                                          .read(relativeProvider.notifier)
-                                          .update((state) => value)
-                                      : null,
-                                ),
-                              ],
-                            ),
-                          )
-                        : const SizedBox.shrink();
-                  },
-                ),
-                const Expanded(
-                  child: CoveragePieChart(),
-                ),
+                if (ref.watch(selectedMasksProvider).length <
+                        CoverageType.values.length &&
+                    ref.watch(selectedMasksProvider).isNotEmpty)
+                  DropdownButton<bool>(
+                    value: ref.watch(relativeProvider) &&
+                        ref.watch(selectedMasksProvider).length <
+                            CoverageType.values.length,
+                    isDense: true,
+                    items: [
+                      DropdownMenuItem(
+                        value: false,
+                        child: Text(
+                          'Absolute area coverage',
+                          softWrap: true,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      DropdownMenuItem(
+                        value: true,
+                        child: Text(
+                          'Relative area coverage',
+                          softWrap: true,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                      )
+                    ],
+                    onChanged: (value) => value != null
+                        ? ref
+                            .read(relativeProvider.notifier)
+                            .update((state) => value)
+                        : {},
+                  )
+                else
+                  Text(
+                    'Area coverage',
+                    softWrap: true,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(fontWeight: FontWeight.bold),
+                  ),
+                const Expanded(child: CoveragePieChart()),
               ],
             ),
           ),

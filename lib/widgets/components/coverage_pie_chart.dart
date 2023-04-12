@@ -45,95 +45,103 @@ class _CoveragePieChartState extends ConsumerState<CoveragePieChart>
     final relativeTotal =
         coveragePercent.values.reduce((value, element) => value + element);
 
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
-        final baseSize = constraints.minWidth > constraints.minHeight
-            ? constraints.minWidth
-            : constraints.minHeight;
-        return PieChart(
-          PieChartData(
-            pieTouchData: PieTouchData(
-              touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                setState(() {
-                  if (!event.isInterestedForInteractions ||
-                      pieTouchResponse == null ||
-                      pieTouchResponse.touchedSection == null) {
-                    touchedString = null;
-                    Future.delayed(
-                      PieChart.defaultDuration,
-                      () => setState(
-                        () => useShortAnimDuration = false,
-                      ),
-                    );
-                    return;
-                  }
-                  touchedString =
-                      pieTouchResponse.touchedSection!.touchedSection?.title;
-                  useShortAnimDuration = true;
-                });
-              },
-            ),
-            sections: selectedMasks.isNotEmpty
-                ? selectedMasks.map(
-                    (coverageType) {
-                      final relativeValue =
-                          100 * coveragePercent[coverageType]! / relativeTotal;
-                      final value = useRelative
-                          ? relativeValue
-                          : coveragePercent[coverageType]!;
-
-                      final highlighted =
-                          touchedString == coverageType.capitalizedString();
-
-                      return PieChartSectionData(
-                        title: coverageType.capitalizedString(),
-                        badgePositionPercentageOffset: -1,
-                        badgeWidget: highlighted
-                            ? Card(
-                                color: CoverageColors.colorMapWithOpacity(
-                                  opacity: 0.6,
-                                  dark: Theme.of(context).brightness ==
-                                      Brightness.dark,
-                                )[coverageType],
-                                child: Padding(
-                                  padding: const EdgeInsets.all(4),
-                                  child: Text(
-                                    '${coverageType.capitalizedString()}\n${compactDouble.format(value)} %',
-                                    textAlign: TextAlign.center,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge
-                                        ?.copyWith(
-                                      shadows: [const Shadow(blurRadius: 2)],
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              )
-                            : null,
-                        titleStyle:
-                            Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          shadows: [const Shadow(blurRadius: 2)],
-                          color: Colors.white,
-                        ),
-                        showTitle: !highlighted && relativeValue > 5,
-                        value: value,
-                        color: CoverageColors.colorMapWithOpacity(
-                          dark: Theme.of(context).brightness == Brightness.dark,
-                        )[coverageType],
-                        radius: highlighted ? baseSize / 4 : baseSize / 5,
-                      );
+    return selectedMasks.isEmpty
+        ? const SizedBox.shrink()
+        : LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              final baseSize = constraints.minWidth > constraints.minHeight
+                  ? constraints.minWidth
+                  : constraints.minHeight;
+              return PieChart(
+                PieChartData(
+                  pieTouchData: PieTouchData(
+                    touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                      setState(() {
+                        if (!event.isInterestedForInteractions ||
+                            pieTouchResponse == null ||
+                            pieTouchResponse.touchedSection == null) {
+                          touchedString = null;
+                          Future.delayed(
+                            PieChart.defaultDuration,
+                            () => setState(
+                              () => useShortAnimDuration = false,
+                            ),
+                          );
+                          return;
+                        }
+                        touchedString = pieTouchResponse
+                            .touchedSection!.touchedSection?.title;
+                        useShortAnimDuration = true;
+                      });
                     },
-                  ).toList()
-                : null,
-            centerSpaceRadius: baseSize / 4,
-          ),
-          swapAnimationCurve: AnimationConfig.curve,
-          swapAnimationDuration: useShortAnimDuration
-              ? PieChart.defaultDuration
-              : AnimationConfig.duration,
-        );
-      },
-    );
+                  ),
+                  sections: selectedMasks.isNotEmpty
+                      ? selectedMasks.map(
+                          (coverageType) {
+                            final relativeValue = 100 *
+                                coveragePercent[coverageType]! /
+                                relativeTotal;
+                            final value = useRelative
+                                ? relativeValue
+                                : coveragePercent[coverageType]!;
+
+                            final highlighted = touchedString ==
+                                coverageType.capitalizedString();
+
+                            return PieChartSectionData(
+                              title: coverageType.capitalizedString(),
+                              badgePositionPercentageOffset: -1,
+                              badgeWidget: highlighted
+                                  ? Card(
+                                      color: CoverageColors.colorMapWithOpacity(
+                                        opacity: 0.6,
+                                        dark: Theme.of(context).brightness ==
+                                            Brightness.dark,
+                                      )[coverageType],
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(4),
+                                        child: Text(
+                                          '${coverageType.capitalizedString()}\n${compactDouble.format(value)} %',
+                                          textAlign: TextAlign.center,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge
+                                              ?.copyWith(
+                                            shadows: [
+                                              const Shadow(blurRadius: 2)
+                                            ],
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : null,
+                              titleStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(
+                                shadows: [const Shadow(blurRadius: 2)],
+                                color: Colors.white,
+                              ),
+                              showTitle: !highlighted && relativeValue > 5,
+                              value: value,
+                              color: CoverageColors.colorMapWithOpacity(
+                                dark: Theme.of(context).brightness ==
+                                    Brightness.dark,
+                              )[coverageType],
+                              radius: highlighted ? baseSize / 4 : baseSize / 5,
+                            );
+                          },
+                        ).toList()
+                      : null,
+                  centerSpaceRadius: baseSize / 4,
+                ),
+                swapAnimationCurve: AnimationConfig.curve,
+                swapAnimationDuration: useShortAnimDuration
+                    ? PieChart.defaultDuration
+                    : AnimationConfig.duration,
+              );
+            },
+          );
   }
 }
