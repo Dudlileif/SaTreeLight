@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:satreelight/constants/animation_config.dart';
 import 'package:satreelight/models/city.dart';
 import 'package:satreelight/providers/providers.dart';
-import 'package:satreelight/screens/emoji_page/animated_emoji.dart';
+import 'package:satreelight/widgets/emoji_painter.dart';
 
 /// An indicator for the happiness score of the city.
 class HappinessIndicator extends ConsumerStatefulWidget {

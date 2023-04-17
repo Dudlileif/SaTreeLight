@@ -6,31 +6,18 @@ import 'package:satreelight/models/coverage_type.dart';
 import 'package:satreelight/providers/providers.dart';
 
 /// A dialog that containts toggles for the mask layers.
-class MaskSelector extends ConsumerStatefulWidget {
-  const MaskSelector({super.key});
+class MaskSelectionDialog extends ConsumerStatefulWidget {
+  const MaskSelectionDialog({super.key});
 
   @override
-  ConsumerState<MaskSelector> createState() => _MaskSelectorState();
+  ConsumerState<MaskSelectionDialog> createState() =>
+      _MaskSelectionDialogState();
 }
 
-class _MaskSelectorState extends ConsumerState<MaskSelector> {
-  final icons = [
-    Icons.close,
-    Icons.dark_mode,
-    Icons.cloud,
-    Icons.grass,
-    Icons.business_outlined,
-    Icons.water_drop,
-    Icons.question_mark,
-    Icons.cloud,
-    Icons.cloud,
-    Icons.cloud,
-    Icons.snowing
-  ];
-
+class _MaskSelectionDialogState extends ConsumerState<MaskSelectionDialog> {
   @override
   Widget build(BuildContext context) {
-    final enabledMasks = ref.watch(maskSelectionProvider).masks;
+    final selectedMasks = ref.watch(selectedMasksProvider);
     final colors = CoverageColors.colorMapWithOpacity(
       dark: Theme.of(context).brightness == Brightness.dark,
       opacity: 0.5,
@@ -38,25 +25,19 @@ class _MaskSelectorState extends ConsumerState<MaskSelector> {
     final shadowBlendColor = Theme.of(context).brightness == Brightness.dark
         ? Colors.white
         : Colors.black;
-    final items = List.generate(CoverageType.values.length, (index) {
-      final enabled = enabledMasks[index];
-      final color = enabled ? colors.values.elementAt(index) : null;
+    final items = CoverageType.values.map((mask) {
+      final enabled = selectedMasks.contains(mask);
+      final color = enabled ? colors[mask] : null;
 
       return CheckboxListTile(
         value: enabled,
-        onChanged: (newValue) {
-          ref
-              .read(maskSelectionProvider.notifier)
-              .updateMask(index: index, value: newValue ?? true);
-          ref
-              .read(selectedMasksProvider.notifier)
-              .update(CoverageType.values[index]);
-        },
-        title: Text(CoverageType.values[index].capitalizedString()),
+        onChanged: (newValue) =>
+            ref.read(selectedMasksProvider.notifier).update(mask),
+        title: Text(mask.capitalizedString()),
         secondary: Stack(
           children: [
             DecoratedIcon(
-              icons[index],
+              mask.icon,
               color: color,
               shadows: enabled
                   ? [
@@ -64,7 +45,7 @@ class _MaskSelectorState extends ConsumerState<MaskSelector> {
                         blurRadius: 0.5,
                         offset: const Offset(1, 1),
                         color: Color.lerp(
-                              colors[CoverageType.values[index]],
+                              colors[mask],
                               shadowBlendColor,
                               0.33,
                             ) ??
@@ -100,7 +81,7 @@ class _MaskSelectorState extends ConsumerState<MaskSelector> {
         CheckboxListTile(
           secondary: DecoratedIcon(
             Icons.done,
-            shadows: !enabledMasks.contains(false)
+            shadows: selectedMasks.join() == CoverageType.values.join()
                 ? [
                     Shadow(
                       blurRadius: 0.5,
@@ -116,14 +97,12 @@ class _MaskSelectorState extends ConsumerState<MaskSelector> {
                 : null,
           ),
           title: const Text('Toggle all'),
-          value: !enabledMasks.contains(false),
+          value: selectedMasks.join() == CoverageType.values.join(),
           onChanged: (value) {
             if (value != null) {
               if (value) {
-                ref.read(maskSelectionProvider.notifier).enableAll();
                 ref.read(selectedMasksProvider.notifier).enableAll();
               } else {
-                ref.read(maskSelectionProvider.notifier).disableAll();
                 ref.read(selectedMasksProvider.notifier).disableAll();
               }
             }

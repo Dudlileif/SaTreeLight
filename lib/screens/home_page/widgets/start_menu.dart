@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:satreelight/providers/providers.dart';
-import 'package:satreelight/screens/credits/credits_page.dart';
-import 'package:satreelight/screens/emoji_page/emoji_page.dart';
-import 'package:satreelight/screens/how_to/how_to_page.dart';
+import 'package:satreelight/screens/credits_page/credits_page.dart';
+import 'package:satreelight/screens/emoji_testing_page/emoji_testing_page.dart';
 import 'package:satreelight/screens/list_page/list_page.dart';
+import 'package:satreelight/screens/tutorial_page/tutorial_page.dart';
 
 /// The start menu of the app.
 class StartMenu extends ConsumerWidget {
@@ -98,7 +98,7 @@ class StartMenu extends ConsumerWidget {
                       onTap: () => Navigator.push(
                         context,
                         MaterialPageRoute<void>(
-                          builder: (context) => const HowToPage(),
+                          builder: (context) => const TutorialPage(),
                         ),
                       ),
                     ),
@@ -114,7 +114,7 @@ class StartMenu extends ConsumerWidget {
                       leading: const Icon(Icons.list_alt),
                       onTap: () {
                         ref
-                            .read(showArrowsOnPopupProvider.notifier)
+                            .read(showArrowsOnCityDialogProvider.notifier)
                             .set(value: true);
                         Navigator.push(
                           context,
@@ -151,7 +151,7 @@ class StartMenu extends ConsumerWidget {
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute<void>(
-                        builder: (context) => const EmojiPage(),
+                        builder: (context) => const EmojiTestingPage(),
                       ),
                     ),
                   ),

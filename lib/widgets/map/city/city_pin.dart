@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:satreelight/models/city.dart';
 import 'package:satreelight/providers/providers.dart';
-import 'package:satreelight/widgets/city_dialog.dart';
+import 'package:satreelight/widgets/city_dialog/city_dialog.dart';
 
 /// A widget width the city name pinned to the city location.
 class CityPin extends ConsumerStatefulWidget {

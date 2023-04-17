@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:satreelight/constants/size_breakpoints.dart';
+import 'package:satreelight/constants/screen_size_breakpoints.dart';
 import 'package:satreelight/models/city.dart';
 import 'package:satreelight/models/coverage_type.dart';
 import 'package:satreelight/providers/providers.dart';
-import 'package:satreelight/widgets/components/city_map.dart';
-import 'package:satreelight/widgets/components/coverage_pie_chart.dart';
-import 'package:satreelight/widgets/components/happiness_indicator.dart';
-import 'package:satreelight/widgets/components/happiness_ranks.dart';
+import 'package:satreelight/widgets/city_dialog/widgets/city_map.dart';
+import 'package:satreelight/widgets/city_dialog/widgets/coverage_pie_chart.dart';
+import 'package:satreelight/widgets/city_dialog/widgets/happiness_indicator.dart';
+import 'package:satreelight/widgets/city_dialog/widgets/happiness_ranks.dart';
 
 /// A large dialog that shows details for the selected city. This includes a map
 /// with masks, ranks and coverage details.
@@ -171,16 +171,12 @@ class _CityDialogState extends ConsumerState<CityDialog> {
           child: MouseRegion(
             onEnter: (event) {
               if (!mapHover && screenSize.width < mediumWidthBreakpoint) {
-                setState(() {
-                  mapHover = true;
-                });
+                setState(() => mapHover = true);
               }
             },
             onExit: (event) {
               if (mapHover && screenSize.width < mediumWidthBreakpoint) {
-                setState(() {
-                  mapHover = false;
-                });
+                setState(() => mapHover = false);
               }
             },
             child: CityMap(city: city!),
@@ -261,7 +257,8 @@ class _CityDialogState extends ConsumerState<CityDialog> {
                 ),
                 Row(
                   children: [
-                    if (cityIndex > 0 && ref.watch(showArrowsOnPopupProvider))
+                    if (cityIndex > 0 &&
+                        ref.watch(showArrowsOnCityDialogProvider))
                       IconButton(
                         tooltip: 'Previous',
                         onPressed: () {
@@ -273,7 +270,7 @@ class _CityDialogState extends ConsumerState<CityDialog> {
                         icon: const Icon(Icons.keyboard_arrow_left),
                       ),
                     if (cityIndex < cities.length - 1 &&
-                        ref.watch(showArrowsOnPopupProvider))
+                        ref.watch(showArrowsOnCityDialogProvider))
                       IconButton(
                         tooltip: 'Next',
                         onPressed: () {
@@ -284,10 +281,8 @@ class _CityDialogState extends ConsumerState<CityDialog> {
                         },
                         icon: const Icon(Icons.keyboard_arrow_right),
                       ),
-                    const SizedBox(
-                      width: 16,
-                    ),
-                    const CloseButton()
+                    const SizedBox(width: 16),
+                    const CloseButton(),
                   ],
                 ),
               ],

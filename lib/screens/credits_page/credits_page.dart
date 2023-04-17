@@ -160,7 +160,7 @@ class CreditsPage extends StatelessWidget {
                             cacheHeight: 420,
                           ).image,
                         ),
-                        applicationVersion: '1.0',
+                        applicationVersion: '2.0',
                       ),
                     ),
                   ),

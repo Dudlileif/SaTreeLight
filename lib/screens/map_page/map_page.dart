@@ -6,23 +6,23 @@ import 'package:latlong2/latlong.dart';
 import 'package:satreelight/constants/animation_config.dart';
 import 'package:satreelight/models/city.dart';
 import 'package:satreelight/providers/providers.dart';
-import 'package:satreelight/screens/leaflet_map/components/cached_tile_provider.dart';
-import 'package:satreelight/screens/leaflet_map/components/city_pin.dart';
-import 'package:satreelight/screens/leaflet_map/components/city_pin_cluster.dart';
-import 'package:satreelight/screens/leaflet_map/components/osm_contribution.dart';
-import 'package:satreelight/screens/leaflet_map/components/themed_tiles_container.dart';
-import 'package:satreelight/widgets/components/mask_selector.dart';
+import 'package:satreelight/widgets/map/city/city_pin.dart';
+import 'package:satreelight/widgets/map/city/city_pin_cluster.dart';
+import 'package:satreelight/widgets/map/mask_selection_dialog.dart';
+import 'package:satreelight/widgets/map/osm_contribution.dart';
+import 'package:satreelight/widgets/map/tiles/cached_tile_provider.dart';
+import 'package:satreelight/widgets/map/tiles/themed_tiles_container.dart';
 
 /// The map used behind the main menu.
 /// The map can be brought out of the background.
-class LeafletMap extends ConsumerStatefulWidget {
-  const LeafletMap({super.key});
+class MapPage extends ConsumerStatefulWidget {
+  const MapPage({super.key});
 
   @override
-  ConsumerState<LeafletMap> createState() => _LeafletMapState();
+  ConsumerState<MapPage> createState() => _MapPageState();
 }
 
-class _LeafletMapState extends ConsumerState<LeafletMap>
+class _MapPageState extends ConsumerState<MapPage>
     with TickerProviderStateMixin {
   List<City> cities = [];
   bool mapReady = false;
@@ -209,7 +209,7 @@ class _LeafletMapState extends ConsumerState<LeafletMap>
             child: FilledButton.tonal(
               onPressed: () => showDialog<void>(
                 context: context,
-                builder: (context) => const MaskSelector(),
+                builder: (context) => const MaskSelectionDialog(),
               ),
               child: const Text('Masks'),
             ),

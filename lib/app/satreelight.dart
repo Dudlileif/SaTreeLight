@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:satreelight/providers/providers.dart';
-import 'package:satreelight/screens/splash/spalsh_page.dart';
+import 'package:satreelight/screens/home_page/home_page.dart';
 
 /// The main app of the program. It is essentially a themed [MaterialApp].
 class SaTreeLight extends ConsumerWidget {
@@ -64,7 +64,7 @@ class SaTreeLight extends ConsumerWidget {
       theme: _lightTheme(scheme),
       darkTheme: _darkTheme(scheme),
       themeMode: themeMode,
-      home: const SplashPage(),
+      home: const HomePage(),
       debugShowCheckedModeBanner: false,
     );
   }

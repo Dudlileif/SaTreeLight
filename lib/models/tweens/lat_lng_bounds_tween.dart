@@ -1,6 +1,6 @@
 import 'package:flutter/animation.dart';
 import 'package:flutter_map/plugin_api.dart';
-import 'package:satreelight/utilities/lat_lng_tween.dart';
+import 'package:satreelight/models/tweens/lat_lng_tween.dart';
 
 /// A class for tweening two [LatLngBounds].
 ///

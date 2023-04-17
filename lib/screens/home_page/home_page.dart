@@ -4,13 +4,13 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:satreelight/providers/providers.dart';
-import 'package:satreelight/screens/leaflet_map/leaflet_map.dart';
-import 'package:satreelight/screens/splash/components/start_menu.dart';
+import 'package:satreelight/screens/home_page/widgets/start_menu.dart';
+import 'package:satreelight/screens/map_page/map_page.dart';
 
 /// The landing/start page of the app. Contains the start menu with the map
 /// in the background.
-class SplashPage extends ConsumerWidget {
-  const SplashPage({super.key});
+class HomePage extends ConsumerWidget {
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -96,7 +96,7 @@ class SplashPage extends ConsumerWidget {
       body: Stack(
         alignment: Alignment.center,
         children: [
-          const LeafletMap(),
+          const MapPage(),
           if (mapInBackground)
             BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),

@@ -1,18 +1,13 @@
-import 'dart:io';
+import 'dart:async';
 
 import 'package:flex_color_scheme/flex_color_scheme.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_map/plugin_api.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:satreelight/models/city.dart';
 import 'package:satreelight/models/coverage_type.dart';
-import 'package:satreelight/models/skip_missing_file_tile_provider.dart';
 import 'package:satreelight/models/sorting.dart';
 import 'package:satreelight/providers/notifiers/notifiers.dart';
-import 'package:satreelight/screens/leaflet_map/components/cached_tile_provider.dart';
-import 'package:satreelight/screens/leaflet_map/components/themed_tiles_container.dart';
 
 part 'providers.g.dart';
 
@@ -41,14 +36,10 @@ final mapZoomOutProvider =
     ChangeNotifierProvider((ref) => MapZoomOutNotifier());
 
 /// Provider for whether the CityDialog should show next/previous arrow buttons.
-final showArrowsOnPopupProvider =
+final showArrowsOnCityDialogProvider =
     StateNotifierProvider<ShowArrowsOnPopupNotifier, bool>(
   (ref) => ShowArrowsOnPopupNotifier(),
 );
-
-/// Provider for the selected mask state.
-final maskSelectionProvider =
-    ChangeNotifierProvider((ref) => MaskSelectionNotifier());
 
 /// Provider for the cities.
 final citiesProvider = FutureProvider<List<City>>(
@@ -120,63 +111,8 @@ final selectedCityProvider = StateNotifierProvider<SelectedCityNotifier, City?>(
 FutureOr<City?> loadCityData(LoadCityDataRef ref, City? city) async =>
     await city?.loadWithData();
 
-/// Provider for the selected image masks.
-final imageMasksProvider = Provider<List<CoverageType>>((ref) {
-  final masks = <CoverageType>[];
-  final selectedMasks = ref.watch(maskSelectionProvider).masks;
-  for (var i = 0; i < selectedMasks.length; i++) {
-    if (selectedMasks[i]) {
-      masks.add(CoverageType.values[i]);
-    }
-  }
-  return masks;
-});
-
-/// Provider for the selected masks' tile servers.
-final cityMasksTilesProvider =
-    FutureProvider.autoDispose<List<TileLayer>>((ref) async {
-  final city =
-      ref.watch(loadCityDataProvider(ref.watch(selectedCityProvider))).when(
-            data: (data) => data,
-            error: (error, stackTrace) => null,
-            loading: () => null,
-          );
-  final masks = ref.watch(imageMasksProvider);
-
-  if (city != null) {
-    return List.generate(masks.length, (index) {
-      final path = kIsWeb
-          ? '../SaTreeLight-data-processing/export'
-          : Platform.isLinux
-              ? '/home/gaute/Documents/Projects/SaTreeLight/Sentinelsat/export'
-              : 'E:/Projects/SaTreeLight-data-processing/export';
-      final mask = masks[index];
-      return TileLayer(
-        tileProvider:
-            !kIsWeb ? SkipMissingFileTileProvider() : CachedTileProvider(),
-        urlTemplate: '$path/tiles/merged/${mask.string}/{z}/{x}/{y}.png',
-        // '$path/tiles/separate/${city.name}, ${city.stateLong}/${mask.string}/{z}/{x}/{y}.png',
-        backgroundColor: Colors.transparent,
-        tms: true,
-        maxNativeZoom: 14,
-        minNativeZoom: 0,
-        tileBounds: city.bounds,
-        tilesContainerBuilder: (context, tilesContainer, tiles) =>
-            MaskTilesContainer(
-          tilesContainer: tilesContainer,
-          mask: mask,
-        ),
-      );
-    });
-  }
-  return [];
-});
-
 /// Provider for whether the coverage is absolute or relative.
 final relativeProvider = StateProvider<bool>((ref) => false);
-
-/// Provider for notifying that the mask selection has changed.
-final updatedMasks = StateProvider<bool>((ref) => false);
 
 @Riverpod(keepAlive: true)
 class SelectedMasks extends _$SelectedMasks {
@@ -207,4 +143,35 @@ class SelectedMasks extends _$SelectedMasks {
   void disableAll() => state = [];
 
   void enableAll() => state = CoverageType.values;
+}
+
+@Riverpod(keepAlive: true)
+class UsePolygonClipper extends _$UsePolygonClipper {
+  @override
+  bool build() => true;
+
+  void update({required bool value}) => state = value;
+}
+
+/// A provider for notifying when the map hasn't moved/changed for a
+/// certain amount of time.
+///
+/// It triggers from false to true after a certain
+/// amount of time after [restart] has been called. It starts of as true
+/// and gets set to false when [restart] gets called.
+@Riverpod(keepAlive: false)
+class LastMapEventDelay extends _$LastMapEventDelay {
+  Timer? timer;
+  @override
+  bool build() => true;
+
+  void restart({Duration waitTime = const Duration(milliseconds: 500)}) {
+    state = false;
+    if (timer != null) {
+      timer!.cancel();
+    }
+    timer = Timer(waitTime, () {
+      state = true;
+    });
+  }
 }

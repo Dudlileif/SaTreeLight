@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:satreelight/providers/providers.dart';
-import 'package:satreelight/screens/leaflet_map/components/city_pin.dart';
+import 'package:satreelight/widgets/map/city/city_pin.dart';
 
 /// A page that shows the user how to use the map.
-class HowToPage extends ConsumerWidget {
-  const HowToPage({super.key});
+class TutorialPage extends ConsumerWidget {
+  const TutorialPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

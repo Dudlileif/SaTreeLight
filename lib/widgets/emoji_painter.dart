@@ -2,51 +2,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-class AnimatedEmoji extends StatefulWidget {
-  const AnimatedEmoji({super.key});
-
-  @override
-  State<AnimatedEmoji> createState() => _AnimatedEmojiState();
-}
-
-class _AnimatedEmojiState extends State<AnimatedEmoji>
-    with SingleTickerProviderStateMixin {
-  double value = 0.5;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Align(
-          child: FractionallySizedBox(
-            heightFactor: 0.9,
-            widthFactor: 0.9,
-            child: CustomPaint(
-              painter: EmojiPainter(
-                value: value,
-              ),
-            ),
-          ),
-        ),
-        Align(
-          alignment: Alignment.bottomRight,
-          child: FractionallySizedBox(
-            heightFactor: 0.1,
-            widthFactor: 0.3,
-            child: Slider(
-              value: value,
-              onChanged: (value) => setState(() => this.value = value),
-              // divisions: 20,
-
-              label: value.toStringAsFixed(2),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
 class EmojiPainter extends CustomPainter {
   const EmojiPainter({
     this.value = 0.5,

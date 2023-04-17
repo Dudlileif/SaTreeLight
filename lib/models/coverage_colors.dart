@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:image/image.dart' as image_lib;
 import 'package:satreelight/models/coverage_type.dart';
 
 /// A class with lists and maps of colors tailored to the mask layers.
@@ -98,24 +97,5 @@ class CoverageColors {
       keys.length,
       (index) => colorMap[keys[index]]!.withOpacity(opacity),
     );
-  }
-
-  static image_lib.Color colorFromMaskIndex(
-    int index, {
-    bool dark = false,
-  }) {
-    return dark
-        ? image_lib.ColorUint8.rgba(
-            colorsDark[index].red,
-            colorsDark[index].green,
-            colorsDark[index].blue,
-            colorsDark[index].alpha,
-          )
-        : image_lib.ColorUint8.rgba(
-            colorsLight[index].red,
-            colorsLight[index].green,
-            colorsLight[index].blue,
-            colorsLight[index].alpha,
-          );
   }
 }

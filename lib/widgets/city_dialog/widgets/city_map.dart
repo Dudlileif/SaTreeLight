@@ -4,15 +4,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:satreelight/constants/animation_config.dart';
 import 'package:satreelight/models/city.dart';
+import 'package:satreelight/models/tweens/lat_lng_bounds_tween.dart';
 import 'package:satreelight/providers/providers.dart';
-import 'package:satreelight/screens/leaflet_map/components/cached_tile_provider.dart';
-import 'package:satreelight/screens/leaflet_map/components/osm_contribution.dart';
-import 'package:satreelight/screens/leaflet_map/components/themed_tiles_container.dart';
-import 'package:satreelight/utilities/lat_lng_bounds_tween.dart';
-import 'package:satreelight/widgets/components/city_layer.dart';
-import 'package:satreelight/widgets/components/mask_selector.dart';
-import 'package:satreelight/widgets/components/providers/city_layer_options.dart';
-import 'package:satreelight/widgets/components/providers/last_map_event_delay.dart';
+import 'package:satreelight/widgets/map/city/city_layer.dart';
+import 'package:satreelight/widgets/map/mask_selection_dialog.dart';
+import 'package:satreelight/widgets/map/osm_contribution.dart';
+import 'package:satreelight/widgets/map/tiles/cached_tile_provider.dart';
+import 'package:satreelight/widgets/map/tiles/themed_tiles_container.dart';
 
 /// A map of the widget.city, with a bounds polygon and selected masks.
 class CityMap extends ConsumerStatefulWidget {
@@ -213,7 +211,7 @@ class _CityMapState extends ConsumerState<CityMap>
             child: FilledButton.tonal(
               onPressed: () => showDialog<void>(
                 context: context,
-                builder: (context) => const MaskSelector(),
+                builder: (context) => const MaskSelectionDialog(),
               ),
               child: const Text('Masks'),
             ),
@@ -263,37 +261,6 @@ class _CityMapTestSettings extends ConsumerWidget {
                 )
               ],
             ),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text('Use images'),
-                Checkbox(
-                  value: ref.watch(useImagesProvider),
-                  onChanged: (value) {
-                    if (value != null) {
-                      ref.read(useImagesProvider.notifier).update(value: value);
-                    }
-                  },
-                )
-              ],
-            ),
-            if (ref.watch(useImagesProvider))
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text('Use combined image'),
-                  Checkbox(
-                    value: ref.watch(useCombinedImageProvider),
-                    onChanged: (value) {
-                      if (value != null) {
-                        ref
-                            .read(useCombinedImageProvider.notifier)
-                            .update(value: value);
-                      }
-                    },
-                  )
-                ],
-              ),
           ],
         ),
       ),
