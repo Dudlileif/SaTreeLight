@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:satreelight/src/constants/us_states_map.dart';
@@ -159,34 +161,64 @@ class City {
   /// the loaded city object.
   Future<City> loadWithData() async {
     if (!loaded) {
-      final manifest = await rootBundle.loadString('AssetManifest.json');
-      final assetMap = Map<String, dynamic>.from(jsonDecode(manifest) as Map);
+      late String polygonString;
 
-      final path = 'assets/data/polygons/$name, $stateLong.json';
+      if (kIsWeb) {
+        final response =
+            await Dio().get<String>('data/polygons/$name, $stateLong.json');
+        polygonString = response.data!;
+      } else {
+        polygonString =
+            await File.fromUri(Uri.file('data/polygons/$name, $stateLong.json'))
+                .readAsString();
+      }
 
-      if (assetMap.containsKey(path)) {
-        // path.replaceAll(' ', '%20')
-        final polygonString = await rootBundle.loadString(path);
-        final jsonMap =
-            Map<String, dynamic>.from(jsonDecode(polygonString) as Map);
-        var polygonList = <List<dynamic>>[];
-        if (jsonMap.containsKey('geometries')) {
-          polygonList = List.from(
-            (List<dynamic>.from(jsonMap['geometries'] as List)[0]
-                as Map)['coordinates'] as List,
+      final jsonMap =
+          Map<String, dynamic>.from(jsonDecode(polygonString) as Map);
+      var polygonList = <List<dynamic>>[];
+      if (jsonMap.containsKey('geometries')) {
+        polygonList = List.from(
+          (List<dynamic>.from(jsonMap['geometries'] as List)[0]
+              as Map)['coordinates'] as List,
+        );
+      } else {
+        polygonList = List.from(jsonMap['coordinates'] as List);
+      }
+
+      if (jsonMap['type'] == 'Polygon') {
+        const index = 0;
+        var subIndex = 0;
+        for (final polygon in polygonList) {
+          final polygonLatLngs = List<LatLng>.generate(
+            polygon.length,
+            (index) {
+              final point = List<double>.from(polygon[index] as List);
+              final lat = point[1];
+              final lon = point[0];
+              return LatLng(lat, lon);
+            },
           );
-        } else {
-          polygonList = List.from(jsonMap['coordinates'] as List);
+          if (subIndex == 0) {
+            polygonsPoints.add(polygonLatLngs);
+          } else {
+            polygonHolesPoints.update(
+              index,
+              (value) => [...value, polygonLatLngs],
+              ifAbsent: () => [polygonLatLngs],
+            );
+          }
+          combinedPolygonPoints.addAll(polygonLatLngs);
+          subIndex++;
         }
-
-        if (jsonMap['type'] == 'Polygon') {
-          const index = 0;
+      } else {
+        var index = 0;
+        for (final polygon in polygonList) {
           var subIndex = 0;
-          for (final polygon in polygonList) {
+          for (final points in List<List<dynamic>>.from(polygon)) {
             final polygonLatLngs = List<LatLng>.generate(
-              polygon.length,
+              points.length,
               (index) {
-                final point = List<double>.from(polygon[index] as List);
+                final point = List<double>.from(points[index] as List);
                 final lat = point[1];
                 final lon = point[0];
                 return LatLng(lat, lon);
@@ -204,34 +236,7 @@ class City {
             combinedPolygonPoints.addAll(polygonLatLngs);
             subIndex++;
           }
-        } else {
-          var index = 0;
-          for (final polygon in polygonList) {
-            var subIndex = 0;
-            for (final points in List<List<dynamic>>.from(polygon)) {
-              final polygonLatLngs = List<LatLng>.generate(
-                points.length,
-                (index) {
-                  final point = List<double>.from(points[index] as List);
-                  final lat = point[1];
-                  final lon = point[0];
-                  return LatLng(lat, lon);
-                },
-              );
-              if (subIndex == 0) {
-                polygonsPoints.add(polygonLatLngs);
-              } else {
-                polygonHolesPoints.update(
-                  index,
-                  (value) => [...value, polygonLatLngs],
-                  ifAbsent: () => [polygonLatLngs],
-                );
-              }
-              combinedPolygonPoints.addAll(polygonLatLngs);
-              subIndex++;
-            }
-            index++;
-          }
+          index++;
         }
       }
       loaded = true;
@@ -258,16 +263,37 @@ class City {
 class CitiesUtilities {
   /// Initializes the cities from asset storage.
   static Future<List<City>> loadCities() async {
-    final dataFile = await rootBundle.loadString('assets/city_data.json');
+    late String dataFile;
+    if (kIsWeb) {
+      final response = await Dio().get<String>('/data/city_data.json');
+      dataFile = response.data!;
+    } else {
+      dataFile =
+          await File.fromUri(Uri.file('data/city_data.json')).readAsString();
+    }
     final data =
         List<Map<String, dynamic>>.from(await jsonDecode(dataFile) as List);
 
-    final coveragePercentFile = await rootBundle
-        .loadString('assets/data/coverage_percent_bands_1-11.json');
+    late String coveragePercentFile;
+    if (kIsWeb) {
+      final response =
+          await Dio().get<String>('data/coverage_percent_bands_1-11.json');
+      coveragePercentFile = response.data!;
+    } else {
+      coveragePercentFile =
+          await File.fromUri(Uri.file('data/coverage_percent_bands_1-11.json'))
+              .readAsString();
+    }
     final coveragePercentData =
         Map<String, dynamic>.from(await jsonDecode(coveragePercentFile) as Map);
 
-    final bboxFile = await rootBundle.loadString('assets/data/bbox.json');
+    late String bboxFile;
+    if (kIsWeb) {
+      final response = await Dio().get<String>('data/bbox.json');
+      bboxFile = response.data!;
+    } else {
+      bboxFile = await File.fromUri(Uri.file('data/bbox.json')).readAsString();
+    }
     final bboxData =
         Map<String, dynamic>.from(await jsonDecode(bboxFile) as Map);
 

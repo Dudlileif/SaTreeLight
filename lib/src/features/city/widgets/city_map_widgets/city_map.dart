@@ -7,7 +7,7 @@ import 'package:satreelight/src/features/city/city.dart';
 import 'package:satreelight/src/features/map/map.dart';
 import 'package:satreelight/src/features/mask_selection/mask_selection.dart';
 
-/// A map of the widget.city, with a bounds polygon and selected masks.
+/// A map of the widget.city, with bounds polygons and selected masks.
 class CityMap extends ConsumerStatefulWidget {
   const CityMap({
     required this.city,
@@ -186,12 +186,8 @@ class _CityMapState extends ConsumerState<CityMap>
           userAgentPackageName: 'satreelight',
         ),
         if (prevCity != null && animationController.isAnimating)
-          CityLayer(
-            city: prevCity!,
-          ),
-        CityLayer(
-          city: city,
-        ),
+          CityLayer(city: prevCity!),
+        CityLayer(city: city),
       ],
     );
 

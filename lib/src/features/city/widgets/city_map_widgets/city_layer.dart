@@ -75,7 +75,7 @@ class CityImageStack extends ConsumerWidget {
                     opacity: 0.5,
                     imageProvider: kIsWeb
                         ? Image.network(
-                            '../data/masks/${mask.string}/${city.name}, ${city.stateLong}.png',
+                            'data/masks/${mask.string}/${city.name}, ${city.stateLong}.png',
                           ).image
                         : FileImage(
                             File(
