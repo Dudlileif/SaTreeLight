@@ -171,7 +171,7 @@ class _CityDialogState extends ConsumerState<CityDialog> {
               : screenSize.width < mediumWidthBreakpoint
                   ? screenSize.width * 0.25
                   : screenSize.width * 0.15,
-          child: HappinessIndicator(city: city!),
+          child: HappinessEmoji(city: city!),
         ),
       ),
     ];

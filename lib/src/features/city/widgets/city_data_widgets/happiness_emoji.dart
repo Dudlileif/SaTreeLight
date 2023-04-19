@@ -5,8 +5,8 @@ import 'package:satreelight/src/features/city/city.dart';
 import 'package:satreelight/src/features/emoji_painter/emoji_painter.dart';
 
 /// An indicator for the happiness score of the city.
-class HappinessIndicator extends ConsumerStatefulWidget {
-  const HappinessIndicator({
+class HappinessEmoji extends ConsumerStatefulWidget {
+  const HappinessEmoji({
     required this.city,
     super.key,
   });
@@ -15,10 +15,10 @@ class HappinessIndicator extends ConsumerStatefulWidget {
   final City city;
 
   @override
-  ConsumerState<HappinessIndicator> createState() => _HappinessIndicatorState();
+  ConsumerState<HappinessEmoji> createState() => _HappinessEmojiState();
 }
 
-class _HappinessIndicatorState extends ConsumerState<HappinessIndicator>
+class _HappinessEmojiState extends ConsumerState<HappinessEmoji>
     with SingleTickerProviderStateMixin {
   City? prevCity;
   late City city;
