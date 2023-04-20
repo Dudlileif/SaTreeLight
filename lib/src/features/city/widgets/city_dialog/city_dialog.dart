@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:satreelight/src/constants/screen_size_breakpoints.dart';
 import 'package:satreelight/src/features/city/city.dart';
+import 'package:satreelight/src/features/city/widgets/city_dialog/layouts/medium_layout.dart';
+import 'package:satreelight/src/features/city/widgets/city_dialog/layouts/slim_layout.dart';
+import 'package:satreelight/src/features/city/widgets/city_dialog/layouts/wide_layout.dart';
 import 'package:satreelight/src/features/common_widgets/loading_indicator.dart';
-import 'package:satreelight/src/features/mask_selection/mask_selection.dart';
 import 'package:satreelight/src/features/sorting/sorting.dart';
 
 export 'providers/city_dialog_providers.dart';
@@ -74,185 +76,47 @@ class _CityDialogState extends ConsumerState<CityDialog> {
 
     cityIndex = city != null ? cities.indexOf(city!) : 0;
 
-    final cardColor = Theme.of(context).dividerColor;
+    const cityMap = CityMap();
+    const coveragePieChart = CoveragePieChart();
+    const happinessRanks = HappinessRanks();
+    const happinessEmoji = HappinessEmoji();
 
-    final dataWidgets = <Widget>[
-      Card(
-        elevation: 4,
-        child: Container(
-          color: cardColor,
-          height: screenSize.height * 0.2,
-          width: screenSize.width < slimWidthBreakpoint
-              ? screenSize.width * 0.8
-              : screenSize.width * 0.15,
-          child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: Column(
-              children: [
-                if (ref.watch(selectedMasksProvider).length <
-                        CoverageType.values.length &&
-                    ref.watch(selectedMasksProvider).isNotEmpty)
-                  DropdownButton<bool>(
-                    value: ref.watch(showRelativeProvider) &&
-                        ref.watch(selectedMasksProvider).length <
-                            CoverageType.values.length,
-                    isDense: true,
-                    items: [
-                      DropdownMenuItem(
-                        value: false,
-                        child: Text(
-                          'Absolute area coverage',
-                          softWrap: true,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
-                              ?.copyWith(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      DropdownMenuItem(
-                        value: true,
-                        child: Text(
-                          'Relative area coverage',
-                          softWrap: true,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
-                              ?.copyWith(fontWeight: FontWeight.bold),
-                        ),
-                      )
-                    ],
-                    onChanged: (value) => value != null
-                        ? ref
-                            .read(showRelativeProvider.notifier)
-                            .update(newState: value)
-                        : {},
-                  )
-                else
-                  Text(
-                    'Area coverage',
-                    softWrap: true,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium
-                        ?.copyWith(fontWeight: FontWeight.bold),
-                  ),
-                const Expanded(child: CoveragePieChart()),
-              ],
-            ),
-          ),
-        ),
-      ),
-      Card(
-        elevation: 4,
-        child: Container(
-          color: cardColor,
-          height: screenSize.height * 0.2,
-          width: screenSize.width < slimWidthBreakpoint
-              ? screenSize.width * 0.8
-              : screenSize.width < mediumWidthBreakpoint
-                  ? screenSize.width * 0.25
-                  : screenSize.width * 0.15,
-          child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: HappinessRanks(
-              city: city!,
-              numberOfCities: cities.isNotEmpty ? cities.length : 0,
-            ),
-          ),
-        ),
-      ),
-      Card(
-        elevation: 4,
-        child: Container(
-          color: cardColor,
-          height: screenSize.height * 0.2,
-          width: screenSize.width < slimWidthBreakpoint
-              ? screenSize.width * 0.8
-              : screenSize.width < mediumWidthBreakpoint
-                  ? screenSize.width * 0.25
-                  : screenSize.width * 0.15,
-          child: HappinessEmoji(city: city!),
-        ),
-      ),
-    ];
-
-    final widgets = [
-      Card(
-        elevation: 4,
-        child: Container(
-          height: screenSize.height * 0.6 + 16,
-          width: screenSize.width < slimWidthBreakpoint
-              ? screenSize.width * 0.8
-              : screenSize.width < mediumWidthBreakpoint
-                  ? screenSize.width * 0.7
-                  : screenSize.width * 0.52,
-          color: cardColor,
-          child: MouseRegion(
-            onEnter: (event) {
-              if (!mapHover && screenSize.width < mediumWidthBreakpoint) {
-                setState(() => mapHover = true);
-              }
-            },
-            onExit: (event) {
-              if (mapHover && screenSize.width < mediumWidthBreakpoint) {
-                setState(() => mapHover = false);
-              }
-            },
-            child: CityMap(city: city!),
-          ),
-        ),
-      ),
-      if (screenSize.width < slimWidthBreakpoint)
-        ...dataWidgets
-      else if (screenSize.width < mediumWidthBreakpoint)
-        ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: screenSize.width * 0.7 + 8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: List.generate(
-              dataWidgets.length,
-              (index) => index == 1
-                  ? Expanded(child: dataWidgets[index])
-                  : dataWidgets[index],
-            ),
-          ),
-        )
-      else
-        Column(
-          children: dataWidgets,
-        ),
-    ];
-
-    final layout = screenSize.width < mediumWidthBreakpoint
-        ? Expanded(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: ListView(
-                physics: mapHover ? const NeverScrollableScrollPhysics() : null,
-                children: widgets,
-              ),
-            ),
+    final layout = screenSize.width < slimWidthBreakpoint
+        ? const SlimLayout(
+            cityMap: cityMap,
+            coveragePieChart: coveragePieChart,
+            happinessEmoji: happinessEmoji,
+            happinessRanks: happinessRanks,
           )
-        : Row(
-            children: List.generate(
-              widgets.length,
-              (index) =>
-                  index == 0 ? Expanded(child: widgets[index]) : widgets[index],
-            ),
-          );
+        : screenSize.width < mediumWidthBreakpoint
+            ? const MediumLayout(
+                cityMap: cityMap,
+                coveragePieChart: coveragePieChart,
+                happinessEmoji: happinessEmoji,
+                happinessRanks: happinessRanks,
+              )
+            : const WideLayout(
+                cityMap: cityMap,
+                coveragePieChart: coveragePieChart,
+                happinessEmoji: happinessEmoji,
+                happinessRanks: happinessRanks,
+              );
 
     return Dialog(
       insetPadding: EdgeInsets.symmetric(
         vertical: screenSize.width < mediumWidthBreakpoint
             ? screenSize.height * 0.03
-            : screenSize.height * 0.1,
-        horizontal: screenSize.width * 0.1,
+            : screenSize.height * 0.05,
+        horizontal: screenSize.width < mediumWidthBreakpoint
+            ? screenSize.width * 0.03
+            : screenSize.width * 0.05,
       ),
       clipBehavior: Clip.hardEdge,
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 10,
+        padding: const EdgeInsets.only(
+          left: 20,
+          right: 20,
+          bottom: 20,
         ),
         child: Column(
           children: [
@@ -309,7 +173,7 @@ class _CityDialogState extends ConsumerState<CityDialog> {
                 ),
               ],
             ),
-            layout,
+            Expanded(child: layout),
           ],
         ),
       ),

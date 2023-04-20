@@ -4,16 +4,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:satreelight/src/features/animation/animation.dart';
 import 'package:satreelight/src/features/city/city.dart';
+import 'package:satreelight/src/features/common_widgets/loading_indicator.dart';
 import 'package:satreelight/src/features/map/map.dart';
 import 'package:satreelight/src/features/mask_selection/mask_selection.dart';
 
 /// A map of the widget.city, with bounds polygons and selected masks.
 class CityMap extends ConsumerStatefulWidget {
-  const CityMap({
-    required this.city,
-    super.key,
-  });
-  final City city;
+  const CityMap({super.key});
 
   @override
   ConsumerState<CityMap> createState() => _CityMapState();
@@ -27,31 +24,32 @@ class _CityMapState extends ConsumerState<CityMap>
   );
 
   City? prevCity;
-  late City city;
+  City? city;
 
   late final AnimationController animationController;
 
-  late Animation<LatLngBounds> boundsAnimation;
-  late Animation<double> maxZoomAnimation;
+  Animation<LatLngBounds>? boundsAnimation;
+  Animation<double>? maxZoomAnimation;
 
-  late LatLngBounds bounds;
+  LatLngBounds? bounds;
 
   LatLng? swPanBoundary;
   LatLng? nePanBoundary;
 
   void boundsAnimationListener() => setState(() {
-        bounds = boundsAnimation.value;
-
-        mapController.fitBounds(
-          bounds,
-          options: FitBoundsOptions(
-            padding: const EdgeInsets.all(20),
-            maxZoom: maxZoomAnimation.value,
-          ),
-        );
-        if (animationController.value == 1) {
-          nePanBoundary = city.bounds.northEast;
-          swPanBoundary = city.bounds.southWest;
+        bounds = boundsAnimation?.value;
+        if (bounds != null && maxZoomAnimation != null) {
+          mapController.fitBounds(
+            bounds!,
+            options: FitBoundsOptions(
+              padding: const EdgeInsets.all(20),
+              maxZoom: maxZoomAnimation!.value,
+            ),
+          );
+        }
+        if (animationController.value == 1 && city != null) {
+          nePanBoundary = city!.bounds.northEast;
+          swPanBoundary = city!.bounds.southWest;
         }
       });
 
@@ -60,10 +58,10 @@ class _CityMapState extends ConsumerState<CityMap>
       ..reset()
       ..removeListener(boundsAnimationListener);
 
-    if (prevCity != null) {
+    if (city != null && prevCity != null) {
       boundsAnimation = LatLngBoundsTween(
         begin: prevCity!.bounds,
-        end: city.bounds,
+        end: city!.bounds,
       ).animate(
         CurvedAnimation(
           parent: animationController,
@@ -83,7 +81,7 @@ class _CityMapState extends ConsumerState<CityMap>
           .zoom;
       final endZoom = mapController
           .centerZoomFitBounds(
-            city.bounds,
+            city!.bounds,
             options: boundsOptions,
           )
           .zoom;
@@ -92,8 +90,8 @@ class _CityMapState extends ConsumerState<CityMap>
             LatLngBounds.fromPoints([
               prevCity!.bounds.northWest,
               prevCity!.bounds.southEast,
-              city.bounds.northWest,
-              city.bounds.southEast,
+              city!.bounds.northWest,
+              city!.bounds.southEast,
             ]),
             options: boundsOptions,
           )
@@ -129,10 +127,10 @@ class _CityMapState extends ConsumerState<CityMap>
   @override
   void initState() {
     super.initState();
-    city = widget.city;
-    bounds = city.bounds;
-    swPanBoundary = city.bounds.southWest;
-    nePanBoundary = city.bounds.northEast;
+    city = ref.read(selectedCityProvider);
+    bounds = city?.bounds;
+    swPanBoundary = city?.bounds.southWest;
+    nePanBoundary = city?.bounds.northEast;
     animationController = AnimationController(
       vsync: this,
       duration: AnimationConfig.duration,
@@ -159,37 +157,39 @@ class _CityMapState extends ConsumerState<CityMap>
       }),
     );
 
-    final map = FlutterMap(
-      mapController: mapController,
-      options: MapOptions(
-        interactiveFlags: InteractiveFlag.all & ~InteractiveFlag.rotate,
-        maxZoom: 18.25,
-        swPanBoundary: swPanBoundary,
-        nePanBoundary: nePanBoundary,
-        bounds: bounds,
-        boundsOptions: boundsOptions,
-        slideOnBoundaries: true,
-        keepAlive: true,
-        onMapEvent: (event) {
-          ref.read(lastMapEventDelayProvider.notifier).restart();
-        },
-        onPositionChanged: (position, hasGesture) {
-          ref.read(lastMapEventDelayProvider.notifier).restart();
-        },
-      ),
-      children: <Widget>[
-        TileLayer(
-          urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-          tilesContainerBuilder: themedTilesContainerBuilder,
-          backgroundColor: Theme.of(context).cardColor,
-          tileProvider: CachedTileProvider(),
-          userAgentPackageName: 'satreelight',
-        ),
-        if (prevCity != null && animationController.isAnimating)
-          CityLayer(city: prevCity!),
-        CityLayer(city: city),
-      ],
-    );
+    final map = city != null
+        ? FlutterMap(
+            mapController: mapController,
+            options: MapOptions(
+              interactiveFlags: InteractiveFlag.all & ~InteractiveFlag.rotate,
+              maxZoom: 18.25,
+              swPanBoundary: swPanBoundary,
+              nePanBoundary: nePanBoundary,
+              bounds: bounds,
+              boundsOptions: boundsOptions,
+              slideOnBoundaries: true,
+              keepAlive: true,
+              onMapEvent: (event) {
+                ref.read(lastMapEventDelayProvider.notifier).restart();
+              },
+              onPositionChanged: (position, hasGesture) {
+                ref.read(lastMapEventDelayProvider.notifier).restart();
+              },
+            ),
+            children: <Widget>[
+              TileLayer(
+                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                tilesContainerBuilder: themedTilesContainerBuilder,
+                backgroundColor: Theme.of(context).cardColor,
+                tileProvider: CachedTileProvider(),
+                userAgentPackageName: 'satreelight',
+              ),
+              if (prevCity != null && animationController.isAnimating)
+                CityLayer(city: prevCity!),
+              CityLayer(city: city!),
+            ],
+          )
+        : const LoadingIndicator();
 
     return Stack(
       children: [

@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:satreelight/src/features/animation/animation.dart';
@@ -6,13 +7,7 @@ import 'package:satreelight/src/features/emoji_painter/emoji_painter.dart';
 
 /// An indicator for the happiness score of the city.
 class HappinessEmoji extends ConsumerStatefulWidget {
-  const HappinessEmoji({
-    required this.city,
-    super.key,
-  });
-
-  /// The city to show the happiness score for.
-  final City city;
+  const HappinessEmoji({super.key});
 
   @override
   ConsumerState<HappinessEmoji> createState() => _HappinessEmojiState();
@@ -20,17 +15,20 @@ class HappinessEmoji extends ConsumerStatefulWidget {
 
 class _HappinessEmojiState extends ConsumerState<HappinessEmoji>
     with SingleTickerProviderStateMixin {
+  double min = 0;
+  double max = 100;
+
   City? prevCity;
-  late City city;
+  City? city;
 
   late final AnimationController animationController;
 
-  late double? happinessScore;
+  double? happinessScore;
 
-  late Animation<double> happinessAnimation;
+  Animation<double>? happinessAnimation;
 
   void animationListener() => setState(
-        () => happinessScore = happinessAnimation.value,
+        () => happinessScore = happinessAnimation?.value,
       );
 
   void animateTransition() {
@@ -38,10 +36,10 @@ class _HappinessEmojiState extends ConsumerState<HappinessEmoji>
       ..reset()
       ..removeListener(animationListener);
 
-    if (prevCity != null) {
+    if (city != null && prevCity != null) {
       happinessAnimation = Tween<double>(
         begin: prevCity!.happinessScore,
-        end: city.happinessScore,
+        end: city!.happinessScore,
       ).animate(animationController);
 
       animationController
@@ -57,8 +55,8 @@ class _HappinessEmojiState extends ConsumerState<HappinessEmoji>
   @override
   void initState() {
     super.initState();
-    city = widget.city;
-    happinessScore = city.happinessScore;
+    city = ref.read(selectedCityProvider);
+    happinessScore = city?.happinessScore;
     animationController = AnimationController(
       vsync: this,
       duration: AnimationConfig.duration,
@@ -73,15 +71,34 @@ class _HappinessEmojiState extends ConsumerState<HappinessEmoji>
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(
-      selectedCityProvider,
-      (previous, next) => setState(() {
-        prevCity = previous ?? prevCity;
-        city = next ?? city;
-        happinessScore = prevCity?.happinessScore ?? city.happinessScore;
-        animateTransition();
-      }),
-    );
+    ref
+      ..listen(
+        selectedCityProvider,
+        (previous, next) => setState(() {
+          prevCity = previous ?? prevCity;
+          city = next ?? city;
+          happinessScore = prevCity?.happinessScore ?? city?.happinessScore;
+          animateTransition();
+        }),
+      )
+      ..watch(
+        citiesProvider.select(
+          (cities) => cities.when(
+            data: (data) {
+              setState(() {
+                min = minBy(data, (city) => city.happinessScore)
+                        ?.happinessScore ??
+                    0;
+                max = maxBy(data, (city) => city.happinessScore)
+                        ?.happinessScore ??
+                    100;
+              });
+            },
+            error: (error, stackTrace) {},
+            loading: () {},
+          ),
+        ),
+      );
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -94,24 +111,17 @@ class _HappinessEmojiState extends ConsumerState<HappinessEmoji>
               .bodyMedium
               ?.copyWith(fontWeight: FontWeight.bold),
         ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8),
-              child: LayoutBuilder(
-                builder: (context, constraints) => SizedBox.square(
-                  dimension: constraints.biggest.shortestSide / 2.5,
-                  child: CustomPaint(
-                    painter: EmojiPainter(
-                      // Normalized over min and max scores
-                      value: ((happinessScore ?? 50) - 32) / (78 - 32),
-                    ),
-                  ),
-                ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: CustomPaint(
+              size: Size.infinite,
+              painter: EmojiPainter(
+                // Normalized over min and max scores
+                value: ((happinessScore ?? 50) - min) / (max - min),
               ),
             ),
-          ],
+          ),
         ),
       ],
     );

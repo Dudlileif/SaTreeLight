@@ -2,22 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:satreelight/src/features/animation/animation.dart';
 import 'package:satreelight/src/features/city/city.dart';
+import 'package:satreelight/src/features/sorting/sorting.dart';
 
 /// A widget with all the separate ranks for the city,
 /// out of the number of cities.
 class HappinessRanks extends ConsumerStatefulWidget {
   const HappinessRanks({
-    required this.city,
-    this.numberOfCities,
     super.key,
   });
-
-  /// The city to show ranks for.
-  final City city;
-
-  /// The total number of cities.
-  final int? numberOfCities;
-
   @override
   ConsumerState<HappinessRanks> createState() => _HappinessRanksState();
 }
@@ -25,50 +17,50 @@ class HappinessRanks extends ConsumerStatefulWidget {
 class _HappinessRanksState extends ConsumerState<HappinessRanks>
     with SingleTickerProviderStateMixin {
   City? prevCity;
-  late City city;
+  City? city;
 
   late final AnimationController animationController;
 
-  late int? happinessRank;
-  late int? emoPhysRank;
-  late int? incomeEmpRank;
-  late int? communityEnvRank;
+  int? happinessRank;
+  int? emoPhysRank;
+  int? incomeEmpRank;
+  int? communityEnvRank;
 
-  late Animation<int> happinessAnimation;
-  late Animation<int> emoPhysAnimation;
-  late Animation<int> incomeEmpAnimation;
-  late Animation<int> communityEnvAnimation;
+  Animation<int>? happinessAnimation;
+  Animation<int>? emoPhysAnimation;
+  Animation<int>? incomeEmpAnimation;
+  Animation<int>? communityEnvAnimation;
 
   void animationListener() => setState(() {
-        happinessRank = happinessAnimation.value;
-        emoPhysRank = emoPhysAnimation.value;
-        incomeEmpRank = incomeEmpAnimation.value;
-        communityEnvRank = communityEnvAnimation.value;
+        happinessRank = happinessAnimation?.value;
+        emoPhysRank = emoPhysAnimation?.value;
+        incomeEmpRank = incomeEmpAnimation?.value;
+        communityEnvRank = communityEnvAnimation?.value;
       });
 
   void animateTransition() {
     animationController
       ..reset()
       ..removeListener(animationListener);
-    if (prevCity != null) {
+    if (city != null && prevCity != null) {
       happinessAnimation = IntTween(
         begin: prevCity!.happinessRank,
-        end: city.happinessRank,
+        end: city!.happinessRank,
       ).animate(animationController);
 
       emoPhysAnimation = IntTween(
         begin: prevCity!.emoPhysRank,
-        end: city.emoPhysRank,
+        end: city!.emoPhysRank,
       ).animate(animationController);
 
       incomeEmpAnimation = IntTween(
         begin: prevCity!.incomeEmpRank,
-        end: city.incomeEmpRank,
+        end: city!.incomeEmpRank,
       ).animate(animationController);
 
       communityEnvAnimation = IntTween(
         begin: prevCity!.communityEnvRank,
-        end: city.communityEnvRank,
+        end: city!.communityEnvRank,
       ).animate(animationController);
 
       animationController
@@ -84,11 +76,12 @@ class _HappinessRanksState extends ConsumerState<HappinessRanks>
   @override
   void initState() {
     super.initState();
-    city = widget.city;
-    happinessRank = city.happinessRank;
-    emoPhysRank = city.emoPhysRank;
-    incomeEmpRank = city.incomeEmpRank;
-    communityEnvRank = city.communityEnvRank;
+    city = ref.read(selectedCityProvider);
+
+    happinessRank = city?.happinessRank;
+    emoPhysRank = city?.emoPhysRank;
+    incomeEmpRank = city?.incomeEmpRank;
+    communityEnvRank = city?.communityEnvRank;
 
     animationController = AnimationController(
       vsync: this,
@@ -109,14 +102,27 @@ class _HappinessRanksState extends ConsumerState<HappinessRanks>
       (previous, next) => setState(() {
         prevCity = previous ?? prevCity;
         city = next ?? city;
-        happinessRank = prevCity?.happinessRank ?? city.happinessRank;
-        emoPhysRank = prevCity?.emoPhysRank ?? city.emoPhysRank;
-        incomeEmpRank = prevCity?.incomeEmpRank ?? city.incomeEmpRank;
-        communityEnvRank = prevCity?.communityEnvRank ?? city.communityEnvRank;
+        happinessRank = prevCity?.happinessRank ?? city?.happinessRank;
+        emoPhysRank = prevCity?.emoPhysRank ?? city?.emoPhysRank;
+        incomeEmpRank = prevCity?.incomeEmpRank ?? city?.incomeEmpRank;
+        communityEnvRank = prevCity?.communityEnvRank ?? city?.communityEnvRank;
 
         animateTransition();
       }),
     );
+
+    // Show all cities in main map view, sorted cities in list view.
+    final numberOfCities = ref.watch(showNextPrevArrowsProvider)
+        ? ref.watch(sortedCitiesProvider.select((cities) => cities.length))
+        : ref.watch(
+            citiesProvider.select(
+              (cities) => cities.when(
+                data: (data) => data.length,
+                error: (error, stackTrace) => null,
+                loading: () => null,
+              ),
+            ),
+          );
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -133,9 +139,9 @@ class _HappinessRanksState extends ConsumerState<HappinessRanks>
                       .bodyMedium
                       ?.copyWith(fontWeight: FontWeight.bold),
                 ),
-                if (widget.numberOfCities != null)
+                if (numberOfCities != null)
                   Text(
-                    ' (of ${widget.numberOfCities})',
+                    ' (of $numberOfCities)',
                     style: Theme.of(context)
                         .textTheme
                         .bodyMedium

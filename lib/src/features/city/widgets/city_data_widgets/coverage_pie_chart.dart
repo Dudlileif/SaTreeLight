@@ -44,7 +44,7 @@ class _CoveragePieChartState extends ConsumerState<CoveragePieChart>
     final relativeTotal =
         coveragePercent.values.reduce((value, element) => value + element);
 
-    return selectedMasks.isEmpty
+    final chart = selectedMasks.isEmpty
         ? const SizedBox.shrink()
         : LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
@@ -142,5 +142,57 @@ class _CoveragePieChartState extends ConsumerState<CoveragePieChart>
               );
             },
           );
+    return Column(
+      children: [
+        if (ref.watch(selectedMasksProvider).length <
+                CoverageType.values.length &&
+            ref.watch(selectedMasksProvider).isNotEmpty)
+          DropdownButton<bool>(
+            value: ref.watch(showRelativeProvider) &&
+                ref.watch(selectedMasksProvider).length <
+                    CoverageType.values.length,
+            isDense: true,
+            items: [
+              DropdownMenuItem(
+                value: false,
+                child: Text(
+                  'Absolute area coverage',
+                  softWrap: true,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium
+                      ?.copyWith(fontWeight: FontWeight.bold),
+                ),
+              ),
+              DropdownMenuItem(
+                value: true,
+                child: Text(
+                  'Relative area coverage',
+                  softWrap: true,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium
+                      ?.copyWith(fontWeight: FontWeight.bold),
+                ),
+              )
+            ],
+            onChanged: (value) => value != null
+                ? ref
+                    .read(showRelativeProvider.notifier)
+                    .update(newState: value)
+                : {},
+          )
+        else
+          Text(
+            'Area coverage',
+            softWrap: true,
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium
+                ?.copyWith(fontWeight: FontWeight.bold),
+          ),
+        Expanded(child: chart)
+      ],
+    );
   }
 }
