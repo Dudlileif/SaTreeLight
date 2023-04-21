@@ -25,7 +25,8 @@
 				"web",
 				"${cwd}/lib/main.dart",
 				"--release",
-				"--base-href /apps/satreelight/"
+				"--base-href",
+				"/apps/satreelight/"
 			],
 			"options": {
 				"cwd": "${workspaceFolder}"
