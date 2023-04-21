@@ -13,16 +13,16 @@ part 'map_providers.g.dart';
 /// and gets set to false when [restart] gets called.
 @Riverpod(keepAlive: false)
 class LastMapEventDelay extends _$LastMapEventDelay {
-  Timer? timer;
+  Timer? _timer;
   @override
   bool build() => true;
 
   void restart({Duration waitTime = const Duration(milliseconds: 500)}) {
     state = false;
-    if (timer != null) {
-      timer!.cancel();
+    if (_timer != null) {
+      _timer!.cancel();
     }
-    timer = Timer(waitTime, () {
+    _timer = Timer(waitTime, () {
       state = true;
     });
   }
@@ -40,7 +40,7 @@ class MapInBackground extends _$MapInBackground {
 
 /// A stream controller provider for controlling the [MapView] zoom
 /// in/out events.
-@Riverpod(keepAlive: true)
+@Riverpod(keepAlive: true, dependencies: [])
 class ZoomStreamController extends _$ZoomStreamController {
   @override
   StreamController<Zoom> build() => StreamController<Zoom>.broadcast();

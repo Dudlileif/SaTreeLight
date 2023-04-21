@@ -4,7 +4,7 @@ import 'package:satreelight/src/features/city/models/city.dart';
 part 'city_providers.g.dart';
 
 /// Provider for the cities.
-@Riverpod(keepAlive: true)
+@Riverpod(keepAlive: true, dependencies: [])
 FutureOr<List<City>> cities(CitiesRef ref) async =>
     await CitiesUtilities.loadCities();
 

@@ -5,7 +5,7 @@ import 'package:satreelight/src/features/sorting/sorting.dart';
 part 'sorting_providers.g.dart';
 
 /// Provider for the city sorting state.
-@Riverpod(keepAlive: true)
+@Riverpod(keepAlive: true, dependencies: [])
 class ActiveSorting extends _$ActiveSorting {
   @override
   Sorting build() => Sorting.alphabetically;
@@ -14,7 +14,7 @@ class ActiveSorting extends _$ActiveSorting {
 }
 
 /// A provider for whether the city list should be reversed.
-@Riverpod(keepAlive: true)
+@Riverpod(keepAlive: true, dependencies: [])
 class ReverseSorting extends _$ReverseSorting {
   @override
   bool build() => false;
@@ -25,7 +25,7 @@ class ReverseSorting extends _$ReverseSorting {
 }
 
 /// Provider for the search string state.
-@Riverpod(keepAlive: true)
+@Riverpod(keepAlive: true, dependencies: [])
 class SearchString extends _$SearchString {
   @override
   String build() => '';
