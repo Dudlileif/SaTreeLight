@@ -19,85 +19,72 @@ class MapView extends ConsumerStatefulWidget {
 
 class _MapViewState extends ConsumerState<MapView>
     with TickerProviderStateMixin {
+  double get initZoom => 3;
+  double get endZoom => 4;
+  LatLng get usaCenter => LatLng(38, -97);
+
+  final MapController mapController = MapController();
+  late AnimationController animationController =
+      AnimationController(vsync: this);
+
   List<City> cities = [];
-  bool mapReady = false;
-  bool inBackground = true;
-  double initZoom = 3;
-  double endZoom = 4;
-  final LatLng usaCenter = LatLng(38, -97);
-  MapController mapController = MapController();
   List<Marker> markers = [];
 
-  late AnimationController zoomController;
+  bool mapReady = false;
+  bool inBackground = true;
 
-  void initZoomAnim({bool zoomOut = false}) {
-    zoomController = AnimationController(
-      vsync: this,
-      duration: AnimationConfig.duration,
+  void zoomOutListener() {
+    final pos = LatLngTween(begin: mapController.center, end: usaCenter)
+        .evaluate(animationController);
+    final zoom = Tween<double>(begin: mapController.zoom, end: initZoom)
+        .evaluate(animationController);
+    mapController.move(pos, zoom);
+  }
+
+  void zoomInListener() {
+    mapController.move(
+      usaCenter,
+      Tween<double>(begin: initZoom, end: endZoom)
+          .evaluate(animationController),
     );
-    final zoomAnim = CurvedAnimation(
-      parent: zoomController,
-      curve: zoomOut ? Curves.fastOutSlowIn.flipped : Curves.fastOutSlowIn,
-    );
-    zoomAnim.addListener(() {
-      if (zoomOut) {
-        final pos = LatLng(
-          usaCenter.latitude -
-              (1 - zoomAnim.value) *
-                  (usaCenter.latitude - mapController.center.latitude),
-          usaCenter.longitude -
-              (1 - zoomAnim.value) *
-                  (usaCenter.longitude - mapController.center.longitude),
-        );
-        final zoom =
-            initZoom + (1 - zoomAnim.value) * (mapController.zoom - initZoom);
-        mapController.move(pos, zoom);
-      } else {
-        mapController.move(
-          usaCenter,
-          initZoom + zoomAnim.value * (endZoom - initZoom),
-        );
-      }
-    });
   }
 
   void setMarkers() {
-    markers = List.generate(cities.length, (index) {
-      return Marker(
-        key: ValueKey(cities[index]),
-        point: cities[index].center,
-        anchorPos: AnchorPos.align(AnchorAlign.center),
-        height: 110,
-        width: 110,
-        builder: (context) => CityPin(
-          city: cities[index],
-          numberOfCities: cities.length,
-        ),
+    markers = cities
+        .map(
+          (city) => Marker(
+            key: ValueKey(city),
+            point: city.center,
+            anchorPos: AnchorPos.align(AnchorAlign.center),
+            height: 110,
+            width: 110,
+            builder: (context) => CityPin(
+              city: city,
+              numberOfCities: cities.length,
+            ),
+          ),
+        )
+        .toList();
+  }
+
+  void zoom(Zoom zoomAction) {
+    animationController.dispose();
+    animationController = AnimationController(vsync: this);
+    animationController
+      ..addListener(
+        zoomAction == Zoom.zoomIn ? zoomInListener : zoomOutListener,
+      )
+      ..animateTo(
+        1,
+        duration: AnimationConfig.duration,
+        curve: AnimationConfig.curve,
       );
-    });
-  }
-
-  void toBackground() {
-    zoomController.dispose();
-    initZoomAnim(zoomOut: true);
-    zoomController.forward();
-  }
-
-  void toForeground() {
-    zoomController.dispose();
-    initZoomAnim();
-    zoomController.forward();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    initZoomAnim();
   }
 
   @override
   void dispose() {
-    zoomController.dispose();
+    animationController.dispose();
+    mapController.dispose();
     super.dispose();
   }
 
@@ -108,23 +95,14 @@ class _MapViewState extends ConsumerState<MapView>
             cities = data;
             setMarkers();
           },
-          error: (error, stackTrace) => null,
-          loading: () => null,
+          error: (error, stackTrace) {},
+          loading: () {},
         );
 
     inBackground = ref.watch(mapInBackgroundProvider);
 
     ref.watch(zoomStreamProvider).when(
-          data: (zoom) {
-            switch (zoom) {
-              case Zoom.zoomIn:
-                toForeground();
-                break;
-              case Zoom.zoomOut:
-                toBackground();
-                break;
-            }
-          },
+          data: zoom,
           error: (error, stackTrace) {},
           loading: () {},
         );
