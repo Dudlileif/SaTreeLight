@@ -14,8 +14,80 @@
 				"$dart-build_runner"
 			],
 			"group": "build",
-			"label": "dart: dart run build_runner watch",
-			"detail": ""
+			"label": "dart: Run build_runner in watch mode",
+			"detail": "Starts a build_runner which builds continually when changes occur."
+		},
+		{
+			"type": "shell",
+			"command": "flutter",
+			"args": [
+				"build",
+				"web",
+				"${cwd}/lib/main.dart",
+				"--release",
+				"--base-href /apps/satreelight/"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [],
+			"label": "flutter: Build web release",
+			"detail": "Build the web release version of the app. The base href will be set to /apps/satreelight/",
+		},
+		{
+			"label": "Clear web build",
+			"type": "shell",
+			"command": "rm",
+			"args": [
+				"-rf",
+				"build/web"
+			],
+			"windows": {
+				"command": "Remove-Item",
+				"args": [
+					"build/web",
+					"-Force",
+					"-Recurse",
+					"-ErrorAction",
+					"SilentlyContinue"
+				]
+			},
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+		},
+		{
+			"label": "Add data to web build",
+			"type": "shell",
+			"command": "cp",
+			"args": [
+				"data",
+				"build/web"
+			],
+			"windows": {
+				"command": "Copy-Item",
+				"args": [
+					"-Path",
+					"data",
+					"-Destination",
+					"build/web/data",
+					"-Recurse"
+				]
+			},
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+		},
+		{
+			"label": "Build for web and add data",
+			"dependsOn": [
+				"Clear web build",
+				"flutter: Build web release",
+				"Add data to web build",
+			],
+			"dependsOrder": "sequence",
+			"group": "build",
+			"detail": "Builds for web in release mode and adds the data folder afterwards."
 		}
 	]
 }
