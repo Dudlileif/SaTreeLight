@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:satreelight/src/features/animation/animation.dart';
 import 'package:satreelight/src/features/city/city.dart';
 import 'package:satreelight/src/features/emoji_painter/emoji_painter.dart';
+import 'package:satreelight/src/features/mask_selection/mask_selection.dart';
 
 /// An indicator for the happiness score of the city.
 class HappinessEmoji extends ConsumerStatefulWidget {
@@ -119,6 +120,18 @@ class _HappinessEmojiState extends ConsumerState<HappinessEmoji>
               painter: EmojiPainter(
                 // Normalized over min and max scores
                 value: ((happinessScore ?? 50) - min) / (max - min),
+                minColor: CoverageColors.colorFromKey(
+                  CoverageType.saturatedOrDefective,
+                  dark: Theme.of(context).brightness == Brightness.dark,
+                ),
+                midColor: CoverageColors.colorFromKey(
+                  CoverageType.notVegetated,
+                  dark: Theme.of(context).brightness == Brightness.dark,
+                ),
+                maxColor: CoverageColors.colorFromKey(
+                  CoverageType.vegetation,
+                  dark: Theme.of(context).brightness == Brightness.dark,
+                ),
               ),
             ),
           ),

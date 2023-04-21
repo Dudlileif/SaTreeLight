@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:satreelight/src/features/emoji_painter/emoji_painter.dart';
+import 'package:satreelight/src/features/mask_selection/mask_selection.dart';
 
 class EmojiTestingPage extends StatefulWidget {
   const EmojiTestingPage({super.key});
@@ -26,6 +27,18 @@ class _EmojiTestingPageState extends State<EmojiTestingPage> {
               child: CustomPaint(
                 painter: EmojiPainter(
                   value: value,
+                  minColor: CoverageColors.colorFromKey(
+                    CoverageType.saturatedOrDefective,
+                    dark: Theme.of(context).brightness == Brightness.dark,
+                  ),
+                  midColor: CoverageColors.colorFromKey(
+                    CoverageType.notVegetated,
+                    dark: Theme.of(context).brightness == Brightness.dark,
+                  ),
+                  maxColor: CoverageColors.colorFromKey(
+                    CoverageType.vegetation,
+                    dark: Theme.of(context).brightness == Brightness.dark,
+                  ),
                 ),
               ),
             ),
