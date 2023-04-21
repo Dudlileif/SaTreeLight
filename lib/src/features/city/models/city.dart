@@ -265,7 +265,7 @@ class CitiesUtilities {
   static Future<List<City>> loadCities() async {
     late String dataFile;
     if (kIsWeb) {
-      final response = await Dio().get<String>('/data/city_data.json');
+      final response = await Dio().get<String>('data/city_data.json');
       dataFile = response.data!;
     } else {
       dataFile =
