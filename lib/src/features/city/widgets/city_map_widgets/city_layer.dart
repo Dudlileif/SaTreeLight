@@ -63,9 +63,10 @@ class CityImageStack extends ConsumerWidget {
           .map(
             (mask) => ColorFiltered(
               colorFilter: ColorFilter.mode(
-                CoverageColors.colorMapWithOpacity(
+                CoverageColors.colorFromKey(
+                  mask,
                   dark: Theme.of(context).brightness == Brightness.dark,
-                )[mask]!,
+                ),
                 BlendMode.srcIn,
               ),
               child: OverlayImageLayer(

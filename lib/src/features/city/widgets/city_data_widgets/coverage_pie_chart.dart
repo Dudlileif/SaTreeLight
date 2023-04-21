@@ -89,14 +89,16 @@ class _CoveragePieChartState extends ConsumerState<CoveragePieChart>
 
                             return PieChartSectionData(
                               title: coverageType.capitalizedString(),
-                              badgePositionPercentageOffset: -1,
+                              badgePositionPercentageOffset:
+                                  highlighted ? -1 : .5,
                               badgeWidget: highlighted
                                   ? Card(
-                                      color: CoverageColors.colorMapWithOpacity(
-                                        opacity: 0.6,
+                                      color: CoverageColors.colorFromKey(
+                                        coverageType,
                                         dark: Theme.of(context).brightness ==
                                             Brightness.dark,
-                                      )[coverageType],
+                                        opacity: 0.6,
+                                      ),
                                       child: Padding(
                                         padding: const EdgeInsets.all(4),
                                         child: Text(
@@ -114,20 +116,40 @@ class _CoveragePieChartState extends ConsumerState<CoveragePieChart>
                                         ),
                                       ),
                                     )
-                                  : null,
-                              titleStyle: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(
-                                shadows: [const Shadow(blurRadius: 2)],
-                                color: Colors.white,
-                              ),
-                              showTitle: !highlighted && relativeValue > 5,
+                                  : touchedString == null && relativeValue > 5
+                                      ? Card(
+                                          color: CoverageColors.colorFromKey(
+                                            coverageType,
+                                            dark:
+                                                Theme.of(context).brightness ==
+                                                    Brightness.dark,
+                                            opacity: 0.6,
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(4),
+                                            child: Text(
+                                              coverageType.capitalizedString(),
+                                              textAlign: TextAlign.center,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge
+                                                  ?.copyWith(
+                                                shadows: [
+                                                  const Shadow(blurRadius: 2)
+                                                ],
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      : null,
+                              showTitle: false,
                               value: value,
-                              color: CoverageColors.colorMapWithOpacity(
+                              color: CoverageColors.colorFromKey(
+                                coverageType,
                                 dark: Theme.of(context).brightness ==
                                     Brightness.dark,
-                              )[coverageType],
+                              ),
                               radius: highlighted ? baseSize / 4 : baseSize / 5,
                             );
                           },

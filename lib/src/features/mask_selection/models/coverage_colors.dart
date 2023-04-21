@@ -98,4 +98,16 @@ class CoverageColors {
       (index) => colorMap[keys[index]]!.withOpacity(opacity),
     );
   }
+
+  /// Gets the color for the key, optionally with dark mode and altered
+  /// opacity.
+  static Color colorFromKey(
+    CoverageType key, {
+    bool dark = false,
+    double opacity = 1,
+  }) {
+    return dark
+        ? colorMapDark[key]!.withOpacity(opacity)
+        : colorMapLight[key]!.withOpacity(opacity);
+  }
 }
