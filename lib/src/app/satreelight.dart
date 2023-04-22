@@ -2,12 +2,14 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:satreelight/src/features/common_widgets/loading_indicator.dart';
 import 'package:satreelight/src/features/home/screens/home_page.dart';
 import 'package:satreelight/src/features/theme/theme.dart';
 
 /// The main app of the program. It is essentially a themed [MaterialApp].
 class SaTreeLight extends ConsumerWidget {
-  SaTreeLight({super.key});
+  SaTreeLight({super.key, this.loading = false});
+  final bool loading;
   final fontFamily = GoogleFonts.notoSansMono().fontFamily;
 
   // Helpful website for theming
@@ -64,7 +66,7 @@ class SaTreeLight extends ConsumerWidget {
       theme: _lightTheme(scheme),
       darkTheme: _darkTheme(scheme),
       themeMode: themeMode,
-      home: const HomePage(),
+      home: loading ? const LoadingIndicator() : const HomePage(),
       debugShowCheckedModeBanner: false,
     );
   }
