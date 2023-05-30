@@ -42,7 +42,7 @@ class _WideLayoutState extends State<WideLayout> {
         ),
         const VerticalDivider(),
         SizedBox(
-          width: 220,
+          width: 250,
           child: Scrollbar(
             controller: scrollController,
             thumbVisibility: showScrollBar,

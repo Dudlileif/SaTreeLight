@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map/plugin_api.dart';
 import 'package:themed/themed.dart';
 
 /// A builder for theming the map tiles, used to get a dark mode map.
-Widget themedTilesContainerBuilder(
+Widget themedTileLayerBuilder(
   BuildContext context,
-  Widget tilesContainer,
-  List<Tile> tiles,
+  Widget widget,
 ) =>
     Theme.of(context).brightness == Brightness.dark
         // Rotate hue by 180 deg, lower saturation
@@ -20,7 +18,7 @@ Widget themedTilesContainerBuilder(
                 Colors.white,
                 BlendMode.difference,
               ),
-              child: tilesContainer,
+              child: widget,
             ),
           )
-        : tilesContainer;
+        : widget;

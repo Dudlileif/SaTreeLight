@@ -54,7 +54,7 @@ class _MediumLayoutState extends State<MediumLayout> {
           Row(
             children: [
               Expanded(
-                flex: 5,
+                flex: 6,
                 child: ClipRect(
                   child: SizedBox(
                     height: 200,

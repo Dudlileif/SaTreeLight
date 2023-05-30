@@ -18,12 +18,14 @@ class LastMapEventDelay extends _$LastMapEventDelay {
   bool build() => true;
 
   void restart({Duration waitTime = const Duration(milliseconds: 500)}) {
-    state = false;
-    if (_timer != null) {
-      _timer!.cancel();
-    }
-    _timer = Timer(waitTime, () {
-      state = true;
+    Future(() {
+      state = false;
+      if (_timer != null) {
+        _timer!.cancel();
+      }
+      _timer = Timer(waitTime, () {
+        state = true;
+      });
     });
   }
 }

@@ -120,16 +120,21 @@ class _MapViewState extends ConsumerState<MapView>
                 enableScrollWheel: !inBackground,
                 center: usaCenter,
                 zoom: initZoom,
-                maxZoom: 18.25,
+                maxZoom: 20,
                 slideOnBoundaries: true,
               ),
               children: [
-                TileLayer(
-                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                  tilesContainerBuilder: themedTilesContainerBuilder,
-                  tileProvider: CachedTileProvider(),
-                  userAgentPackageName: 'satreelight',
+                themedTileLayerBuilder(
+                  context,
+                  TileLayer(
+                    urlTemplate:
+                        'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                    tileProvider: CachedTileProvider(),
+                    userAgentPackageName: 'satreelight',
+                    maxNativeZoom: 19,
+                    maxZoom: 20,
+                  ),
                 ),
                 if (!inBackground)
                   MarkerClusterLayerWidget(

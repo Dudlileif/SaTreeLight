@@ -7,8 +7,8 @@ class CachedTileProvider extends TileProvider {
   CachedTileProvider({super.headers});
 
   @override
-  ImageProvider getImage(Coords<num> coords, TileLayer options) {
-    final url = getTileUrl(coords, options);
+  ImageProvider getImage(TileCoordinates coordinates, TileLayer options) {
+    final url = getTileUrl(coordinates, options);
 
     return FastCachedImageProvider(
       url,

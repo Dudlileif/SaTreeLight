@@ -52,13 +52,10 @@ List<City> sortedCities(SortedCitiesRef ref) {
   switch (ref.watch(activeSortingProvider)) {
     case Sorting.alphabetically:
       cities.sort((a, b) => a.name.compareTo(b.name));
-      break;
     case Sorting.happiness:
       cities.sort((a, b) => a.happinessScore.compareTo(b.happinessScore));
-      break;
     case Sorting.vegetation:
       cities.sort((a, b) => a.vegFrac.compareTo(b.vegFrac));
-      break;
   }
   final searchString = ref.watch(searchStringProvider);
   if (searchString != '') {

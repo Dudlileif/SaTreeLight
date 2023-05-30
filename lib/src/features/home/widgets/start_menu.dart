@@ -5,7 +5,6 @@ import 'package:satreelight/src/features/credits/credits.dart';
 import 'package:satreelight/src/features/emoji_painter/emoji_painter.dart';
 import 'package:satreelight/src/features/map/map.dart';
 import 'package:satreelight/src/features/sorting/screens/list_page.dart';
-import 'package:satreelight/src/features/tutorial/screens/tutorial_page.dart';
 
 /// The start menu of the app.
 class StartMenu extends ConsumerWidget {
@@ -73,7 +72,7 @@ class StartMenu extends ConsumerWidget {
                     message: 'Open and explore the map',
                     waitDuration: const Duration(milliseconds: 250),
                     child: ListTile(
-                      title: const Text('Start'),
+                      title: const Text('Open map'),
                       leading: const Icon(Icons.map),
                       onTap: () {
                         ref
@@ -86,30 +85,30 @@ class StartMenu extends ConsumerWidget {
                     ),
                   ),
                 ),
-                Card(
-                  elevation: 8,
-                  child: Tooltip(
-                    message: 'How to use the app',
-                    waitDuration: const Duration(milliseconds: 250),
-                    child: ListTile(
-                      title: const Text('How it works'),
-                      leading: const Icon(Icons.help),
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (context) => const TutorialPage(),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                // Card(
+                //   elevation: 8,
+                //   child: Tooltip(
+                //     message: 'How to use the app',
+                //     waitDuration: const Duration(milliseconds: 250),
+                //     child: ListTile(
+                //       title: const Text('How it works'),
+                //       leading: const Icon(Icons.help),
+                //       onTap: () => Navigator.push(
+                //         context,
+                //         MaterialPageRoute<void>(
+                //           builder: (context) => const TutorialPage(),
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 Card(
                   elevation: 8,
                   child: Tooltip(
                     message: 'Browse a sortable list of cities',
                     waitDuration: const Duration(milliseconds: 250),
                     child: ListTile(
-                      title: const Text('Cities'),
+                      title: const Text('Browse cities'),
                       leading: const Icon(Icons.list_alt),
                       onTap: () {
                         ref

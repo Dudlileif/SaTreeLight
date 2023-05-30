@@ -7,20 +7,26 @@ class ThemeModeButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final themeMode = ref.watch(activeThemeModeProvider);
+
     return IconButton(
       padding: const EdgeInsets.all(8),
-      tooltip: 'Light/Dark mode',
+      tooltip: 'Light/Dark/System theme mode',
       onPressed: () {
         ref.read(activeThemeModeProvider.notifier).update(
-              Theme.of(context).brightness == Brightness.light
-                  ? ThemeMode.dark
-                  : ThemeMode.light,
+              switch (themeMode) {
+                ThemeMode.light => ThemeMode.dark,
+                ThemeMode.dark => ThemeMode.system,
+                ThemeMode.system => ThemeMode.light,
+              },
             );
       },
       icon: Icon(
-        Theme.of(context).brightness == Brightness.light
-            ? Icons.light_mode
-            : Icons.dark_mode,
+        switch (themeMode) {
+          ThemeMode.light => Icons.light_mode,
+          ThemeMode.dark => Icons.dark_mode,
+          ThemeMode.system => Icons.settings_brightness,
+        },
       ),
     );
   }

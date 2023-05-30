@@ -25,7 +25,7 @@ class CityLayer extends ConsumerWidget {
         if (usePolygonClipper && ref.watch(lastMapEventDelayProvider))
           ClipPath(
             clipper: PolygonClipper(
-              map: FlutterMapState.maybeOf(context, nullOk: true),
+              map: FlutterMapState.maybeOf(context),
               polygons: city.polygons(),
             ),
             child: CityImageStack(city: city),

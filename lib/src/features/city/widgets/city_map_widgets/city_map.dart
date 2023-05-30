@@ -162,7 +162,7 @@ class _CityMapState extends ConsumerState<CityMap>
             mapController: mapController,
             options: MapOptions(
               interactiveFlags: InteractiveFlag.all & ~InteractiveFlag.rotate,
-              maxZoom: 18.25,
+              maxZoom: 20,
               swPanBoundary: swPanBoundary,
               nePanBoundary: nePanBoundary,
               bounds: bounds,
@@ -177,12 +177,16 @@ class _CityMapState extends ConsumerState<CityMap>
               },
             ),
             children: <Widget>[
-              TileLayer(
-                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                tilesContainerBuilder: themedTilesContainerBuilder,
-                backgroundColor: Theme.of(context).cardColor,
-                tileProvider: CachedTileProvider(),
-                userAgentPackageName: 'satreelight',
+              themedTileLayerBuilder(
+                context,
+                TileLayer(
+                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                  backgroundColor: Theme.of(context).cardColor,
+                  tileProvider: CachedTileProvider(),
+                  userAgentPackageName: 'satreelight',
+                  maxNativeZoom: 19,
+                  maxZoom: 20,
+                ),
               ),
               if (prevCity != null && animationController.isAnimating)
                 CityLayer(city: prevCity!),
