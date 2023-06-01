@@ -337,12 +337,11 @@ packages:
   flutter_map_marker_cluster:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: e9514c24780c6dee77c7e90fd100f07c66e1a751
-      url: "https://github.com/nploi/flutter_map_marker_cluster"
-    source: git
-    version: "1.1.0"
+      name: flutter_map_marker_cluster
+      sha256: "362088b16311b6743a7930857129ec6c7c807ecca777fe1033c0ad6688339e36"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.1"
   flutter_map_marker_popup:
     dependency: transitive
     description:

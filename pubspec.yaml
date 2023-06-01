@@ -37,9 +37,7 @@ dependencies:
     flutter:
         sdk: flutter
     flutter_map: ^4.0.0
-    flutter_map_marker_cluster:
-        git: https://github.com/nploi/flutter_map_marker_cluster
-
+    flutter_map_marker_cluster: ^1.1.1
     flutter_riverpod: ^2.3.6
     google_fonts: ^4.0.4
     intl: ^0.18.1
