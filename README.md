@@ -1,11 +1,12 @@
 # SaTreeLight
 
-Source code for the SaTreeLight application, made with Flutter.
-View the application at [satreelight.github.io](https://satreelight.github.io).
+Continuation of the project at [SaTreeLight/SaTreeLight](https://github.com/satreelight/satreelight).
+
+The updated application is hosted [here](https://dudlileif.github.io/apps/satreelight).
 
 ## Build
 
-To generate missing files you need to invoke the `build_runner`
+To generate potentially missing files you need to invoke the `build_runner`
 
 > `dart run build_runner build`
 
