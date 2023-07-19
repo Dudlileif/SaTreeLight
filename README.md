@@ -2,7 +2,7 @@
 
 Continuation of the project at [SaTreeLight/SaTreeLight](https://github.com/satreelight/satreelight).
 
-The updated application is hosted [here](https://dudlileif.github.io/apps/satreelight).
+The updated application is hosted [here](https://dudlileif.github.io/SaTreeLight).
 
 ## Build
 
